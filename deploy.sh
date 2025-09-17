@@ -8,25 +8,6 @@ NC='\033[0m' # No Color
 
 echo -e "${YELLOW}Starting deployment of Digicon Pro Website...${NC}"
 
-# Update system
-echo -e "${GREEN}Updating system packages...${NC}"
-apt-get update
-apt-get upgrade -y
-
-# Install dependencies
-echo -e "${GREEN}Installing dependencies...${NC}"
-apt-get install -y git curl build-essential
-
-# Install Node.js 18.x if not installed
-if ! command -v node &> /dev/null || [[ $(node -v) != v18* ]]; then
-    echo -e "${GREEN}Installing Node.js 18.x...${NC}"
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-    apt-get install -y nodejs
-fi
-
-# Install PM2 globally
-echo -e "${GREEN}Installing PM2...${NC}"
-npm install pm2 -g
 
 # Clone the repository
 echo -e "${GREEN}Cloning the repository...${NC}"

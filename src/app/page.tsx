@@ -323,36 +323,107 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 5: Awards */}
+      {/* Section 5: Brands that have grown with us */}
       <section className="gradient-bg">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading">
-            Award-winning <span className="text-accent">social media growth</span> systems
+          Brands that have  <span className="text-accent">grown</span> with us
           </h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">🏆</span>
-              </div>
-              <p className="font-semibold">Award Logo</p>
+          <div className="grid md:grid-cols-5 gap-8 mb-12">
+            {/* First row */}
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/samsung_brand.png" 
+                alt="Samsung" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">🥇</span>
-              </div>
-              <p className="font-semibold">Award Logo</p>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/cocacola_brand.png" 
+                alt="Coca Cola" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">⭐</span>
-              </div>
-              <p className="font-semibold">Award Logo</p>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/lg_brand.png" 
+                alt="LG" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">🎖️</span>
-              </div>
-              <p className="font-semibold">Award Logo</p>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/sony_brand.png" 
+                alt="Sony" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/huawei_brand.png" 
+                alt="Huawei" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-5 gap-8">
+            {/* Second row */}
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/nvidia_brand.png" 
+                alt="Nvidia" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/grab_brand.png" 
+                alt="Grab" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/shopee_brand.png" 
+                alt="Shopee" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/orion_brand.png" 
+                alt="Orion" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
+            </div>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/brand/hanwha_brand.png" 
+                alt="Hanwha" 
+                width={120} 
+                height={60} 
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
@@ -362,39 +433,54 @@ export default function Home() {
       <section className="bg-white">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading">
-            Recognized by over <span className="text-accent">14 publications </span> 
+            Recognized by <span className="text-accent">publications </span> 
             as the #1 leading firm in social media growth
           </h2>
           <div className="grid md:grid-cols-5 gap-8">
-            <div className="bg-gray-50 p-6 rounded-2xl hover-lift">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">📰</span>
-              </div>
-              <p className="font-semibold text-sm">Publication Logo</p>
+            <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/publications/publication_1.png" 
+                alt="Publication 1" 
+                width={150} 
+                height={80} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-gray-50 p-6 rounded-2xl hover-lift">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">📺</span>
-              </div>
-              <p className="font-semibold text-sm">Publication Logo</p>
+            <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/publications/publication_2.png" 
+                alt="Publication 2" 
+                width={150} 
+                height={80} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-gray-50 p-6 rounded-2xl hover-lift">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">📻</span>
-              </div>
-              <p className="font-semibold text-sm">Publication Logo</p>
+            <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/publications/publication_3.png" 
+                alt="Publication 3" 
+                width={150} 
+                height={80} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-gray-50 p-6 rounded-2xl hover-lift">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">💻</span>
-              </div>
-              <p className="font-semibold text-sm">Publication Logo</p>
+            <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/publications/publication_4.png" 
+                alt="Publication 4" 
+                width={150} 
+                height={80} 
+                className="object-contain"
+              />
             </div>
-            <div className="bg-gray-50 p-6 rounded-2xl hover-lift">
-              <div className="w-16 h-16 bg-pink-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-accent text-2xl">📱</span>
-              </div>
-              <p className="font-semibold text-sm">Publication Logo</p>
+            <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
+              <Image 
+                src="/publications/publication_5.png" 
+                alt="Publication 5" 
+                width={150} 
+                height={80} 
+                className="object-contain"
+              />
             </div>
           </div>
         </div>
@@ -555,7 +641,7 @@ export default function Home() {
           </h2>
           
           <div className="grid md:grid-cols-5 gap-8 mb-12">
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '180px', width: '100%'}}>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
                 <Image 
                   src="/IG_logo.png" 
                   alt="Instagram Logo" 
@@ -564,7 +650,7 @@ export default function Home() {
                   className="object-contain"
                 />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '180px', width: '100%'}}>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
                 <Image 
                   src="/YT_logo.png" 
                   alt="YouTube Logo" 
@@ -573,7 +659,7 @@ export default function Home() {
                   className="object-contain"
                 />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '180px', width: '100%'}}>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
           <Image
                   src="/TT_logo.png" 
                   alt="TikTok Logo" 
@@ -582,7 +668,7 @@ export default function Home() {
                   className="object-contain"
                 />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '180px', width: '100%'}}>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
           <Image
                   src="/X_logo.png" 
                   alt="X (Twitter) Logo" 
@@ -591,7 +677,7 @@ export default function Home() {
                   className="object-contain"
                 />
             </div>
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '180px', width: '100%'}}>
+            <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift-pink flex items-center justify-center" style={{height: '120px', width: '100%'}}>
           <Image
                   src="/FB_logo.png" 
                   alt="Facebook Logo" 
