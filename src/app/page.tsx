@@ -317,9 +317,9 @@ export default function Home() {
           <p className="text-2xl font-semibold mb-12 text-accent">
             You deserve more for your efforts.
           </p>
-          <button className="btn btn-primary">
+          <a href="mailto:jay@digicon.pro" className="btn btn-primary inline-block no-underline">
             Talk to us
-          </button>
+          </a>
         </div>
       </section>
 
@@ -444,6 +444,7 @@ export default function Home() {
                 width={150} 
                 height={80} 
                 className="object-contain"
+                priority
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
@@ -453,6 +454,7 @@ export default function Home() {
                 width={150} 
                 height={80} 
                 className="object-contain"
+                priority
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
@@ -462,6 +464,7 @@ export default function Home() {
                 width={150} 
                 height={80} 
                 className="object-contain"
+                priority
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
@@ -471,6 +474,7 @@ export default function Home() {
                 width={150} 
                 height={80} 
                 className="object-contain"
+                priority
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
@@ -480,6 +484,7 @@ export default function Home() {
                 width={150} 
                 height={80} 
                 className="object-contain"
+                priority
               />
             </div>
           </div>
