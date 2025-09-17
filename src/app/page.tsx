@@ -439,7 +439,7 @@ export default function Home() {
           <div className="grid md:grid-cols-5 gap-8">
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_1.png`}
+                src="/publications/publication_1.png"
                 alt="Publication 1" 
                 width={200} 
                 height={100} 
@@ -450,7 +450,7 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_2.png`}
+                src="/publications/publication_2.png"
                 alt="Publication 2" 
                 width={200} 
                 height={100} 
@@ -461,7 +461,7 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_3.png`}
+                src="/publications/publication_3.png"
                 alt="Publication 3" 
                 width={200} 
                 height={100} 
@@ -472,7 +472,7 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_4.png`}
+                src="/publications/publication_4.png"
                 alt="Publication 4" 
                 width={200} 
                 height={100} 
@@ -483,7 +483,7 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_5.png`}
+                src="/publications/publication_5.png"
                 alt="Publication 5" 
                 width={200} 
                 height={100} 
