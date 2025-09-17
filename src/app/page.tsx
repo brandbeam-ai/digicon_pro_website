@@ -439,52 +439,57 @@ export default function Home() {
           <div className="grid md:grid-cols-5 gap-8">
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src="/publications/publication_1.png" 
+                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_1.png`}
                 alt="Publication 1" 
-                width={150} 
-                height={80} 
+                width={200} 
+                height={100} 
                 className="object-contain"
                 priority
+                unoptimized
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src="/publications/publication_2.png" 
+                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_2.png`}
                 alt="Publication 2" 
-                width={150} 
-                height={80} 
+                width={200} 
+                height={100} 
                 className="object-contain"
                 priority
+                unoptimized
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src="/publications/publication_3.png" 
+                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_3.png`}
                 alt="Publication 3" 
-                width={150} 
-                height={80} 
+                width={200} 
+                height={100} 
                 className="object-contain"
                 priority
+                unoptimized
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src="/publications/publication_4.png" 
+                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_4.png`}
                 alt="Publication 4" 
-                width={150} 
-                height={80} 
+                width={200} 
+                height={100} 
                 className="object-contain"
                 priority
+                unoptimized
               />
             </div>
             <div className="bg-gray-50 p-6 rounded-2xl hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
               <Image 
-                src="/publications/publication_5.png" 
+                src={`${process.env.NODE_ENV === 'production' ? '' : ''}/publications/publication_5.png`}
                 alt="Publication 5" 
-                width={150} 
-                height={80} 
+                width={200} 
+                height={100} 
                 className="object-contain"
                 priority
+                unoptimized
               />
             </div>
           </div>
