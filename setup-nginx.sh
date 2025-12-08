@@ -8,7 +8,7 @@ set -e
 
 # Configuration
 DOMAIN="digicon.pro"
-APP_PORT="3023"
+APP_PORT="3016"
 EMAIL="digicon@digicon.pro"  # Change this to your email for SSL certificate notifications
 
 # Colors for output
@@ -129,11 +129,11 @@ cat > /etc/nginx/sites-available/${DOMAIN} << 'EOF'
 server {
     listen 80;
     listen [::]:80;
-    server_name clients.digicon.pro;
+    server_name digicon.pro;
 
     # Logging
-    access_log /var/log/nginx/clients.digicon.pro.access.log;
-    error_log /var/log/nginx/clients.digicon.pro.error.log;
+    access_log /var/log/nginx/digicon.pro.access.log;
+    error_log /var/log/nginx/digicon.pro.error.log;
 
     # Client body size (for file uploads)
     client_max_body_size 50M;
@@ -256,8 +256,8 @@ echo "  systemctl status nginx    - Check Nginx status"
 echo "  systemctl reload nginx    - Reload Nginx configuration"
 echo "  certbot renew             - Manually renew SSL certificate"
 echo "  certbot certificates      - List all certificates"
-echo "  tail -f /var/log/nginx/clients.digicon.pro.access.log - View access logs"
-echo "  tail -f /var/log/nginx/clients.digicon.pro.error.log  - View error logs"
+echo "  tail -f /var/log/nginx/digicon.pro.access.log - View access logs"
+echo "  tail -f /var/log/nginx/digicon.pro.error.log  - View error logs"
 echo ""
 echo "🔐 SSL Certificate will auto-renew before expiration"
 echo ""
