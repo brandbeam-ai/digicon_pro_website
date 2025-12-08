@@ -53,10 +53,14 @@ EOL
 
 # Start or restart the application with PM2
 echo -e "${GREEN}Starting the application with PM2...${NC}"
-pm2 startup
-pm2 save
+# Delete existing process first (if it exists)
 pm2 delete digicon_pro_website 2>/dev/null || true
+# Start the application
 pm2 start ecosystem.config.js
+# Save the current PM2 state (after starting, not before)
+pm2 save
+# Setup PM2 startup script (only needs to be run once, but safe to run multiple times)
+pm2 startup 2>/dev/null || true
 
 # Configure firewall if ufw is available
 if command -v ufw &> /dev/null; then
