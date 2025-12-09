@@ -28,6 +28,9 @@ npm install
 
 # Build the application
 echo -e "${GREEN}Building the application...${NC}"
+# Set Node.js memory limit and disable interactive prompts
+export NODE_OPTIONS="--max-old-space-size=2048"
+export NODE_ENV=production
 npm run build
 
 # Setup PM2 configuration

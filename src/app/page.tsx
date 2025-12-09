@@ -102,7 +102,7 @@ export default function Home() {
                 onClick={() => setShowVideo(true)}
               >
                 <Image
-                  src="/Showreel_thumbnail.png"
+                  src="/showreel_thumbnail.png"
                   alt="Digicon Pro Showreel 2025 Video Thumbnail"
                   fill
                   className="object-cover"
