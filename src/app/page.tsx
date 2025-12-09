@@ -1,8 +1,10 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
+  const [showVideo, setShowVideo] = useState(false);
+
   useEffect(() => {
     // Smooth scrolling for buttons/links
     const buttons = document.querySelectorAll('.btn');
@@ -90,7 +92,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 2: Value Proposition */}
+      {/* Section 2: Video */}
+      <section className="bg-white py-16">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+            {!showVideo ? (
+              <div 
+                className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg cursor-pointer overflow-hidden group"
+                onClick={() => setShowVideo(true)}
+              >
+                <Image
+                  src="/Showreel_thumbnail.png"
+                  alt="Digicon Pro Showreel 2025 Video Thumbnail"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 group-hover:bg-opacity-40 transition-all">
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <svg className="w-12 h-12 text-accent ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <iframe
+                className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg"
+                src="https://www.youtube.com/embed/EhVH7wHFG6s?autoplay=1"
+                title="Digicon Pro Showreel 2025 Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 3: Value Proposition */}
       <section className="bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -147,7 +187,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 3: Content Showcase */}
+      {/* Section 4: Content Showcase */}
       <section className="gradient-bg">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading">
@@ -300,7 +340,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 4: Problem Statement */}
+      {/* Section 5: Problem Statement */}
       <section className="bg-white">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8 text-heading">
@@ -323,7 +363,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 5: Brands that have grown with us */}
+      {/* Section 6: Brands that have grown with us */}
       <section className="gradient-bg">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading">
@@ -429,7 +469,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 6: Recognition */}
+      {/* Section 7: Recognition */}
       <section className="bg-white">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading">
@@ -496,7 +536,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 7: How It Works */}
+      {/* Section 8: How It Works */}
       <section className="gradient-bg">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -598,7 +638,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 8: Results */}
+      {/* Section 9: Results */}
       <section className="bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading text-center">
@@ -643,7 +683,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section 9: Platforms */}
+      {/* Section 10: Platforms */}
       <section className="gradient-bg">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-heading">
