@@ -56,8 +56,13 @@ EOL
 
 # Start or restart the application with PM2
 echo -e "${GREEN}Starting the application with PM2...${NC}"
-# Delete existing process first (if it exists)
+# Stop and delete existing process first (if it exists)
+pm2 stop digicon_pro_website 2>/dev/null || true
 pm2 delete digicon_pro_website 2>/dev/null || true
+# Kill any process still using port 3016
+lsof -ti :3016 | xargs kill -9 2>/dev/null || true
+# Wait a moment for port to be released
+sleep 2
 # Start the application
 pm2 start ecosystem.config.js
 # Save the current PM2 state (after starting, not before)

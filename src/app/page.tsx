@@ -120,7 +120,7 @@ export default function Home() {
             ) : (
               <iframe
                 className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg"
-                src="https://www.youtube.com/embed/EhVH7wHFG6s?autoplay=1"
+                src="https://www.youtube.com/embed/-DpyotBDzo0?autoplay=1"
                 title="Digicon Pro Showreel 2025 Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
