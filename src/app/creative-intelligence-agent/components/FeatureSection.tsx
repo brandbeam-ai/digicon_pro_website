@@ -203,20 +203,20 @@ export const OperatingModel: React.FC = () => {
                 ))}
               </ul>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 w-full">
                {/* Abstract visual for the cycle */}
-               <div className="relative w-full aspect-square max-w-sm mx-auto">
-                 <div className="absolute inset-0 border-2 border-dashed border-white rounded-full animate-[spin_20s_linear_infinite]" />
-                 <div className="absolute inset-4 border border-white rounded-full" />
+               <div className="relative w-full aspect-square max-w-xs md:max-w-sm mx-auto my-8 md:my-0">
+                 <div className="absolute inset-0 border-2 md:border-2 border-dashed border-white/80 md:border-white rounded-full animate-[spin_20s_linear_infinite]" />
+                 <div className="absolute inset-3 md:inset-4 border border-white/80 md:border-white rounded-full" />
                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center p-6 glass-card rounded-full w-48 h-48 flex flex-col items-center justify-center">
-                       <Copy className="mb-2 text-indigo-400" />
-                       <div className="font-bold text-white">Compound<br/>Learning</div>
+                    <div className="text-center p-4 md:p-6 glass-card rounded-full w-40 h-40 md:w-48 md:h-48 flex flex-col items-center justify-center">
+                       <Copy className="mb-2 text-indigo-400" size={24} />
+                       <div className="font-bold text-white text-sm md:text-base">Compound<br/>Learning</div>
                     </div>
                  </div>
                  {/* Orbiting elements */}
-                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-800 p-2 rounded-lg border border-slate-700 text-xs shadow-xl">Signal</div>
-                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-slate-800 p-2 rounded-lg border border-slate-700 text-xs shadow-xl">Memo</div>
+                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-800 p-2 md:p-2 rounded-lg border border-slate-700 text-xs md:text-xs shadow-xl whitespace-nowrap">Signal</div>
+                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-slate-800 p-2 md:p-2 rounded-lg border border-slate-700 text-xs md:text-xs shadow-xl whitespace-nowrap">Memo</div>
                </div>
             </div>
          </div>

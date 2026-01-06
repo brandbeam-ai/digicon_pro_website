@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
 import { HeroSection, SocialProof } from './components/HeroSection';
 import { FitFilter, ProblemSection, SolutionProtocol, OperatingModel } from './components/FeatureSection';
 import { ComparisonTable, Deliverables, Timeline, CredibilityBlock } from './components/ComparisonAndDeliverables';
@@ -34,24 +35,47 @@ const FinalCTA: React.FC = () => (
 );
 
 export default function CreativeIntelligenceAgentPage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-black text-slate-200 selection:bg-indigo-500 selection:text-white font-sans">
       {/* Header with Logo and Button */}
-      <header className="w-full px-4 py-8">
+      <header className="w-full px-4 py-8 relative">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="logo-container">
             <Image
-              src="/Digicon_Logo.png"
+              src="/Digicon_Logo_white.png"
               alt="Digicon Logo"
               width={200}
               height={80}
               priority
             />
           </div>
-          <Link href="/" className="primary-button-outline">
+          {/* Desktop Button - Hidden on mobile */}
+          <Link href="/" className="primary-button-outline hidden md:flex">
             Get Your Creative Playbook
           </Link>
+          {/* Mobile Burger Menu - Only visible on mobile */}
+          <button
+            className="flex md:hidden text-white p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="mobile-menu-dropdown md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 px-4 py-4 z-50">
+            <Link
+              href="/"
+              className="primary-button-outline w-full block text-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Get Your Creative Playbook
+            </Link>
+          </div>
+        )}
       </header>
       
       <main>

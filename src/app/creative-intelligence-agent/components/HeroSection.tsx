@@ -10,7 +10,7 @@ const data = [
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative pt-0 pb-20 md:pb-32 overflow-hidden">
+    <section className="relative py-10 md:pb-32 overflow-hidden">
       {/* Background Gradient Blob */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] -z-10" />
 
@@ -65,7 +65,7 @@ export const SocialProof: React.FC = () => {
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                  <stat.icon size={64} />
               </div>
-              <div className="relative z-10">
+              <div className="relative z-10 text-center md:text-left">
                 <div className="text-4xl font-bold text-white mb-1">{stat.value}</div>
                 <div className="text-sm font-semibold text-indigo-400 mb-2 uppercase tracking-wide">{stat.label}</div>
                 <div className="text-xs text-slate-500">{stat.sub}</div>

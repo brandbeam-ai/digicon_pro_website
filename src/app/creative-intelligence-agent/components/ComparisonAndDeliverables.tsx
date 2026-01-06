@@ -79,18 +79,18 @@ export const Deliverables: React.FC = () => {
                 }
             ].map((col, i) => (
                 <Card key={i} className="group hover:bg-white/[0.04]">
-                    <div className="flex items-center gap-4 mb-6">
+                    <div className="flex items-center gap-4 mb-6 justify-center md:justify-start">
                         <div className="p-3 bg-white/10 rounded-lg group-hover:bg-indigo-500 group-hover:text-white transition-colors">
                             <col.icon size={24} />
                         </div>
-                        <div>
+                        <div className="text-center md:text-left">
                             <div className="text-xs text-slate-500 uppercase font-bold tracking-wider">{col.sub}</div>
                             <h3 className="text-xl font-bold text-white">{col.title}</h3>
                         </div>
                     </div>
                     <ul className="space-y-4">
                         {col.items.map((item, idx) => (
-                            <li key={idx} className="flex gap-3 text-sm text-slate-300">
+                            <li key={idx} className="flex gap-3 text-sm text-slate-300 justify-start">
                                 <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0" />
                                 {item}
                             </li>

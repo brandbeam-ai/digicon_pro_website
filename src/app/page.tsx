@@ -1,9 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
 
 export default function Home() {
   const [showVideo, setShowVideo] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Smooth scrolling for buttons/links
@@ -58,11 +61,11 @@ export default function Home() {
   return (
     <div className="bg-black text-slate-200 font-sans min-h-screen main-page">
       {/* Header with Logo and Button */}
-      <header className="w-full px-4 py-8">
+      <header className="w-full px-4 py-8 relative">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="logo-container">
             <Image
-              src="/Digicon_Logo.png"
+              src="/Digicon_Logo_white.png"
               alt="Digicon Logo"
               width={200}
               height={80}
@@ -70,10 +73,31 @@ export default function Home() {
               
             />
           </div>
-          <a href="/creative-intelligence-agent" className="primary-button-outline">
+          {/* Desktop Button - Hidden on mobile */}
+          <Link href="/creative-intelligence-agent" className="primary-button-outline hidden md:flex">
             Get Your Customer Intelligence Scorecard
-          </a>
+          </Link>
+          {/* Mobile Burger Menu - Only visible on mobile */}
+          <button
+            className="flex md:hidden text-white p-2"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="mobile-menu-dropdown md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 px-4 py-4 z-50">
+            <Link
+              href="/creative-intelligence-agent"
+              className="primary-button-outline w-full block text-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Get Your Customer Intelligence Scorecard
+            </Link>
+          </div>
+        )}
       </header>
 
       {/* Section 1: Hero */}

@@ -187,7 +187,7 @@ body {
   
   /* Primary Button - Transparent with Purple Border */
   .primary-button-outline {
-    display: inline-flex !important;
+    display: none !important;
     align-items: center !important;
     justify-content: center !important;
     padding: 0.75rem 1.5rem !important;
@@ -202,6 +202,22 @@ body {
     text-decoration: none !important;
     cursor: pointer !important;
     box-shadow: 0 0 20px rgba(79, 70, 229, 0.2) !important;
+  }
+
+  /* Show button in mobile menu dropdown */
+  .mobile-menu-dropdown .primary-button-outline {
+    display: flex !important;
+  }
+
+  @media (min-width: 768px) {
+    .primary-button-outline {
+      display: inline-flex !important;
+    }
+    
+    /* Hide mobile menu dropdown on desktop */
+    .mobile-menu-dropdown {
+      display: none !important;
+    }
   }
   
   .primary-button-outline:hover {
