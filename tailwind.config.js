@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-inter)', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
       colors: {
         'pink-accent': '#ec4899',
         'pink-light': '#f9a8d4',

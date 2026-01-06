@@ -6,25 +6,36 @@
   box-sizing: border-box;
 }
 
-/* Base spacing and typography - matching main_page.html */
-h1, h2, h3, h4, h5, h6 {
+/* Base spacing and typography - matching main_page.html - ONLY for main page */
+.main-page h1, .main-page h2, .main-page h3, .main-page h4, .main-page h5, .main-page h6 {
   margin-bottom: 0; /* We'll use specific margin classes instead */
 }
 
-p {
+.main-page p {
   margin-bottom: 0; /* We'll use specific tailwind classes for margins */
 }
 
-li {
+.main-page li {
   margin-bottom: 0.5rem;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --pink-accent: #ec4899;
-  --pink-light: #f9a8d4;
-  --pink-dark: #be185d;
+  --background: #000000;
+  --foreground: #e2e8f0;
+  --brand-accent: #14b8a6;
+  --brand-light: #2dd4bf;
+  --brand-dark: #0d9488;
+  --brand-50: #f0fdfa;
+  --brand-100: #ccfbf1;
+  --brand-900: #134e4a;
+  --brand-950: #042f2e;
+  --indigo-400: #818cf8;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -37,13 +48,26 @@ li {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   line-height: 1.5;
 }
 
 @layer components {
   .gradient-bg {
-    background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 100%);
+    background: transparent;
+  }
+  
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .gradient-brand {
+    background: linear-gradient(to right, #2dd4bf, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   .hover-lift {
@@ -54,7 +78,7 @@ body {
   
   .hover-lift:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(236, 72, 153, 0.2);
+    box-shadow: 0 20px 40px rgba(20, 184, 166, 0.2);
     z-index: 2;
   }
 
@@ -66,19 +90,19 @@ body {
   
   .hover-lift-pink:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 30px rgba(236, 72, 153, 1);
-    border: 2px ;
-    background-color: rgba(253, 242, 248, 0.5);
+    box-shadow: 0 12px 30px rgba(20, 184, 166, 0.4);
+    border: 2px solid rgba(20, 184, 166, 0.3);
+    background-color: rgba(240, 253, 250, 0.5);
     z-index: 10;
   }
   
-  .pulse-pink {
-    animation: pulse-pink 2s infinite;
+  .pulse-brand {
+    animation: pulse-brand 2s infinite;
   }
   
-  @keyframes pulse-pink {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); }
+  @keyframes pulse-brand {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(20, 184, 166, 0); }
   }
   
   .animate-scroll {
@@ -105,28 +129,87 @@ body {
   }
   
   .btn-primary {
-    background-color: var(--pink-accent);
+    background-color: var(--brand-accent);
     color: white;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .btn-primary:hover {
-    background-color: var(--pink-dark);
+    background-color: var(--brand-dark);
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15);
+    box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3);
   }
   
   .btn-primary-pulse {
-    background-color: var(--pink-accent);
+    background-color: var(--brand-accent);
     color: white;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: pulse-pink 2s infinite;
+    animation: pulse-brand 2s infinite;
   }
   
   .btn-primary-pulse:hover {
-    background-color: var(--pink-dark);
+    background-color: var(--brand-dark);
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15);
+    box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3);
+  }
+  
+  /* Primary Button - Purple/Indigo style */
+  .primary-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.75rem 1.5rem !important;
+    background-color: #4f46e5 !important; /* indigo-600 */
+    color: white !important;
+    border-radius: 0.5rem !important;
+    font-weight: 500 !important;
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3) !important;
+  }
+  
+  .primary-button:hover {
+    background-color: #4338ca !important; /* indigo-700 */
+    transform: translateY(-2px) !important;
+    box-shadow: 0 0 30px rgba(79, 70, 229, 0.5) !important;
+  }
+  
+  .primary-button:focus {
+    outline: none !important;
+    ring: 2px !important;
+    ring-offset: 2px !important;
+    ring-color: #6366f1 !important;
+  }
+  
+  /* Primary Button - Transparent with Purple Border */
+  .primary-button-outline {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.75rem 1.5rem !important;
+    background-color: transparent !important;
+    color: white !important; /* indigo-600 */
+    border: 2px solid white !important;
+    border-radius: 0.5rem !important;
+    font-weight: 500 !important;
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.2) !important;
+  }
+  
+  .primary-button-outline:hover {
+    background-color: rgba(79, 70, 229, 0.1) !important;
+    color: #4338ca !important; /* indigo-700 */
+    border-color: #4338ca !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 0 30px rgba(79, 70, 229, 0.4) !important;
   }
   
   /* Styled List */
@@ -149,7 +232,7 @@ body {
     display: block;
     width: 0.75rem;
     height: 0.75rem;
-    background-color: var(--pink-accent);
+    background-color: var(--brand-accent);
     border-radius: 9999px;
     margin-right: 1rem;
     margin-top: 0.5rem;
@@ -158,11 +241,19 @@ body {
   
   /* Text Color Classes */
   .text-heading {
-    color: #111827; /* This is the equivalent of text-gray-900 */
+    color: #ffffff;
   }
   
   .text-accent {
-    color: var(--pink-accent);
+    color: var(--brand-accent);
+  }
+  
+  .text-body {
+    color: var(--slate-200);
+  }
+  
+  .text-secondary {
+    color: var(--slate-400);
   }
   
   /* Heading styles - exact match from main_page.html */
@@ -220,16 +311,16 @@ body {
     font-weight: 600;
   }
   
-  /* Spacing for sections - 40px vertical, 16px horizontal */
-  section {
+  /* Spacing for sections - 40px vertical, 16px horizontal - ONLY for main page */
+  .main-page section {
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 16px;
     padding-right: 16px;
   }
   
-  /* Section content spacing */
-  section > div {
+  /* Section content spacing - ONLY for main page */
+  .main-page section > div {
     margin-bottom: 1.5rem;
   }
   
@@ -251,6 +342,8 @@ body {
     padding: 1.5rem;      /* p-6 in tailwind */
     border-radius: 1rem;  /* rounded-2xl */
     margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
   
   /* Exact spacing from main_page.html */
@@ -322,17 +415,17 @@ body {
   }
   
   /* Custom background colors */
-  .bg-pink-accent {
-    background-color: #ec4899 !important;
+  .bg-brand-accent {
+    background-color: var(--brand-accent) !important;
   }
   
-  /* Pink glow effect */
-  @keyframes pink-glow {
+  /* Brand glow effect */
+  @keyframes brand-glow {
     0%, 100% { 
-      box-shadow: 0 0 10px 5px rgba(236, 72, 153, 0.8);
+      box-shadow: 0 0 10px 5px rgba(20, 184, 166, 0.8);
     }
     50% { 
-      box-shadow: 0 0 20px 10px rgba(236, 72, 153, 0.6);
+      box-shadow: 0 0 20px 10px rgba(20, 184, 166, 0.6);
     }
   }
   
@@ -346,6 +439,6 @@ body {
     bottom: 0;
     border-radius: inherit;
     z-index: -1;
-    animation: pink-glow 2s infinite;
+    animation: brand-glow 2s infinite;
   }
 }
