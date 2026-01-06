@@ -62,7 +62,7 @@ export const SocialProof: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, idx) => (
             <Card key={idx} className="relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <div className="absolute top-0 right-0 p-4 opacity-30 group-hover:opacity-20 transition-opacity">
                  <stat.icon size={64} />
               </div>
               <div className="relative z-10 text-center md:text-left">
@@ -72,8 +72,8 @@ export const SocialProof: React.FC = () => {
               </div>
               
               {/* Decorative Chart in background of card */}
-              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-20">
-                <ResponsiveContainer width="100%" height="100%">
+              <div className="absolute bottom-0 left-0 right-0 h-16 opacity-20 min-h-[64px]">
+                <ResponsiveContainer width="100%" height="100%" minHeight={64} minWidth={0}>
                   <AreaChart data={data}>
                     <defs>
                       <linearGradient id={`grad${idx}`} x1="0" y1="0" x2="0" y2="1">
