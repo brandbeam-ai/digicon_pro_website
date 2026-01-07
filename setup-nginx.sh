@@ -8,6 +8,7 @@ set -e
 
 # Configuration
 DOMAIN="digicon.pro"
+WWW_DOMAIN="www.digicon.pro"
 APP_PORT="3016"
 EMAIL="digicon@digicon.pro"  # Change this to your email for SSL certificate notifications
 
@@ -17,7 +18,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}🔧 Setting up Nginx for ${DOMAIN}...${NC}"
+echo -e "${YELLOW}🔧 Setting up Nginx for ${DOMAIN} and ${WWW_DOMAIN}...${NC}"
 
 # Check if running as root
 if [ "$EUID" -ne 0 ]; then 
@@ -125,11 +126,11 @@ check_and_install_dependencies
 echo -e "${YELLOW}📝 Step 1: Creating initial Nginx configuration (HTTP only)...${NC}"
 
 # Create initial HTTP-only configuration for Certbot verification
-cat > /etc/nginx/sites-available/${DOMAIN} << 'EOF'
+cat > /etc/nginx/sites-available/${DOMAIN} << EOF
 server {
     listen 80;
     listen [::]:80;
-    server_name digicon.pro;
+    server_name ${DOMAIN} ${WWW_DOMAIN};
 
     # Logging
     access_log /var/log/nginx/digicon.pro.access.log;
@@ -140,15 +141,15 @@ server {
 
     # Proxy settings for Next.js
     location / {
-        proxy_pass http://localhost:3016;
+        proxy_pass http://localhost:${APP_PORT};
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_cache_bypass \$http_upgrade;
         
         # Chunked encoding support (fixes ERR_INCOMPLETE_CHUNKED_ENCODING)
         proxy_buffering off;
@@ -163,18 +164,18 @@ server {
 
     # Cache static files
     location /_next/static {
-        proxy_pass http://localhost:3016;
+        proxy_pass http://localhost:${APP_PORT};
         proxy_cache_valid 200 60m;
         add_header Cache-Control "public, immutable";
     }
 
     # Handle Next.js image optimization
     location /_next/image {
-        proxy_pass http://localhost:3016;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://localhost:${APP_PORT};
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
     }
 }
 EOF
@@ -211,17 +212,17 @@ echo "This may take a few moments..."
 # Stop Nginx temporarily for Certbot standalone mode (optional, we're using webroot)
 # systemctl stop nginx
 
-# Obtain SSL certificate
-certbot --nginx -d ${DOMAIN} --non-interactive --agree-tos --email ${EMAIL} --redirect
+# Obtain SSL certificate for both domains
+certbot --nginx -d ${DOMAIN} -d ${WWW_DOMAIN} --non-interactive --agree-tos --email ${EMAIL} --redirect
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ SSL certificate obtained and configured${NC}"
 else
     echo -e "${RED}❌ Failed to obtain SSL certificate${NC}"
     echo "Please check:"
-    echo "  1. DNS records are pointing to this server"
+    echo "  1. DNS records for ${DOMAIN} and ${WWW_DOMAIN} are pointing to this server"
     echo "  2. Port 80 and 443 are open in firewall"
-    echo "  3. Domain is accessible from internet"
+    echo "  3. Both domains are accessible from internet"
     exit 1
 fi
 
@@ -244,12 +245,14 @@ echo -e "${GREEN}🎉 Setup completed successfully!${NC}"
 echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 echo "📊 Configuration Summary:"
-echo "  Domain: ${DOMAIN}"
+echo "  Primary Domain: ${DOMAIN}"
+echo "  Additional Domain: ${WWW_DOMAIN}"
 echo "  Backend Port: ${APP_PORT}"
-echo "  SSL: Enabled"
+echo "  SSL: Enabled for both domains"
 echo ""
 echo "🌐 Your site is now available at:"
 echo "  https://${DOMAIN}"
+echo "  https://${WWW_DOMAIN}"
 echo ""
 echo "📋 Useful commands:"
 echo "  systemctl status nginx    - Check Nginx status"
@@ -259,6 +262,6 @@ echo "  certbot certificates      - List all certificates"
 echo "  tail -f /var/log/nginx/digicon.pro.access.log - View access logs"
 echo "  tail -f /var/log/nginx/digicon.pro.error.log  - View error logs"
 echo ""
-echo "🔐 SSL Certificate will auto-renew before expiration"
+echo "🔐 SSL Certificate will auto-renew before expiration for both domains"
 echo ""
 
