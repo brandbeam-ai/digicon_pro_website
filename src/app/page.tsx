@@ -75,7 +75,7 @@ export default function Home() {
           </div>
           {/* Desktop Button - Hidden on mobile */}
           <Link href="/creative-intelligence-agent" className="primary-button-outline hidden md:flex">
-            Get Your Customer Intelligence Scorecard
+          Customer Intelligence AI Agents
           </Link>
           {/* Mobile Burger Menu - Only visible on mobile */}
           <button
@@ -94,7 +94,7 @@ export default function Home() {
               className="primary-button-outline w-full block text-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Get Your Customer Intelligence Scorecard
+              Customer Intelligence AI Agents
             </Link>
           </div>
         )}

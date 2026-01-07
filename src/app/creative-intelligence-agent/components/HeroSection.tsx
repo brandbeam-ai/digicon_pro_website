@@ -10,7 +10,7 @@ const data = [
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative py-10 md:pb-32 overflow-hidden">
+    <section className="relative pt-10 md:pb-5 overflow-hidden">
       {/* Background Gradient Blob */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] -z-10" />
 
@@ -36,9 +36,9 @@ export const HeroSection: React.FC = () => {
           </Button>
         </div>
         
-        <p className="text-sm text-slate-500 italic">
+        {/* <p className="text-sm text-slate-500 italic">
           Access = the agent stack + the compounding artifacts. You keep the learnings.
-        </p>
+        </p> */}
       </div>
     </section>
   );
@@ -47,15 +47,15 @@ export const HeroSection: React.FC = () => {
 export const SocialProof: React.FC = () => {
   const stats = [
     { label: "Revenue Impact", value: "70M", icon: DollarSign, sub: "Attributed via optimization" },
-    { label: "Organic Views", value: "4B+", icon: Users, sub: "Across social media" },
+    { label: "Organic Views", value: "6B+", icon: Users, sub: "Across social media" },
     { label: "Ad Spend Managed", value: "10M+", icon: TrendingUp, sub: "Optimized by our team" },
     { label: "Campaigns", value: "375", icon: Activity, sub: "Successful launches" },
   ];
 
-  const brands = ["SAMSUNG", "CocaCola", "NVIDIA", "LG", "Grab", "Orion", "Binggrae"];
+  // const brands = ["SAMSUNG", "CocaCola", "NVIDIA", "LG", "Grab", "Orion", "Binggrae"];
 
   return (
-    <section className="py-0 border-y border-white/5 bg-white/[0.02]">
+    <section className="border-y border-white/5 bg-white/[0.02]">
       <div className="container mx-auto px-4">
         
         {/* Stats Grid */}
@@ -90,7 +90,7 @@ export const SocialProof: React.FC = () => {
         </div>
 
         {/* Brand Logos */}
-        <div className="text-center">
+        {/* <div className="text-center">
           <p className="text-sm text-slate-500 uppercase tracking-widest mb-8">Selected teams we&apos;ve supported</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
             {brands.map((brand) => (
@@ -99,7 +99,7 @@ export const SocialProof: React.FC = () => {
               </span>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
