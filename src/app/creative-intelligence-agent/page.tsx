@@ -53,7 +53,7 @@ export default function CreativeIntelligenceAgentPage() {
           </div>
           {/* Desktop Button - Hidden on mobile */}
           <Link href="/" className="primary-button-outline hidden md:flex">
-          Visibiltiy Scaling AI Agents
+          Visibility Scaling AI Agents
           </Link>
           {/* Mobile Burger Menu - Only visible on mobile */}
           <button
@@ -72,7 +72,7 @@ export default function CreativeIntelligenceAgentPage() {
               className="primary-button-outline w-full block text-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Visibiltiy Scaling AI Agents
+              Visibility Scaling AI Agents
             </Link>
           </div>
         )}
