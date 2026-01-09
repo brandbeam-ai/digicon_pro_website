@@ -18,6 +18,20 @@ interface FieldErrors {
   [key: string]: string;
 }
 
+interface QuestionOption {
+  value: string;
+  text: string;
+}
+
+interface Question {
+  id: string;
+  text: string;
+  type: string;
+  options: QuestionOption[];
+  subtext?: string;
+  inputPlaceholder?: string;
+}
+
 interface DetailedAnswer {
   questionId: string;
   questionText: string;
@@ -50,11 +64,11 @@ export const GetLeadInfo: React.FC = () => {
     ...questionsData.part2.questions,
   ];
 
-  const getCurrentQuestion = () => {
+  const getCurrentQuestion = (): Question | null => {
     if (showBasicDetails || currentQuestionIndex >= allQuestions.length) {
       return null;
     }
-    return allQuestions[currentQuestionIndex];
+    return allQuestions[currentQuestionIndex] as Question;
   };
 
   const getCurrentPartInfo = () => {
@@ -492,8 +506,8 @@ export const GetLeadInfo: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
           {currentQuestion.text}
         </h2>
-        {(currentQuestion as any).subtext && (
-          <p className="text-slate-400 mb-6">{(currentQuestion as any).subtext}</p>
+        {currentQuestion.subtext && (
+          <p className="text-slate-400 mb-6">{currentQuestion.subtext}</p>
         )}
 
         {/* Options */}
@@ -521,7 +535,7 @@ export const GetLeadInfo: React.FC = () => {
               type="text"
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)}
-              placeholder={(currentQuestion as any).inputPlaceholder || 'Additional information (optional)'}
+              placeholder={currentQuestion.inputPlaceholder || 'Additional information (optional)'}
               className="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
             />
           </div>
