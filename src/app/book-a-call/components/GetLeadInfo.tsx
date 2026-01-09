@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import questionsData from '../questions.json';
-import { ResultDisplay } from './ResultDisplay';
+import { ResultDisplay, AnalysisResult } from './ResultDisplay';
 
 interface Answer {
   questionId: string;
@@ -18,6 +18,21 @@ interface FieldErrors {
   [key: string]: string;
 }
 
+interface DetailedAnswer {
+  questionId: string;
+  questionText: string;
+  answerValue: string;
+  answerLabel: string;
+  additionalText?: string;
+}
+
+interface ResultData {
+  timestamp: string;
+  basicDetails: BasicDetails;
+  answers: DetailedAnswer[];
+  analysis: AnalysisResult;
+}
+
 export const GetLeadInfo: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentPart, setCurrentPart] = useState<'part1' | 'part2' | 'basicDetails'>('part1');
@@ -27,7 +42,7 @@ export const GetLeadInfo: React.FC = () => {
   const [showBasicDetails, setShowBasicDetails] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [showResult, setShowResult] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
   // Get all questions in order
   const allQuestions = [
@@ -247,7 +262,7 @@ export const GetLeadInfo: React.FC = () => {
     };
   };
 
-  const saveToStorage = (data: any) => {
+  const saveToStorage = (data: ResultData) => {
     const timestamp = new Date().toISOString();
     const storageKey = `lead-qualification-${timestamp}`;
     
@@ -506,7 +521,7 @@ export const GetLeadInfo: React.FC = () => {
               type="text"
               value={additionalText}
               onChange={(e) => setAdditionalText(e.target.value)}
-              placeholder={currentQuestion.inputPlaceholder || 'Additional information (optional)'}
+              placeholder={(currentQuestion as any).inputPlaceholder || 'Additional information (optional)'}
               className="w-full px-4 py-3 bg-black/50 border border-white/20 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
             />
           </div>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-interface AnalysisResult {
+export interface AnalysisResult {
   dominantLevel: string;
   levelDistribution: {
     'Level 1': number;
