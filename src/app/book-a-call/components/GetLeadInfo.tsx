@@ -477,8 +477,8 @@ export const GetLeadInfo: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
           {currentQuestion.text}
         </h2>
-        {currentQuestion.subtext && (
-          <p className="text-slate-400 mb-6">{currentQuestion.subtext}</p>
+        {(currentQuestion as any).subtext && (
+          <p className="text-slate-400 mb-6">{(currentQuestion as any).subtext}</p>
         )}
 
         {/* Options */}
