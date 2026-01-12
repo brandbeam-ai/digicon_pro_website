@@ -1,0 +1,23 @@
+{
+  "pageName": "book-a-call",
+  "translations": [
+    {
+      "key": "title",
+      "original": "Book a Call",
+      "korean": "상담 예약하기",
+      "context": "Page title"
+    },
+    {
+      "key": "description",
+      "original": "Help us understand your needs so we can provide the best solution for your business.",
+      "korean": "귀사의 요구 사항을 이해하여 비즈니스에 가장 적합한 솔루션을 제공해 드릴 수 있도록 도와주세요.",
+      "context": "Page description"
+    },
+    {
+      "key": "result.title",
+      "original": "Your Customer Intelligence System Readiness Score",
+      "korean": "귀사의 고객 인텔리전스 시스템 준비도 점수",
+      "context": "Result page title"
+    }
+  ]
+}

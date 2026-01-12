@@ -1,0 +1,521 @@
+{
+  "pageName": "home",
+  "translations": [
+    {
+      "key": "header.button",
+      "original": "Customer Intelligence AI Agents",
+      "korean": "고객 인텔리전스 AI 에이전트",
+      "context": "Header navigation button"
+    },
+    {
+      "key": "hero.subtitle1",
+      "original": "Consumer Good",
+      "korean": "소비재",
+      "context": "Hero section subtitle part 1"
+    },
+    {
+      "key": "hero.subtitle2",
+      "original": "Brands",
+      "korean": " 브랜드",
+      "context": "Hero section subtitle part 2"
+    },
+    {
+      "key": "hero.title",
+      "original": "Get 1M-100M views in 90 days on social media",
+      "korean": "90일 만에 소셜 미디어 조회수 100만~1억 회 달성",
+      "context": "Hero section main title"
+    },
+    {
+      "key": "hero.description_prefix",
+      "original": "Backed by our Viral Content Research Lab, the system behind over ",
+      "korean": "60억 회 이상의 조회수와 2,400만 명의 팔로워를 보유한 바이럴 콘텐츠 리서치 랩(Viral Content Research Lab)이 뒷받침하는 시스템입니다. 총 ",
+      "context": "Hero section description prefix"
+    },
+    {
+      "key": "hero.views",
+      "original": "6 billion views",
+      "korean": "60억 회 조회수",
+      "context": "Hero section views count"
+    },
+    {
+      "key": "hero.description_mid",
+      "original": " and ",
+      "korean": " 및 ",
+      "context": "Hero section description middle"
+    },
+    {
+      "key": "hero.followers",
+      "original": "24 million followers",
+      "korean": "2,400만 팔로워",
+      "context": "Hero section followers count"
+    },
+    {
+      "key": "hero.cta",
+      "original": "Dominate Social Media",
+      "korean": "소셜 미디어 장악하기",
+      "context": "Hero call-to-action button"
+    },
+    {
+      "key": "video.alt",
+      "original": "Digicon Pro Showreel 2025 Video Thumbnail",
+      "korean": "디지콘 프로 쇼릴 2025 영상 썸네일",
+      "context": "Video thumbnail alt text"
+    },
+    {
+      "key": "video.title",
+      "original": "Digicon Pro Showreel 2025 Video",
+      "korean": "디지콘 프로 쇼릴 2025 영상",
+      "context": "Video iframe title"
+    },
+    {
+      "key": "value.title_prefix",
+      "original": "Use maximum content distribution to ",
+      "korean": "최대 콘텐츠 배포를 통해 ",
+      "context": "Value title prefix"
+    },
+    {
+      "key": "value.title_highlight",
+      "original": " dominate social media",
+      "korean": " 소셜 미디어를 장악하세요",
+      "context": "Value title highlight"
+    },
+    {
+      "key": "value.stat1.val",
+      "original": "1/25th",
+      "korean": "1/25",
+      "context": "Value stat 1 value"
+    },
+    {
+      "key": "value.stat1.label",
+      "original": "Cost of Ads",
+      "korean": "광고 비용",
+      "context": "Value stat 1 label"
+    },
+    {
+      "key": "value.stat2.val",
+      "original": "Limited",
+      "korean": "한정",
+      "context": "Value stat 2 value"
+    },
+    {
+      "key": "value.stat2.label",
+      "original": "Spots",
+      "korean": "구좌",
+      "context": "Value stat 2 label"
+    },
+    {
+      "key": "value.stat3.val",
+      "original": "Fully",
+      "korean": "완전",
+      "context": "Value stat 3 value"
+    },
+    {
+      "key": "value.stat3.label",
+      "original": "Compliant",
+      "korean": "준수",
+      "context": "Value stat 3 label"
+    },
+    {
+      "key": "value.stats.prefix",
+      "original": "We've generated over ",
+      "korean": "우리는 독점적인 바이럴 콘텐츠 리서치 랩을 통해 2년 만에 ",
+      "context": "Value stats prefix"
+    },
+    {
+      "key": "value.stats.views_count",
+      "original": "6 billion organic views ",
+      "korean": "60억 회 이상의 오가닉 조회수",
+      "context": "Value stats views count"
+    },
+    {
+      "key": "value.stats.suffix",
+      "original": " in less than 2 years with our proprietary Viral Content Research Lab.",
+      "korean": "를 창출했습니다.",
+      "context": "Value stats suffix"
+    },
+    {
+      "key": "value.listTitle",
+      "original": "Work with us to:",
+      "korean": "저희와 협력해야 하는 이유:",
+      "context": "Value proposition list title"
+    },
+    {
+      "key": "value.item1",
+      "original": "Have the fastest way to grow on social media today",
+      "korean": "오늘날 소셜 미디어에서 가장 빠르게 성장하는 방법 제공",
+      "context": "Value proposition item 1"
+    },
+    {
+      "key": "value.item2",
+      "original": "Scale brands to post 100+ times per month",
+      "korean": "브랜드가 한 달에 100개 이상의 콘텐츠를 게시할 수 있도록 확장",
+      "context": "Value proposition item 2"
+    },
+    {
+      "key": "value.item3",
+      "original": "Get in front of millions more of the right people",
+      "korean": "수백만 명의 잠재 고객에게 브랜드 노출",
+      "context": "Value proposition item 3"
+    },
+    {
+      "key": "value.item4",
+      "original": "Ensure top-quality across all the content posted",
+      "korean": "게시된 모든 콘텐츠의 최고 품질 보장",
+      "context": "Value proposition item 4"
+    },
+    {
+      "key": "value.cta",
+      "original": "Talk to us",
+      "korean": "문의하기",
+      "context": "Value section CTA button"
+    },
+    {
+      "key": "showcase.title_prefix",
+      "original": "(Just some) content we've ",
+      "korean": "우리가 제작한 콘텐츠의 ",
+      "context": "Showcase title prefix"
+    },
+    {
+      "key": "showcase.title_highlight",
+      "original": "created",
+      "korean": "일부입니다",
+      "context": "Showcase title highlight"
+    },
+    {
+      "key": "problem.title_prefix",
+      "original": "Most consumer good brands are generating a ",
+      "korean": "대부분의 소비재 브랜드는 오가닉 콘텐츠를 통해 얻을 수 있는 잠재적 성장의 ",
+      "context": "Problem title prefix"
+    },
+    {
+      "key": "problem.title_highlight",
+      "original": " small fraction",
+      "korean": " 극히 일부",
+      "context": "Problem title highlight"
+    },
+    {
+      "key": "problem.title_suffix",
+      "original": " of the potential growth from their organic content.",
+      "korean": "만 창출하고 있습니다.",
+      "context": "Problem title suffix"
+    },
+    {
+      "key": "problem.subtitle",
+      "original": "(Even if you already have an audience in the millions)",
+      "korean": "(이미 수백만 명의 청중을 보유하고 있더라도 마찬가지입니다)",
+      "context": "Problem section subtitle"
+    },
+    {
+      "key": "problem.description",
+      "original": "This results in dramatically less exposure and growth for your brand.",
+      "korean": "이는 브랜드의 노출과 성장을 극적으로 저해하는 결과로 이어집니다.",
+      "context": "Problem section description"
+    },
+    {
+      "key": "problem.cta_text",
+      "original": "You deserve more for your efforts.",
+      "korean": "귀사의 노력에 비해 더 큰 성과를 얻을 자격이 있습니다.",
+      "context": "Problem section CTA text"
+    },
+    {
+      "key": "brands.title_prefix",
+      "original": "Brands that have ",
+      "korean": "우리와 함께 ",
+      "context": "Brands title prefix"
+    },
+    {
+      "key": "brands.title_highlight",
+      "original": "grown",
+      "korean": "성장한",
+      "context": "Brands title highlight"
+    },
+    {
+      "key": "brands.title_suffix",
+      "original": " with us",
+      "korean": " 브랜드들",
+      "context": "Brands title suffix"
+    },
+    {
+      "key": "recognition.title_prefix",
+      "original": "Recognized by ",
+      "korean": "여러 ",
+      "context": "Recognition title prefix"
+    },
+    {
+      "key": "recognition.title_highlight",
+      "original": "publications ",
+      "korean": "매체로부터 ",
+      "context": "Recognition title highlight"
+    },
+    {
+      "key": "recognition.title_suffix",
+      "original": " as the #1 leading firm in social media growth",
+      "korean": " 소셜 미디어 성장 분야 1위 기업으로 인정받았습니다",
+      "context": "Recognition title suffix"
+    },
+    {
+      "key": "how.title_prefix",
+      "original": "How does it ",
+      "korean": "어떻게 ",
+      "context": "How title prefix"
+    },
+    {
+      "key": "how.title_highlight",
+      "original": "work?",
+      "korean": "작동하나요?",
+      "context": "How title highlight"
+    },
+    {
+      "key": "how.subtitle_prefix",
+      "original": "Data-driven success formula discovery through our ",
+      "korean": "'바이럴 콘텐츠 리서치 랩'을 통한 데이터 기반 ",
+      "context": "How subtitle prefix"
+    },
+    {
+      "key": "how.subtitle_highlight",
+      "original": "\"Viral Content Research Lab\"",
+      "korean": "성공 공식 발견",
+      "context": "How subtitle highlight"
+    },
+    {
+      "key": "how.step1.title",
+      "original": "Idea Generation",
+      "korean": "아이디어 생성",
+      "context": "How it works step 1 title"
+    },
+    {
+      "key": "how.step1.desc",
+      "original": "We analyze the latest TikTok trends, Gen Z interests, and competitor content daily to create a constant source of fresh ideas.",
+      "korean": "최신 틱톡 트렌드, Z세대 관심사, 경쟁사 콘텐츠를 매일 분석하여 신선한 아이디어를 지속적으로 창출합니다.",
+      "context": "How it works step 1 description"
+    },
+    {
+      "key": "how.step2.title",
+      "original": "Rapid Testing",
+      "korean": "신속한 테스트",
+      "context": "How it works step 2 title"
+    },
+    {
+      "key": "how.step2.desc",
+      "original": "Generated ideas are uploaded to private test channels to gauge immediate consumer reactions and feedback.",
+      "korean": "생성된 아이디어는 비공개 테스트 채널에 업로드되어 소비자들의 즉각적인 반응과 피드백을 측정합니다.",
+      "context": "How it works step 2 description"
+    },
+    {
+      "key": "how.step3.title",
+      "original": "Data Validation",
+      "korean": "데이터 검증",
+      "context": "How it works step 3 title"
+    },
+    {
+      "key": "how.step3.desc",
+      "original": "We objectively determine 'success' and 'failure' using clear metrics: views, comments, and share rates.",
+      "korean": "조회수, 댓글, 공유율 등의 명확한 지표를 사용하여 '성공'과 '실패'를 객관적으로 판단합니다.",
+      "context": "How it works step 3 description"
+    },
+    {
+      "key": "how.step4.title",
+      "original": "Success Formula Scaling",
+      "korean": "성공 공식 확장",
+      "context": "How it works step 4 title"
+    },
+    {
+      "key": "how.step4.desc",
+      "original": "We intensively utilize the format and key elements of verified 'hit videos' to maximize viral impact.",
+      "korean": "검증된 '히트 영상'의 형식과 핵심 요소를 집중적으로 활용하여 바이럴 효과를 극대화합니다.",
+      "context": "How it works step 4 description"
+    },
+    {
+      "key": "how.approach.title",
+      "original": "Our Proven Approach",
+      "korean": "입증된 접근 방식",
+      "context": "Proven approach section title"
+    },
+    {
+      "key": "how.approach.item1.title",
+      "original": "Minimize uncertainty",
+      "korean": "불확실성 최소화",
+      "context": "Proven approach item 1 title"
+    },
+    {
+      "key": "how.approach.item1.desc",
+      "original": " and execute only the highest probability marketing strategies",
+      "korean": " 및 가장 높은 확률의 마케팅 전략만 실행",
+      "context": "Proven approach item 1 description"
+    },
+    {
+      "key": "how.approach.item2.title",
+      "original": "Collect feedback",
+      "korean": "피드백 수집",
+      "context": "Proven approach item 2 title"
+    },
+    {
+      "key": "how.approach.item2.desc",
+      "original": " from small target groups and analyze rapidly",
+      "korean": " 소규모 타겟 그룹으로부터 피드백을 수집하고 신속하게 분석",
+      "context": "Proven approach item 2 description"
+    },
+    {
+      "key": "how.approach.item3.title",
+      "original": "Repeatedly apply",
+      "korean": "반복 적용",
+      "context": "Proven approach item 3 title"
+    },
+    {
+      "key": "how.approach.item3.desc",
+      "original": " verified success formulas to maximize marketing efficiency",
+      "korean": " 검증된 성공 공식을 반복 적용하여 마케팅 효율성 극대화",
+      "context": "Proven approach item 3 description"
+    },
+    {
+      "key": "how.compliance_prefix",
+      "original": "Yes, this is ",
+      "korean": "네, 이는 ",
+      "context": "Compliance prefix"
+    },
+    {
+      "key": "how.compliance_highlight",
+      "original": "fully compliant ",
+      "korean": "규정을 완전히 준수",
+      "context": "Compliance highlight"
+    },
+    {
+      "key": "how.compliance_suffix",
+      "original": "across each social media platform.",
+      "korean": "하며 각 소셜 미디어 플랫폼에서 안전합니다.",
+      "context": "Compliance suffix"
+    },
+    {
+      "key": "results.title_prefix",
+      "original": "Results we've ",
+      "korean": "우리가 창출한 ",
+      "context": "Results title prefix"
+    },
+    {
+      "key": "results.title_highlight",
+      "original": "generated",
+      "korean": "결과",
+      "context": "Results title highlight"
+    },
+    {
+      "key": "results.stat1.val",
+      "original": "6B+",
+      "korean": "60억+",
+      "context": "Results stat 1 value"
+    },
+    {
+      "key": "results.stat1.desc",
+      "original": "Views generated on social platforms",
+      "korean": "소셜 플랫폼에서 발생한 조회수",
+      "context": "Results stat 1 description"
+    },
+    {
+      "key": "results.stat2.val",
+      "original": "24M+",
+      "korean": "2,400만+",
+      "context": "Results stat 2 value"
+    },
+    {
+      "key": "results.stat2.desc",
+      "original": "Followers gained for our clients",
+      "korean": "클라이언트를 위해 확보한 팔로워 수",
+      "context": "Results stat 2 description"
+    },
+    {
+      "key": "results.stat3.val",
+      "original": "137M+",
+      "korean": "1억 3,700만+",
+      "context": "Results stat 3 value"
+    },
+    {
+      "key": "results.stat3.desc",
+      "original": "Followers reached through top brands",
+      "korean": "주요 브랜드를 통해 도달한 팔로워 수",
+      "context": "Results stat 3 description"
+    },
+    {
+      "key": "results.stat4.val",
+      "original": "20,300+",
+      "korean": "20,300+",
+      "context": "Results stat 4 value"
+    },
+    {
+      "key": "results.stat4.desc",
+      "original": "Pieces of content published per month",
+      "korean": "월간 게시된 콘텐츠 수",
+      "context": "Results stat 4 description"
+    },
+    {
+      "key": "results.stat5.val",
+      "original": "85+",
+      "korean": "85+",
+      "context": "Results stat 5 value"
+    },
+    {
+      "key": "results.stat5.desc",
+      "original": "Expert team members",
+      "korean": "전문가 팀원 수",
+      "context": "Results stat 5 description"
+    },
+    {
+      "key": "results.stat6.val",
+      "original": "450+",
+      "korean": "450+",
+      "context": "Results stat 6 value"
+    },
+    {
+      "key": "results.stat6.desc",
+      "original": "Years of combined experience",
+      "korean": "합산 경력 연수",
+      "context": "Results stat 6 description"
+    },
+    {
+      "key": "results.cta_text",
+      "original": "Want to learn if we are a fit to scale your brand?",
+      "korean": "귀사의 브랜드를 확장하는 데 저희가 적합한지 알고 싶으신가요?",
+      "context": "Results section CTA text"
+    },
+    {
+      "key": "platforms.title_prefix",
+      "original": "Become ",
+      "korean": "우리의 전문가 플랫폼에서 ",
+      "context": "Platforms title prefix"
+    },
+    {
+      "key": "platforms.title_highlight",
+      "original": "omnipresent",
+      "korean": "어디에나 존재하는 브랜드",
+      "context": "Platforms title highlight"
+    },
+    {
+      "key": "platforms.title_suffix",
+      "original": " on our expert platforms",
+      "korean": "가 되세요",
+      "context": "Platforms title suffix"
+    },
+    {
+      "key": "platforms.cta_text",
+      "original": "Want to learn more?",
+      "korean": "더 자세히 알고 싶으신가요?",
+      "context": "Platforms section CTA text"
+    },
+    {
+      "key": "footer.cta",
+      "original": "Ready to dominate social media?",
+      "korean": "소셜 미디어를 장악할 준비가 되셨나요?",
+      "context": "Footer CTA text"
+    },
+    {
+      "key": "footer.rights_prefix",
+      "original": "© ",
+      "korean": "© ",
+      "context": "Footer copyright prefix"
+    },
+    {
+      "key": "footer.rights_suffix",
+      "original": " Digicon Pro. All rights reserved.",
+      "korean": " Digicon Pro. 모든 권리 보유.",
+      "context": "Footer copyright suffix"
+    }
+  ]
+}

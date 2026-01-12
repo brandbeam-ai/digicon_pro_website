@@ -5,9 +5,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { GetLeadInfo } from './components/GetLeadInfo';
+import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
+import { LanguageSwitch } from '../components/LanguageSwitch';
+import { getTranslation } from '../utils/translations';
 
-export default function BookACallPage() {
+function BookACallPageContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { language, setLanguage, translations } = useLanguage();
 
   return (
     <div className="min-h-screen bg-black text-slate-200 selection:bg-indigo-500 selection:text-white font-sans">
@@ -23,6 +27,7 @@ export default function BookACallPage() {
               priority
             />
           </Link>
+          <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
           {/* Mobile Burger Menu - Only visible on mobile */}
           <button
             className="flex md:hidden text-white p-2"
@@ -72,6 +77,14 @@ export default function BookACallPage() {
         <p>&copy; {new Date().getFullYear()} Digicon Pro. All rights reserved.</p>
       </footer>
     </div>
+  );
+}
+
+export default function BookACallPage() {
+  return (
+    <LanguageProvider pageName="book-a-call">
+      <BookACallPageContent />
+    </LanguageProvider>
   );
 }
 

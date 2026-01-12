@@ -1,0 +1,815 @@
+{
+  "pageName": "creative-intelligence-agent",
+  "translations": [
+    {
+      "key": "header.button",
+      "original": "Visibility Scaling AI Agents",
+      "korean": "가시성 확장 AI 에이전트",
+      "context": "Header navigation button"
+    },
+    {
+      "key": "hero.tag",
+      "original": "Creative Intelligence Agents",
+      "korean": "크리에이티브 인텔리전스 에이전트",
+      "context": "Hero section tag"
+    },
+    {
+      "key": "hero.title",
+      "original": "Stop Paying Influencers to Improvise. Build Agents You Own.",
+      "korean": "인플루언서에게 임기응변을 맡기지 마세요. 직접 소유하는 에이전트를 구축하세요.",
+      "context": "Hero section main title"
+    },
+    {
+      "key": "hero.subtitle",
+      "original": "We deploy Creative Intelligence AI Agents that mine your first‑party data, ship controlled creative variants fast, and convert winners into Validated Creative Plays you can scale.",
+      "korean": "당사는 귀사의 자사 데이터를 분석하고, 제어된 크리에이티브 변형을 신속하게 배포하며, 성과가 입증된 결과를 확장 가능한 '검증된 크리에이티브 플레이'로 전환하는 크리에이티브 인텔리전스 AI 에이전트를 배치합니다.",
+      "context": "Hero section subtitle"
+    },
+    {
+      "key": "hero.cta1",
+      "original": "Apply for Access",
+      "korean": "액세스 신청하기",
+      "context": "Primary CTA button"
+    },
+    {
+      "key": "hero.cta2",
+      "original": "See how it works",
+      "korean": "작동 원리 보기",
+      "context": "Secondary CTA button"
+    },
+    {
+      "key": "social.revenue.impact",
+      "original": "Revenue Impact",
+      "korean": "매출 영향",
+      "context": "Social proof revenue impact"
+    },
+    {
+      "key": "social.revenue.sub",
+      "original": "Attributed via optimization",
+      "korean": "최적화를 통한 기여",
+      "context": "Social proof revenue impact sub"
+    },
+    {
+      "key": "social.organic.views",
+      "original": "Organic Views",
+      "korean": "오가닉 조회수",
+      "context": "Social proof organic views"
+    },
+    {
+      "key": "social.organic.sub",
+      "original": "Across social media",
+      "korean": "소셜 미디어 전반",
+      "context": "Social proof organic views sub"
+    },
+    {
+      "key": "social.adspend.managed",
+      "original": "Ad Spend Managed",
+      "korean": "관리된 광고비",
+      "context": "Social proof ad spend managed"
+    },
+    {
+      "key": "social.adspend.sub",
+      "original": "Optimized by our team",
+      "korean": "우리 팀에 의해 최적화됨",
+      "context": "Social proof ad spend managed sub"
+    },
+    {
+      "key": "social.campaigns.title",
+      "original": "Campaigns",
+      "korean": "캠페인",
+      "context": "Social proof campaigns title"
+    },
+    {
+      "key": "social.campaigns.sub",
+      "original": "Successful launches",
+      "korean": "성공적인 런칭",
+      "context": "Social proof campaigns sub"
+    },
+    {
+      "key": "fit.tag",
+      "original": "Fit Filter",
+      "korean": "적합성 필터",
+      "context": "Fit filter tag"
+    },
+    {
+      "key": "fit.title",
+      "original": "Who This Is For (and Who It's Not)",
+      "korean": "이런 분들을 위한 서비스입니다 (그리고 아닌 분들)",
+      "context": "Fit filter title"
+    },
+    {
+      "key": "fit.for.title",
+      "original": "For Leaders Who Want:",
+      "korean": "이런 리더분들을 위해:",
+      "context": "Fit filter for title"
+    },
+    {
+      "key": "fit.for.item1",
+      "original": "Brands investing consistently in paid + creators who want repeatable wins",
+      "korean": "반복적인 성공을 원하는 유료 광고 및 크리에이터에 지속적으로 투자하는 브랜드",
+      "context": "Fit filter for item 1"
+    },
+    {
+      "key": "fit.for.item2",
+      "original": "Teams that care about speed, but refuse to sacrifice trust",
+      "korean": "속도를 중요하게 생각하지만 신뢰를 타협하지 않는 팀",
+      "context": "Fit filter for item 2"
+    },
+    {
+      "key": "fit.for.item3",
+      "original": "Leaders who want learning that compounds",
+      "korean": "복리 효과를 내는 학습을 원하는 리더",
+      "context": "Fit filter for item 3"
+    },
+    {
+      "key": "fit.not.title",
+      "original": "Not For:",
+      "korean": "이런 분들에게는 적합하지 않습니다:",
+      "context": "Fit filter not for title"
+    },
+    {
+      "key": "fit.not.item1",
+      "original": "\"Content calendars\" with no testing discipline",
+      "korean": "테스트 규율이 없는 '콘텐츠 캘린더'",
+      "context": "Fit filter not for item 1"
+    },
+    {
+      "key": "fit.not.item2",
+      "original": "Anyone looking for \"AI volume\" without measurement rules",
+      "korean": "측정 규칙 없이 'AI 볼륨'만 찾는 분",
+      "context": "Fit filter not for item 2"
+    },
+    {
+      "key": "fit.not.item3",
+      "original": "Trust‑sensitive categories that want deceptive synthetic endorsements",
+      "korean": "기만적인 합성 보증을 원하는 신뢰에 민감한 카테고리",
+      "context": "Fit filter not for item 3"
+    },
+    {
+      "key": "problem.tag",
+      "original": "The Problem",
+      "korean": "문제점",
+      "context": "Problem section tag"
+    },
+    {
+      "key": "problem.title",
+      "original": "The \"Creativity Gap\" Is Quietly Taxing Every Campaign You Run.",
+      "korean": "‘크리에이티브 격차’가 귀사의 모든 캠페인 비용을 낭비하고 있습니다.",
+      "context": "Problem section title"
+    },
+    {
+      "key": "problem.description",
+      "original": "Visibility used to come from people. Now it comes from the feed. When brands outsource creative direction without capturing learnings, they keep paying for the same lessons again and again.",
+      "korean": "가시성은 과거에는 사람에게서 왔지만, 이제는 피드에서 옵니다. 브랜드가 학습 내용을 캡처하지 않고 크리에이티브 방향을 외부에 맡기면, 똑같은 교훈을 얻기 위해 반복해서 비용을 지불하게 됩니다.",
+      "context": "Problem section description"
+    },
+    {
+      "key": "problem.item1.title",
+      "original": "Too Many Messages",
+      "korean": "너무 많은 메시지",
+      "context": "Problem item 1 title"
+    },
+    {
+      "key": "problem.item1.desc",
+      "original": "Diluted core value proposition.",
+      "korean": "희석된 핵심 가치 제안.",
+      "context": "Problem item 1 description"
+    },
+    {
+      "key": "problem.item2.title",
+      "original": "Too Little Truth",
+      "korean": "부족한 진실성",
+      "context": "Problem item 2 title"
+    },
+    {
+      "key": "problem.item2.desc",
+      "original": "Content that feels like 'ads' gets skipped.",
+      "korean": "'광고'처럼 느껴지는 콘텐츠는 스킵됩니다.",
+      "context": "Problem item 2 description"
+    },
+    {
+      "key": "problem.item3.title",
+      "original": "High Variance",
+      "korean": "높은 변동성",
+      "context": "Problem item 3 title"
+    },
+    {
+      "key": "problem.item3.desc",
+      "original": "No system to turn outcomes into decisions.",
+      "korean": "결과를 의사결정으로 전환하는 시스템의 부재.",
+      "context": "Problem item 3 description"
+    },
+    {
+      "key": "problem.footer",
+      "original": "We're not anti‑creator. We're anti‑improv. We separate what must scale from what must be earned.",
+      "korean": "우리는 크리에이터에 반대하지 않습니다. 우리는 즉흥적인 방식에 반대합니다. 우리는 확장해야 할 것과 획득해야 할 것을 구분합니다.",
+      "context": "Problem footer text"
+    },
+    {
+      "key": "solution.tag",
+      "original": "The Protocol",
+      "korean": "프로토콜",
+      "context": "Solution protocol tag"
+    },
+    {
+      "key": "solution.title",
+      "original": "How Our AI Agents Turn Data Into Validated Creative Plays",
+      "korean": "AI 에이전트가 데이터를 검증된 크리에이티브 플레이로 전환하는 방법",
+      "context": "Solution protocol title"
+    },
+    {
+      "key": "solution.phase1.id",
+      "original": "Phase 1",
+      "korean": "1단계",
+      "context": "Solution phase 1 ID"
+    },
+    {
+      "key": "solution.phase1.title",
+      "original": "Customer Decision Intelligence Map",
+      "korean": "고객 의사결정 인텔리전스 맵",
+      "context": "Solution phase 1 title"
+    },
+    {
+      "key": "solution.phase1.goal",
+      "original": "Know what makes your customer act before you scale.",
+      "korean": "확장하기 전에 무엇이 고객을 움직이게 하는지 파악하세요.",
+      "context": "Solution phase 1 goal"
+    },
+    {
+      "key": "solution.phase1.output1",
+      "original": "Market Message Map",
+      "korean": "시장 메시지 맵",
+      "context": "Solution phase 1 output 1"
+    },
+    {
+      "key": "solution.phase1.output2",
+      "original": "Objection Library",
+      "korean": "거부 반응 라이브러리",
+      "context": "Solution phase 1 output 2"
+    },
+    {
+      "key": "solution.phase1.output3",
+      "original": "First Hypothesis Set",
+      "korean": "첫 번째 가설 세트",
+      "context": "Solution phase 1 output 3"
+    },
+    {
+      "key": "solution.phase2.id",
+      "original": "Phase 2",
+      "korean": "2단계",
+      "context": "Solution phase 2 ID"
+    },
+    {
+      "key": "solution.phase2.title",
+      "original": "AI‑Accelerated Throughput Engine",
+      "korean": "AI 가속 처리 엔진",
+      "context": "Solution phase 2 title"
+    },
+    {
+      "key": "solution.phase2.goal",
+      "original": "Produce enough high-quality variants to learn fast.",
+      "korean": "빠르게 학습할 수 있도록 충분한 고품질 변형을 생성하세요.",
+      "context": "Solution phase 2 goal"
+    },
+    {
+      "key": "solution.phase2.output1",
+      "original": "Monthly Creative Cadence",
+      "korean": "월간 크리에이티브 리듬",
+      "context": "Solution phase 2 output 1"
+    },
+    {
+      "key": "solution.phase2.output2",
+      "original": "Whitelisting Setups",
+      "korean": "화이트리스팅 설정",
+      "context": "Solution phase 2 output 2"
+    },
+    {
+      "key": "solution.phase2.output3",
+      "original": "Brand-Safe QA",
+      "korean": "브랜드 안전 QA",
+      "context": "Solution phase 2 output 3"
+    },
+    {
+      "key": "solution.phase3.id",
+      "original": "Phase 3",
+      "korean": "3단계",
+      "context": "Solution phase 3 ID"
+    },
+    {
+      "key": "solution.phase3.title",
+      "original": "Scale Decision Layer",
+      "korean": "확장 의사결정 레이어",
+      "context": "Solution phase 3 title"
+    },
+    {
+      "key": "solution.phase3.goal",
+      "original": "Protect your budget and scale only what earns it.",
+      "korean": "예산을 보호하고 성과가 입증된 것만 확장하세요.",
+      "context": "Solution phase 3 goal"
+    },
+    {
+      "key": "solution.phase3.output1",
+      "original": "Creative Scorecard",
+      "korean": "크리에이티브 스코어카드",
+      "context": "Solution phase 3 output 1"
+    },
+    {
+      "key": "solution.phase3.output2",
+      "original": "Promote/Kill Rules",
+      "korean": "확장/중단 규칙",
+      "context": "Solution phase 3 output 2"
+    },
+    {
+      "key": "solution.phase3.output3",
+      "original": "Validated Creative Plays",
+      "korean": "검증된 크리에이티브 플레이",
+      "context": "Solution phase 3 output 3"
+    },
+    {
+      "key": "solution.outputs.label",
+      "original": "Outputs",
+      "korean": "결과물",
+      "context": "Solution outputs label"
+    },
+    {
+      "key": "model.tag",
+      "original": "Operating Model",
+      "korean": "운영 모델",
+      "context": "Operating model tag"
+    },
+    {
+      "key": "model.title",
+      "original": "How Agents Compound Learning",
+      "korean": "에이전트가 학습 내용을 축적하는 방법",
+      "context": "Operating model title"
+    },
+    {
+      "key": "model.description",
+      "original": "We run a simple weekly cadence that turns spend into reusable decisions without slowing your team down.",
+      "korean": "우리는 팀의 속도를 늦추지 않으면서 비용을 재사용 가능한 의사결정으로 전환하는 간단한 주간 리듬을 운영합니다.",
+      "context": "Operating model description"
+    },
+    {
+      "key": "model.step1.title",
+      "original": "Read the signal",
+      "korean": "신호 읽기",
+      "context": "Operating model step 1 title"
+    },
+    {
+      "key": "model.step1.text",
+      "original": "What people watched, clicked, saved.",
+      "korean": "사람들이 무엇을 보고, 클릭하고, 저장했는지.",
+      "context": "Operating model step 1 text"
+    },
+    {
+      "key": "model.step2.title",
+      "original": "Pick the test",
+      "korean": "테스트 선택",
+      "context": "Operating model step 2 title"
+    },
+    {
+      "key": "model.step2.text",
+      "original": "One hypothesis; one variable.",
+      "korean": "하나의 가설, 하나의 변수.",
+      "context": "Operating model step 2 text"
+    },
+    {
+      "key": "model.step3.title",
+      "original": "Ship variants fast",
+      "korean": "변형 신속 배포",
+      "context": "Operating model step 3 title"
+    },
+    {
+      "key": "model.step3.text",
+      "original": "AI accelerates; humans steer taste.",
+      "korean": "AI가 가속화하고 인간이 취향을 조정합니다.",
+      "context": "Operating model step 3 text"
+    },
+    {
+      "key": "model.step4.title",
+      "original": "Promote or kill",
+      "korean": "확장 또는 중단",
+      "context": "Operating model step 4 title"
+    },
+    {
+      "key": "model.step4.text",
+      "original": "Winners become Validated Plays.",
+      "korean": "성공작은 검증된 플레이가 됩니다.",
+      "context": "Operating model step 4 text"
+    },
+    {
+      "key": "model.step5.title",
+      "original": "Write it down",
+      "korean": "기록하기",
+      "context": "Operating model step 5 title"
+    },
+    {
+      "key": "model.step5.text",
+      "original": "Decision memos update your map.",
+      "korean": "의사결정 메모가 맵을 업데이트합니다.",
+      "context": "Operating model step 5 text"
+    },
+    {
+      "key": "model.center.title",
+      "original": "Compound Learning",
+      "korean": "학습 축적",
+      "context": "Operating model center title"
+    },
+    {
+      "key": "model.visual.signal",
+      "original": "Signal",
+      "korean": "신호",
+      "context": "Operating model visual signal"
+    },
+    {
+      "key": "model.visual.memo",
+      "original": "Memo",
+      "korean": "메모",
+      "context": "Operating model visual memo"
+    },
+    {
+      "key": "vs.tag",
+      "original": "Us vs. Them",
+      "korean": "차별점",
+      "context": "Comparison tag"
+    },
+    {
+      "key": "vs.title",
+      "original": "Amateurs Guess. Professionals Engineer.",
+      "korean": "아마추어는 추측하고, 전문가는 설계합니다.",
+      "context": "Comparison title"
+    },
+    {
+      "key": "vs.header.feature",
+      "original": "Feature",
+      "korean": "기능",
+      "context": "Comparison header feature"
+    },
+    {
+      "key": "vs.header.old",
+      "original": "Traditional Agency",
+      "korean": "기존 대행사",
+      "context": "Comparison header old"
+    },
+    {
+      "key": "vs.header.new",
+      "original": "Creative Intelligence Agents",
+      "korean": "크리에이티브 인텔리전스 에이전트",
+      "context": "Comparison header new"
+    },
+    {
+      "key": "vs.row1.feature",
+      "original": "Strategy",
+      "korean": "전략",
+      "context": "Comparison row 1 feature"
+    },
+    {
+      "key": "vs.row1.old",
+      "original": "Hoping for a hit",
+      "korean": "대박이 나기를 기대함",
+      "context": "Comparison row 1 old"
+    },
+    {
+      "key": "vs.row1.new",
+      "original": "Reducing variance with testing",
+      "korean": "테스트를 통해 변동성 감소",
+      "context": "Comparison row 1 new"
+    },
+    {
+      "key": "vs.row2.feature",
+      "original": "Learning",
+      "korean": "학습",
+      "context": "Comparison row 2 feature"
+    },
+    {
+      "key": "vs.row2.old",
+      "original": "Scattered in people's heads",
+      "korean": "사람들의 머릿속에 흩어져 있음",
+      "context": "Comparison row 2 old"
+    },
+    {
+      "key": "vs.row2.new",
+      "original": "Compounding: Validated Creative Plays",
+      "korean": "축적: 검증된 크리에이티브 플레이",
+      "context": "Comparison row 2 new"
+    },
+    {
+      "key": "vs.row3.feature",
+      "original": "Speed",
+      "korean": "속도",
+      "context": "Comparison row 3 feature"
+    },
+    {
+      "key": "vs.row3.old",
+      "original": "Slow briefing cycles",
+      "korean": "느린 브리핑 사이클",
+      "context": "Comparison row 3 old"
+    },
+    {
+      "key": "vs.row3.new",
+      "original": "AI‑accelerated execution in days",
+      "korean": "AI로 가속화된 며칠 내 실행",
+      "context": "Comparison row 3 new"
+    },
+    {
+      "key": "vs.row4.feature",
+      "original": "Measurement",
+      "korean": "측정",
+      "context": "Comparison row 4 feature"
+    },
+    {
+      "key": "vs.row4.old",
+      "original": "Vanity metrics dominate",
+      "korean": "허영 지표가 지배적임",
+      "context": "Comparison row 4 old"
+    },
+    {
+      "key": "vs.row4.new",
+      "original": "Scorecards, gates, and rules",
+      "korean": "스코어카드, 게이트 및 규칙",
+      "context": "Comparison row 4 new"
+    },
+    {
+      "key": "vs.row5.feature",
+      "original": "Outcome",
+      "korean": "결과",
+      "context": "Comparison row 5 feature"
+    },
+    {
+      "key": "vs.row5.old",
+      "original": "Awareness without clarity",
+      "korean": "명확성 없는 인지도",
+      "context": "Comparison row 5 old"
+    },
+    {
+      "key": "vs.row5.new",
+      "original": "Decision clarity + repeatable winners",
+      "korean": "의사결정의 명확성 + 반복 가능한 성공작",
+      "context": "Comparison row 5 new"
+    },
+    {
+      "key": "asset.tag",
+      "original": "The War Chest",
+      "korean": "자산 상자",
+      "context": "Deliverables tag"
+    },
+    {
+      "key": "asset.title",
+      "original": "Don't Rent Content. Own the Asset.",
+      "korean": "콘텐츠를 빌리지 마세요. 자산을 소유하세요.",
+      "context": "Deliverables title"
+    },
+    {
+      "key": "asset.description",
+      "original": "You aren't paying for a one‑off service. You're acquiring a compounding intelligence asset.",
+      "korean": "일회성 서비스에 비용을 지불하는 것이 아닙니다. 축적되는 인텔리전스 자산을 확보하는 것입니다.",
+      "context": "Deliverables description"
+    },
+    {
+      "key": "asset.col1.title",
+      "original": "The Brain",
+      "korean": "브레인",
+      "context": "Deliverables column 1 title"
+    },
+    {
+      "key": "asset.col1.sub",
+      "original": "Decision Intelligence",
+      "korean": "의사결정 인텔리전스",
+      "context": "Deliverables column 1 sub"
+    },
+    {
+      "key": "asset.col1.item1",
+      "original": "Customer Decision Intelligence Map",
+      "korean": "고객 의사결정 인텔리전스 맵",
+      "context": "Deliverables column 1 item 1"
+    },
+    {
+      "key": "asset.col1.item2",
+      "original": "Objection Library + Responses",
+      "korean": "거부 반응 라이브러리 + 대응",
+      "context": "Deliverables column 1 item 2"
+    },
+    {
+      "key": "asset.col1.item3",
+      "original": "Validated Creative Plays Library",
+      "korean": "검증된 크리에이티브 플레이 라이브러리",
+      "context": "Deliverables column 1 item 3"
+    },
+    {
+      "key": "asset.col2.title",
+      "original": "The Fuel",
+      "korean": "연료",
+      "context": "Deliverables column 2 title"
+    },
+    {
+      "key": "asset.col2.sub",
+      "original": "AI-Accelerated Output",
+      "korean": "AI 가속 결과물",
+      "context": "Deliverables column 2 sub"
+    },
+    {
+      "key": "asset.col2.item1",
+      "original": "Monthly conversion-first assets",
+      "korean": "월간 전환 우선 자산",
+      "context": "Deliverables column 2 item 1"
+    },
+    {
+      "key": "asset.col2.item2",
+      "original": "Whitelisted access setups",
+      "korean": "화이트리스트 액세스 설정",
+      "context": "Deliverables column 2 item 2"
+    },
+    {
+      "key": "asset.col2.item3",
+      "original": "Unlimited usage rights",
+      "korean": "무제한 사용권",
+      "context": "Deliverables column 2 item 3"
+    },
+    {
+      "key": "asset.col3.title",
+      "original": "The Compass",
+      "korean": "나침반",
+      "context": "Deliverables column 3 title"
+    },
+    {
+      "key": "asset.col3.sub",
+      "original": "Scale Decisions",
+      "korean": "확장 의사결정",
+      "context": "Deliverables column 3 sub"
+    },
+    {
+      "key": "asset.col3.item1",
+      "original": "Creative Scorecards",
+      "korean": "크리에이티브 스코어카드",
+      "context": "Deliverables column 3 item 1"
+    },
+    {
+      "key": "asset.col3.item2",
+      "original": "Weekly Decision Memos",
+      "korean": "주간 의사결정 메모",
+      "context": "Deliverables column 3 item 2"
+    },
+    {
+      "key": "asset.col3.item3",
+      "original": "Profit-focused Signal Reports",
+      "korean": "수익 중심 신호 보고서",
+      "context": "Deliverables column 3 item 3"
+    },
+    {
+      "key": "timeline.tag",
+      "original": "Risk Removal",
+      "korean": "리스크 제거",
+      "context": "Timeline tag"
+    },
+    {
+      "key": "timeline.title",
+      "original": "The First 30 Days",
+      "korean": "첫 30일",
+      "context": "Timeline title"
+    },
+    {
+      "key": "timeline.week1.id",
+      "original": "Week 1",
+      "korean": "1주차",
+      "context": "Timeline week 1 ID"
+    },
+    {
+      "key": "timeline.week1.title",
+      "original": "Map & Install",
+      "korean": "맵핑 및 설치",
+      "context": "Timeline week 1 title"
+    },
+    {
+      "key": "timeline.week1.desc",
+      "original": "Map the decision + install scorecard rules.",
+      "korean": "의사결정 맵핑 및 스코어카드 규칙 설치.",
+      "context": "Timeline week 1 description"
+    },
+    {
+      "key": "timeline.week2.id",
+      "original": "Week 2-3",
+      "korean": "2-3주차",
+      "context": "Timeline week 2-3 ID"
+    },
+    {
+      "key": "timeline.week2.title",
+      "original": "Ship & Isolate",
+      "korean": "배포 및 격리",
+      "context": "Timeline week 2 title"
+    },
+    {
+      "key": "timeline.week2.desc",
+      "original": "Ship fast variants, isolate what works, create Validated Plays.",
+      "korean": "변형 신속 배포, 성과작 격리, 검증된 플레이 생성.",
+      "context": "Timeline week 2 description"
+    },
+    {
+      "key": "timeline.week4.id",
+      "original": "Week 4",
+      "korean": "4주차",
+      "context": "Timeline week 4 ID"
+    },
+    {
+      "key": "timeline.week4.title",
+      "original": "Build Scale Plan",
+      "korean": "확장 계획 수립",
+      "context": "Timeline week 4 title"
+    },
+    {
+      "key": "timeline.week4.desc",
+      "original": "What gets budget, what gets killed, what repeats.",
+      "korean": "예산 집행 항목, 중단 항목, 반복 항목 결정.",
+      "context": "Timeline week 4 description"
+    },
+    {
+      "key": "refuse.tag",
+      "original": "What We Refuse",
+      "korean": "우리가 거부하는 것",
+      "context": "Credibility tag"
+    },
+    {
+      "key": "refuse.item1",
+      "original": "No Content Calendars",
+      "korean": "콘텐츠 캘린더 사절",
+      "context": "Credibility item 1"
+    },
+    {
+      "key": "refuse.item2",
+      "original": "No ROAS without Measurement",
+      "korean": "측정 없는 ROAS 사절",
+      "context": "Credibility item 2"
+    },
+    {
+      "key": "refuse.item3",
+      "original": "No Deceptive Synths",
+      "korean": "기만적인 합성물 사절",
+      "context": "Credibility item 3"
+    },
+    {
+      "key": "refuse.item4",
+      "original": "No Vanity Views",
+      "korean": "허영 지표 조회수 사절",
+      "context": "Credibility item 4"
+    },
+    {
+      "key": "week1.title",
+      "original": "What You Get in Week 1",
+      "korean": "1주차에 얻게 되는 것",
+      "context": "Week 1 block title"
+    },
+    {
+      "key": "week1.description",
+      "original": "Customer Decision Intelligence Map • Creative Scorecard • Ship/No-Ship Thresholds",
+      "korean": "고객 의사결정 인텔리전스 맵 • 크리에이티브 스코어카드 • 배포/중단 임계값",
+      "context": "Week 1 block description"
+    },
+    {
+      "key": "week1.cta",
+      "original": "Request a redacted sample pack",
+      "korean": "샘플 팩 요청하기",
+      "context": "Week 1 block CTA"
+    },
+    {
+      "key": "final.title",
+      "original": "Stop Restarting. Start Compounding.",
+      "korean": "반복되는 실패를 멈추고, 성과를 쌓으세요.",
+      "context": "Final CTA title"
+    },
+    {
+      "key": "final.description_prefix",
+      "original": "If you want \"content,\" hire an agency. If you want ",
+      "korean": "단순한 '콘텐츠'를 원하신다면 대행사를 고용하세요. 하지만 고객의 진실을 검증된 크리에이티브 플레이로 전환하는 ",
+      "context": "Final CTA description prefix"
+    },
+    {
+      "key": "final.description_highlight",
+      "original": "Creative Intelligence AI Agents",
+      "korean": "크리에이티브 인텔리전스 AI 에이전트",
+      "context": "Final CTA description highlight"
+    },
+    {
+      "key": "final.description_suffix",
+      "original": " that turn buyer truth into Validated Creative Plays—we should talk.",
+      "korean": "를 원하신다면, 저희와 상담해야 합니다.",
+      "context": "Final CTA description suffix"
+    },
+    {
+      "key": "final.cta",
+      "original": "Apply for Access",
+      "korean": "액세스 신청하기",
+      "context": "Final CTA button"
+    },
+    {
+      "key": "final.footer",
+      "original": "We'll tell you quickly if this is a fit. If not, you leave with clarity.",
+      "korean": "적합 여부를 신속하게 말씀해 드립니다. 아닐 경우 명확한 가이드를 드립니다.",
+      "context": "Final CTA footer"
+    },
+    {
+      "key": "footer.rights",
+      "original": "Digicon Pro. All rights reserved.",
+      "korean": "Digicon Pro. 모든 권리 보유.",
+      "context": "Footer rights"
+    }
+  ]
+}

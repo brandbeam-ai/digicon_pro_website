@@ -4,52 +4,50 @@ import { ArrowRight, TrendingUp, Users, DollarSign, Activity, Play } from 'lucid
 import { Button, SectionTag, Heading, Paragraph, Card } from './UI';
 import { AreaChart, Area, ResponsiveContainer, YAxis } from 'recharts';
 
+import { LanguageProvider, useLanguage } from '../../contexts/LanguageContext';
+import { getTranslation } from '../../utils/translations';
+
 const data = [
   { value: 20 }, { value: 35 }, { value: 30 }, { value: 55 }, { value: 45 }, { value: 70 }, { value: 85 }
 ];
 
 export const HeroSection: React.FC = () => {
+  const { translations } = useLanguage();
   return (
     <section className="relative pt-10 md:pb-5 overflow-hidden">
       {/* Background Gradient Blob */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] -z-10" />
 
       <div className="container mx-auto px-4 text-center max-w-5xl">
-        <SectionTag>Creative Intelligence Agents</SectionTag>
+        <SectionTag>{getTranslation(translations, 'hero.tag', 'Creative Intelligence Agents')}</SectionTag>
         <Heading level={1} className="text-white">
-          Stop Paying Influencers to Improvise. <br className="hidden md:block" />
-          <span className="gradient-brand">Build Agents You Own.</span>
+          {getTranslation(translations, 'hero.title', 'Stop Paying Influencers to Improvise. Build Agents You Own.')}
         </Heading>
         
         <Paragraph className="max-w-2xl mx-auto mb-10 text-xl">
-          We deploy <strong>Creative Intelligence AI Agents</strong> that mine your first‑party data, 
-          ship controlled creative variants fast, and convert winners into 
-          <strong> Validated Creative Plays</strong> you can scale.
+          {getTranslation(translations, 'hero.subtitle', 'We deploy Creative Intelligence AI Agents that mine your first‑party data, ship controlled creative variants fast, and convert winners into Validated Creative Plays you can scale.')}
         </Paragraph>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
           <Button variant="primary" className="w-full sm:w-auto text-lg px-8">
-            Apply for Access <ArrowRight className="ml-2 w-5 h-5" />
+            {getTranslation(translations, 'hero.cta1', 'Apply for Access')} <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
           <Button variant="outline" className="w-full sm:w-auto text-lg px-8 group">
-            See how it works <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
+            {getTranslation(translations, 'hero.cta2', 'See how it works')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
           </Button>
         </div>
-        
-        {/* <p className="text-sm text-slate-500 italic">
-          Access = the agent stack + the compounding artifacts. You keep the learnings.
-        </p> */}
       </div>
     </section>
   );
 };
 
 export const SocialProof: React.FC = () => {
+  const { translations } = useLanguage();
   const stats = [
-    { label: "Revenue Impact", value: "70M", icon: DollarSign, sub: "Attributed via optimization" },
-    { label: "Organic Views", value: "6B+", icon: Users, sub: "Across social media" },
-    { label: "Ad Spend Managed", value: "10M+", icon: TrendingUp, sub: "Optimized by our team" },
-    { label: "Campaigns", value: "375", icon: Activity, sub: "Successful launches" },
+    { label: getTranslation(translations, 'social.revenue.impact', 'Revenue Impact'), value: "70M", icon: DollarSign, sub: getTranslation(translations, 'social.revenue.sub', 'Attributed via optimization') },
+    { label: getTranslation(translations, 'social.organic.views', 'Organic Views'), value: "6B+", icon: Users, sub: getTranslation(translations, 'social.organic.sub', 'Across social media') },
+    { label: getTranslation(translations, 'social.adspend.managed', 'Ad Spend Managed'), value: "10M+", icon: TrendingUp, sub: getTranslation(translations, 'social.adspend.sub', 'Optimized by our team') },
+    { label: getTranslation(translations, 'social.campaigns.title', 'Campaigns'), value: "375", icon: Activity, sub: getTranslation(translations, 'social.campaigns.sub', 'Successful launches') },
   ];
 
   // const brands = ["SAMSUNG", "CocaCola", "NVIDIA", "LG", "Grab", "Orion", "Binggrae"];

@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { LanguageSwitch } from './components/LanguageSwitch';
+import { getTranslation } from './utils/translations';
 
-export default function Home() {
+function HomeContent() {
   const [showVideo, setShowVideo] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { language, setLanguage, translations } = useLanguage();
 
   useEffect(() => {
     // Smooth scrolling for buttons/links
@@ -73,28 +77,34 @@ export default function Home() {
               
             />
           </div>
-          {/* Desktop Button - Hidden on mobile */}
-          <Link href="/creative-intelligence-agent" className="primary-button-outline hidden md:flex">
-          Customer Intelligence AI Agents
-          </Link>
-          {/* Mobile Burger Menu - Only visible on mobile */}
-          <button
-            className="flex md:hidden text-white p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-4">
+            <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
+            {/* Desktop Button - Hidden on mobile */}
+            <Link href="/creative-intelligence-agent" className="primary-button-outline hidden md:flex">
+              {getTranslation(translations, 'header.button', 'Customer Intelligence AI Agents')}
+            </Link>
+            {/* Mobile Burger Menu - Only visible on mobile */}
+            <button
+              className="flex md:hidden text-white p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="mobile-menu-dropdown md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 px-4 py-4 z-50">
+            <div className="mb-4">
+              <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
+            </div>
             <Link
               href="/creative-intelligence-agent"
               className="primary-button-outline w-full block text-center"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Customer Intelligence AI Agents
+              {getTranslation(translations, 'header.button', 'Customer Intelligence AI Agents')}
             </Link>
           </div>
         )}
@@ -104,23 +114,24 @@ export default function Home() {
       <section className="bg-black flex flex-col relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-2xl md:text-3xl font-semibold mb-6 text-slate-300">
-            <span className="text-white">Consumer Good</span>
-            <span className="gradient-brand"> Brands</span>
+            <span className="text-white">{getTranslation(translations, 'hero.subtitle1', 'Consumer Good')}</span>
+            <span className="gradient-brand"> {getTranslation(translations, 'hero.subtitle2', 'Brands')}</span>
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-white">
           {/* <p className="text-2xl md:text-3xl font-semibold mb-6 text-gray-700"> */}
-            Get <span className="gradient-brand">1M-100M views</span> in 90 days on social media
+            {getTranslation(translations, 'hero.title', 'Get 1M-100M views in 90 days on social media')}
           </h1>
           {/* <p className="text-2xl md:text-3xl font-semibold mb-8 text-gray-700"> */}
             {/* or we work for <span className="text-accent">free</span>.
           </p> */}
           <p className="text-lg md:text-xl mb-12 text-slate-400 max-w-3xl mx-auto">
-            Backed by our Viral Content Research Lab, the system behind over 
-            <span className="font-bold text-accent"> 6 billion views</span> and 
-            <span className="font-bold text-accent"> 24 million followers</span>.
+            {getTranslation(translations, 'hero.description_prefix', 'Backed by our Viral Content Research Lab, the system behind over ')}
+            <span className="font-bold text-accent"> {getTranslation(translations, 'hero.views', '6 billion views')}</span>
+            {getTranslation(translations, 'hero.description_mid', ' and ')}
+            <span className="font-bold text-accent"> {getTranslation(translations, 'hero.followers', '24 million followers')}</span>.
           </p>
           <a href="mailto:jay@digicon.pro" className="primary-button">
-            Dominate Social Media
+            {getTranslation(translations, 'hero.cta', 'Dominate Social Media')}
           </a>
         </div>
       </section>
@@ -137,7 +148,7 @@ export default function Home() {
                 <div className="relative w-full h-full z-0">
                   <Image
                     src="/showreel_thumbnail.png"
-                    alt="Digicon Pro Showreel 2025 Video Thumbnail"
+                    alt={getTranslation(translations, 'video.alt', 'Digicon Pro Showreel 2025 Video Thumbnail')}
                     fill
                     className="object-cover"
                     unoptimized
@@ -157,7 +168,7 @@ export default function Home() {
               <iframe
                 className="absolute top-0 left-0 w-full h-full rounded-2xl shadow-lg"
                 src="https://www.youtube.com/embed/-DpyotBDzo0?autoplay=1"
-                title="Digicon Pro Showreel 2025 Video"
+                title={getTranslation(translations, 'video.title', 'Digicon Pro Showreel 2025 Video')}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               />
@@ -171,53 +182,54 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
-              Use maximum content distribution to 
-              <span className="gradient-brand"> dominate social media</span>
+              {getTranslation(translations, 'value.title_prefix', 'Use maximum content distribution to ')}
+              <span className="gradient-brand">{getTranslation(translations, 'value.title_highlight', ' dominate social media')}</span>
             </h2>
             
             <div className="grid md:grid-cols-3 gap-8 mb-12">
               <div className="glass-card p-6 rounded-2xl hover-lift">
-                <div className="text-3xl font-bold text-accent mb-2">1/25th</div>
-                <div className="text-lg font-semibold text-slate-300">Cost of Ads</div>
+                <div className="text-3xl font-bold text-accent mb-2">{getTranslation(translations, 'value.stat1.val', '1/25th')}</div>
+                <div className="text-lg font-semibold text-slate-300">{getTranslation(translations, 'value.stat1.label', 'Cost of Ads')}</div>
               </div>
               <div className="glass-card p-6 rounded-2xl hover-lift">
-                <div className="text-3xl font-bold text-accent mb-2">Limited</div>
-                <div className="text-lg font-semibold text-slate-300">Spots</div>
+                <div className="text-3xl font-bold text-accent mb-2">{getTranslation(translations, 'value.stat2.val', 'Limited')}</div>
+                <div className="text-lg font-semibold text-slate-300">{getTranslation(translations, 'value.stat2.label', 'Spots')}</div>
               </div>
               <div className="glass-card p-6 rounded-2xl hover-lift">
-                <div className="text-3xl font-bold text-accent mb-2">Fully</div>
-                <div className="text-lg font-semibold text-slate-300">Compliant</div>
+                <div className="text-3xl font-bold text-accent mb-2">{getTranslation(translations, 'value.stat3.val', 'Fully')}</div>
+                <div className="text-lg font-semibold text-slate-300">{getTranslation(translations, 'value.stat3.label', 'Compliant')}</div>
               </div>
             </div>
           </div>
 
           <div className="text-center">
             <p className="text-xl mb-8 text-slate-300 max-w-4xl mx-auto">
-              We&apos;ve generated over <span className="font-bold text-accent">6 billion organic views </span> 
-               in less than 2 years with our proprietary Viral Content Research Lab.
+              {getTranslation(translations, 'value.stats.prefix', "We've generated over ")}
+              <span className="font-bold text-accent">{getTranslation(translations, 'value.stats.views_count', '6 billion organic views ')}</span> 
+              {getTranslation(translations, 'value.stats.suffix', ' in less than 2 years with our proprietary Viral Content Research Lab.')}
             </p>
-            <h3 className="text-2xl font-bold mb-8 text-white">Work with us to:</h3>
+            <h3 className="text-2xl font-bold mb-8 text-white">{getTranslation(translations, 'value.listTitle', 'Work with us to:')}</h3>
             <div className="max-w-[450px] mx-auto text-center">
               <ul className="styled-list">
                 <li>
-                  <span className="text-lg text-slate-300">Have the fastest way to grow on social media today</span>
+                  <span className="text-lg text-slate-300">{getTranslation(translations, 'value.item1', 'Have the fastest way to grow on social media today')}</span>
                 </li>
                 <li>
-                  <span className="text-lg text-slate-300">Scale brands to post 100+ times per month</span>
+                  <span className="text-lg text-slate-300">{getTranslation(translations, 'value.item2', 'Scale brands to post 100+ times per month')}</span>
                 </li>
                 <li>
-                  <span className="text-lg text-slate-300">Get in front of millions more of the right people</span>
-          </li>
+                  <span className="text-lg text-slate-300">{getTranslation(translations, 'value.item3', 'Get in front of millions more of the right people')}</span>
+                </li>
                 <li>
-                  <span className="text-lg text-slate-300">Ensure top-quality across all the content posted</span>
-          </li>
+                  <span className="text-lg text-slate-300">{getTranslation(translations, 'value.item4', 'Ensure top-quality across all the content posted')}</span>
+                </li>
               </ul>
             </div>
           </div>
           
           <div className="text-center mt-12">
             <a href="mailto:jay@digicon.pro" className="primary-button">
-              Talk to us
+              {getTranslation(translations, 'value.cta', 'Talk to us')}
             </a>
           </div>
         </div>
@@ -227,7 +239,8 @@ export default function Home() {
       <section className="bg-black">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-white">
-            (Just some) content we&apos;ve <span className="gradient-brand">created</span>
+            {getTranslation(translations, 'showcase.title_prefix', '(Just some) content we\'ve ')}
+            <span className="gradient-brand">{getTranslation(translations, 'showcase.title_highlight', 'created')}</span>
           </h2>
           
           {/* Scrolling Content Gallery */}
@@ -363,7 +376,7 @@ export default function Home() {
                 />
               </div>
               <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
-            <Image
+                <Image
                   src="/created_content_5.png" 
                   alt="Created Content 5" 
                   width={192} 
@@ -380,21 +393,21 @@ export default function Home() {
       <section className="bg-black">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
-            Most consumer good brands are generating a 
-            <span className="gradient-brand"> small fraction</span> of the potential growth 
-            from their organic content.
+            {getTranslation(translations, 'problem.title_prefix', 'Most consumer good brands are generating a ')}
+            <span className="gradient-brand">{getTranslation(translations, 'problem.title_highlight', ' small fraction')}</span> 
+            {getTranslation(translations, 'problem.title_suffix', ' of the potential growth from their organic content.')}
           </h2>
           <p className="text-xl mb-8 text-slate-400">
-            (Even if you already have an audience in the millions)
+            {getTranslation(translations, 'problem.subtitle', '(Even if you already have an audience in the millions)')}
           </p>
           <p className="text-xl mb-8 text-slate-300">
-            This results in dramatically less exposure and growth for your brand.
+            {getTranslation(translations, 'problem.description', 'This results in dramatically less exposure and growth for your brand.')}
           </p>
           <p className="text-2xl font-semibold mb-12 text-accent">
-            You deserve more for your efforts.
+            {getTranslation(translations, 'problem.cta_text', 'You deserve more for your efforts.')}
           </p>
           <a href="mailto:jay@digicon.pro" className="primary-button">
-            Talk to us
+            {getTranslation(translations, 'value.cta', 'Talk to us')}
           </a>
         </div>
       </section>
@@ -403,7 +416,7 @@ export default function Home() {
       <section className="bg-black border-y border-white/5">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-white">
-          Brands that have  <span className="gradient-brand">grown</span> with us
+          {getTranslation(translations, 'brands.title_prefix', 'Brands that have ')} <span className="gradient-brand">{getTranslation(translations, 'brands.title_highlight', 'grown')}</span> {getTranslation(translations, 'brands.title_suffix', ' with us')}
           </h2>
           <div className="grid md:grid-cols-5 gap-8 mb-12">
             {/* First row */}
@@ -509,8 +522,8 @@ export default function Home() {
       <section className="bg-black">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-white">
-            Recognized by <span className="gradient-brand">publications </span> 
-            as the #1 leading firm in social media growth
+            {getTranslation(translations, 'recognition.title_prefix', 'Recognized by ')} <span className="gradient-brand">{getTranslation(translations, 'recognition.title_highlight', 'publications ')}</span> 
+            {getTranslation(translations, 'recognition.title_suffix', ' as the #1 leading firm in social media growth')}
           </h2>
           <div className="grid md:grid-cols-5 gap-8">
             <div className="bg-white p-6 rounded-2xl shadow-lg hover-lift flex items-center justify-center" style={{height: '120px', width: '100%'}}>
@@ -577,11 +590,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
-              How does it <span className="gradient-brand">work?</span>
+              {getTranslation(translations, 'how.title_prefix', 'How does it ')}
+              <span className="gradient-brand">{getTranslation(translations, 'how.title_highlight', 'work?')}</span>
             </h2>
             <p className="text-xl mb-8 text-slate-300 max-w-4xl mx-auto">
-              Data-driven success formula discovery through our 
-              <span className="font-bold text-accent"> &quot;Viral Content Research Lab&quot;</span>
+              {getTranslation(translations, 'how.subtitle_prefix', 'Data-driven success formula discovery through our ')}
+              <span className="font-bold text-accent"> {getTranslation(translations, 'how.subtitle_highlight', '"Viral Content Research Lab"')}</span>
             </p>
           </div>
 
@@ -591,9 +605,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-brand-accent text-white rounded-full mx-auto mb-6 flex items-center justify-center text-2xl font-bold" style={{backgroundColor: "#14b8a6"}}>
                 1
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">Idea Generation</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">{getTranslation(translations, 'how.step1.title', 'Idea Generation')}</h3>
               <p className="text-slate-400">
-                We analyze the latest TikTok trends, Gen Z interests, and competitor content daily to create a constant source of fresh ideas.
+                {getTranslation(translations, 'how.step1.desc', 'We analyze the latest TikTok trends, Gen Z interests, and competitor content daily to create a constant source of fresh ideas.')}
               </p>
             </div>
 
@@ -602,9 +616,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-brand-accent text-white rounded-full mx-auto mb-6 flex items-center justify-center text-2xl font-bold" style={{backgroundColor: "#14b8a6"}}>
                 2
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">Rapid Testing</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">{getTranslation(translations, 'how.step2.title', 'Rapid Testing')}</h3>
               <p className="text-slate-400">
-                Generated ideas are uploaded to private test channels to gauge immediate consumer reactions and feedback.
+                {getTranslation(translations, 'how.step2.desc', 'Generated ideas are uploaded to private test channels to gauge immediate consumer reactions and feedback.')}
               </p>
             </div>
 
@@ -613,9 +627,9 @@ export default function Home() {
               <div className="w-16 h-16 bg-brand-accent text-white rounded-full mx-auto mb-6 flex items-center justify-center text-2xl font-bold" style={{backgroundColor: "#14b8a6"}}>
                 3
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">Data Validation</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">{getTranslation(translations, 'how.step3.title', 'Data Validation')}</h3>
               <p className="text-slate-400">
-                We objectively determine &apos;success&apos; and &apos;failure&apos; using clear metrics: views, comments, and share rates.
+                {getTranslation(translations, 'how.step3.desc', 'We objectively determine \'success\' and \'failure\' using clear metrics: views, comments, and share rates.')}
               </p>
             </div>
 
@@ -624,23 +638,24 @@ export default function Home() {
               <div className="w-16 h-16 bg-brand-accent text-white rounded-full mx-auto mb-6 flex items-center justify-center text-2xl font-bold" style={{backgroundColor: "#14b8a6"}}>
                 4
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">Success Formula Scaling</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">{getTranslation(translations, 'how.step4.title', 'Success Formula Scaling')}</h3>
               <p className="text-slate-400">
-                We intensively utilize the format and key elements of verified &apos;hit videos&apos; to maximize viral impact.
+                {getTranslation(translations, 'how.step4.desc', 'We intensively utilize the format and key elements of verified \'hit videos\' to maximize viral impact.')}
               </p>
             </div>
           </div>
 
           {/* Key Benefits */}
           <div className="glass-card p-8 rounded-2xl hover-lift-pink mb-12">
-            <h3 className="text-2xl font-bold mb-6 text-center text-white">Our Proven Approach</h3>
+            <h3 className="text-2xl font-bold mb-6 text-center text-white">{getTranslation(translations, 'how.approach.title', 'Our Proven Approach')}</h3>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="text-center">
                 <div className="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center" style={{backgroundColor: "#ccfbf1"}}>
                   <span className="text-accent text-xl">🎯</span>
                 </div>
                 <p className="text-slate-300">
-                  <span className="font-semibold">Minimize uncertainty</span> and execute only the highest probability marketing strategies
+                  <span className="font-semibold">{getTranslation(translations, 'how.approach.item1.title', 'Minimize uncertainty')}</span>
+                  {getTranslation(translations, 'how.approach.item1.desc', ' and execute only the highest probability marketing strategies')}
                 </p>
               </div>
               <div className="text-center">
@@ -648,7 +663,8 @@ export default function Home() {
                   <span className="text-accent text-xl">⚡</span>
                 </div>
                 <p className="text-slate-300">
-                  <span className="font-semibold">Collect feedback</span> from small target groups and analyze rapidly
+                  <span className="font-semibold">{getTranslation(translations, 'how.approach.item2.title', 'Collect feedback')}</span>
+                  {getTranslation(translations, 'how.approach.item2.desc', ' from small target groups and analyze rapidly')}
                 </p>
               </div>
               <div className="text-center">
@@ -656,7 +672,8 @@ export default function Home() {
                   <span className="text-accent text-xl">🚀</span>
                 </div>
                 <p className="text-slate-300">
-                  <span className="font-semibold">Repeatedly apply</span> verified success formulas to maximize marketing efficiency
+                  <span className="font-semibold">{getTranslation(translations, 'how.approach.item3.title', 'Repeatedly apply')}</span>
+                  {getTranslation(translations, 'how.approach.item3.desc', ' verified success formulas to maximize marketing efficiency')}
                 </p>
               </div>
             </div>
@@ -664,11 +681,12 @@ export default function Home() {
 
           <div className="text-center">
             <p className="text-xl mb-8 text-slate-300">
-              Yes, this is <span className="font-bold text-accent">fully compliant </span> 
-              across each social media platform.
+              {getTranslation(translations, 'how.compliance_prefix', 'Yes, this is ')}
+              <span className="font-bold text-accent">{getTranslation(translations, 'how.compliance_highlight', 'fully compliant ')}</span> 
+              {getTranslation(translations, 'how.compliance_suffix', 'across each social media platform.')}
             </p>
             <a href="mailto:jay@digicon.pro" className="primary-button">
-              Talk to us
+              {getTranslation(translations, 'value.cta', 'Talk to us')}
             </a>
           </div>
         </div>
@@ -678,42 +696,43 @@ export default function Home() {
       <section className="bg-black">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-white text-center">
-            Results we&apos;ve <span className="gradient-brand">generated</span>
+            {getTranslation(translations, 'results.title_prefix', 'Results we\'ve ')}
+            <span className="gradient-brand">{getTranslation(translations, 'results.title_highlight', 'generated')}</span>
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             <div className="text-center p-8 glass-card rounded-2xl hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">6B+</div>
-              <p className="text-lg">Views generated on social platforms</p>
+              <div className="text-4xl font-bold text-accent mb-2">{getTranslation(translations, 'results.stat1.val', '6B+')}</div>
+              <p className="text-lg">{getTranslation(translations, 'results.stat1.desc', 'Views generated on social platforms')}</p>
             </div>
             <div className="text-center p-8 glass-card  rounded-2xl hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">24M+</div>
-              <p className="text-lg">Followers gained for our clients</p>
+              <div className="text-4xl font-bold text-accent mb-2">{getTranslation(translations, 'results.stat2.val', '24M+')}</div>
+              <p className="text-lg">{getTranslation(translations, 'results.stat2.desc', 'Followers gained for our clients')}</p>
             </div>
             <div className="text-center p-8 glass-card rounded-2xl hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">137M+</div>
-              <p className="text-lg">Followers reached through top brands</p>
+              <div className="text-4xl font-bold text-accent mb-2">{getTranslation(translations, 'results.stat3.val', '137M+')}</div>
+              <p className="text-lg">{getTranslation(translations, 'results.stat3.desc', 'Followers reached through top brands')}</p>
             </div>
             <div className="text-center p-8 glass-card rounded-2xl hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">20,300+</div>
-              <p className="text-lg">Pieces of content published per month</p>
+              <div className="text-4xl font-bold text-accent mb-2">{getTranslation(translations, 'results.stat4.val', '20,300+')}</div>
+              <p className="text-lg">{getTranslation(translations, 'results.stat4.desc', 'Pieces of content published per month')}</p>
             </div>
             <div className="text-center p-8 glass-card rounded-2xl hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">85+</div>
-              <p className="text-lg">Expert team members</p>
+              <div className="text-4xl font-bold text-accent mb-2">{getTranslation(translations, 'results.stat5.val', '85+')}</div>
+              <p className="text-lg">{getTranslation(translations, 'results.stat5.desc', 'Expert team members')}</p>
             </div>
             <div className="text-center p-8 glass-card rounded-2xl hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">450+</div>
-              <p className="text-lg">Years of combined experience</p>
+              <div className="text-4xl font-bold text-accent mb-2">{getTranslation(translations, 'results.stat6.val', '450+')}</div>
+              <p className="text-lg">{getTranslation(translations, 'results.stat6.desc', 'Years of combined experience')}</p>
             </div>
           </div>
 
           <div className="text-center">
             <p className="text-xl mb-8 text-slate-300">
-              Want to learn if we are a fit to scale your brand?
+              {getTranslation(translations, 'results.cta_text', 'Want to learn if we are a fit to scale your brand?')}
             </p>
             <a href="mailto:jay@digicon.pro" className="primary-button">
-              Talk to us
+              {getTranslation(translations, 'value.cta', 'Talk to us')}
             </a>
           </div>
         </div>
@@ -723,7 +742,9 @@ export default function Home() {
       <section className="bg-black">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 text-white">
-            Become <span className="gradient-brand">omnipresent</span> on our expert platforms
+            {getTranslation(translations, 'platforms.title_prefix', 'Become ')}
+            <span className="gradient-brand">{getTranslation(translations, 'platforms.title_highlight', 'omnipresent')}</span>
+            {getTranslation(translations, 'platforms.title_suffix', ' on our expert platforms')}
           </h2>
           
           <div className="grid md:grid-cols-5 gap-8 mb-12">
@@ -774,9 +795,9 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="text-xl mb-8 text-slate-300">Want to learn more?</p>
+          <p className="text-xl mb-8 text-slate-300">{getTranslation(translations, 'platforms.cta_text', 'Want to learn more?')}</p>
           <a href="mailto:jay@digicon.pro" className="primary-button">
-            Talk to us
+            {getTranslation(translations, 'value.cta', 'Talk to us')}
           </a>
         </div>
       </section>
@@ -784,10 +805,18 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-12 px-4 bg-black border-t border-white/10 text-slate-500">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-lg mb-4">Ready to dominate social media?</p>
-          <p className="text-slate-500">© {new Date().getFullYear()} Digicon Pro. All rights reserved.</p>
+          <p className="text-lg mb-4">{getTranslation(translations, 'footer.cta', 'Ready to dominate social media?')}</p>
+          <p className="text-slate-500">{getTranslation(translations, 'footer.rights_prefix', '© ')} {new Date().getFullYear()} {getTranslation(translations, 'footer.rights_suffix', ' Digicon Pro. All rights reserved.')}</p>
         </div>
-      </footer>
+        </footer>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <LanguageProvider pageName="home">
+      <HomeContent />
+    </LanguageProvider>
   );
 }
