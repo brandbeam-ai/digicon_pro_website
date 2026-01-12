@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export interface AnalysisResult {
   dominantLevel: string;
@@ -30,11 +30,76 @@ export interface AnalysisResult {
 }
 
 interface ResultDisplayProps {
-  analysis: AnalysisResult;
+  analysis?: AnalysisResult;
+  submissionId?: string;
   onClose?: () => void;
 }
 
-export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis, onClose }) => {
+export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysisProp, submissionId, onClose }) => {
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(analysisProp || null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // If submissionId is provided and no analysis data, load from API
+    if (submissionId && !analysisProp) {
+      loadSubmission(submissionId);
+    }
+  }, [submissionId, analysisProp]);
+
+  const loadSubmission = async (id: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/submissions/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to load submission');
+      }
+      const result = await response.json();
+      if (result.success && result.data && result.data.analysis) {
+        setAnalysis(result.data.analysis);
+      } else {
+        throw new Error('Invalid submission data');
+      }
+    } catch (err) {
+      console.error('Error loading submission:', err);
+      setError(err instanceof Error ? err.message : 'Failed to load submission');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="glass-card rounded-2xl p-8 text-center">
+          <p className="text-white text-lg">Loading results...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="glass-card rounded-2xl p-8 text-center">
+          <p className="text-red-400 text-lg mb-4">Error: {error}</p>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              Close
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (!analysis) {
+    return null;
+  }
   const levelColors: { [key: string]: string } = {
     'Level 1': 'bg-teal-500/20 border-teal-500 text-teal-300',
     'Level 2': 'bg-blue-500/20 border-blue-500 text-blue-300',
@@ -50,6 +115,11 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis, onClose 
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="glass-card rounded-2xl p-8 mb-6">
         <div className="text-center mb-8">
+          {submissionId && (
+            <div className="mb-4">
+              <p className="text-slate-400 text-sm">Submission ID: <span className="text-white font-mono">{submissionId}</span></p>
+            </div>
+          )}
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Your Customr Intelligence System Readiness Score
           </h2>

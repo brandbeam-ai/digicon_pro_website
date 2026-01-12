@@ -39,6 +39,9 @@ yarn-error.log*
 # translations
 /public/translations/*.json
 
+# submissions data
+/data/submissions/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

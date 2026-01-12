@@ -57,6 +57,8 @@ export const GetLeadInfo: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [showResult, setShowResult] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [submissionId, setSubmissionId] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Get all questions in order
   const allQuestions = [
@@ -89,7 +91,19 @@ export const GetLeadInfo: React.FC = () => {
       ...(additionalText && { additionalText }),
     };
 
-    setAnswers([...answers, newAnswer]);
+    // Check if answer already exists for this question (when going back and changing)
+    const existingAnswerIndex = answers.findIndex(a => a.questionId === currentQuestion.id);
+    
+    if (existingAnswerIndex >= 0) {
+      // Replace existing answer
+      const updatedAnswers = [...answers];
+      updatedAnswers[existingAnswerIndex] = newAnswer;
+      setAnswers(updatedAnswers);
+    } else {
+      // Add new answer
+      setAnswers([...answers, newAnswer]);
+    }
+    
     setAdditionalText('');
 
     // Move to next question
@@ -104,6 +118,43 @@ export const GetLeadInfo: React.FC = () => {
       // Move to basic details
       setShowBasicDetails(true);
       setCurrentPart('basicDetails');
+    }
+  };
+
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      // Get the current question ID before changing index (to remove its answer)
+      const currentQuestionId = allQuestions[currentQuestionIndex]?.id;
+      
+      const prevIndex = currentQuestionIndex - 1;
+      
+      // Update current part based on previous question index
+      if (prevIndex < questionsData.part1.questions.length) {
+        setCurrentPart('part1');
+      } else {
+        setCurrentPart('part2');
+      }
+      
+      // Remove the answer for the current question (before going back)
+      if (currentQuestionId) {
+        setAnswers(prevAnswers => prevAnswers.filter(a => a.questionId !== currentQuestionId));
+      }
+      
+      // Set the index to previous question
+      setCurrentQuestionIndex(prevIndex);
+      
+      // If there's a previous answer, set it as the current answer for preview
+      const prevQuestion = allQuestions[prevIndex];
+      if (prevQuestion) {
+        const prevAnswer = answers.find(a => a.questionId === prevQuestion.id);
+        if (prevAnswer) {
+          setAdditionalText(prevAnswer.additionalText || '');
+        } else {
+          setAdditionalText('');
+        }
+      } else {
+        setAdditionalText('');
+      }
     }
   };
 
@@ -276,35 +327,37 @@ export const GetLeadInfo: React.FC = () => {
     };
   };
 
-  const saveToStorage = (data: ResultData) => {
-    const timestamp = new Date().toISOString();
-    const storageKey = `lead-qualification-${timestamp}`;
-    
+  const saveToServer = async (data: ResultData): Promise<string | null> => {
     try {
-      // Save to localStorage
-      localStorage.setItem(storageKey, JSON.stringify(data));
-      
-      // Also save a reference with timestamp for easy retrieval
-      const savedKeys = JSON.parse(localStorage.getItem('lead-qualification-keys') || '[]');
-      savedKeys.push({
-        key: storageKey,
-        timestamp,
-        level: data.analysis.dominantLevel,
-        status: data.analysis.status,
+      const response = await fetch('/api/submissions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
-      localStorage.setItem('lead-qualification-keys', JSON.stringify(savedKeys));
+
+      if (!response.ok) {
+        throw new Error('Failed to save submission');
+      }
+
+      const result = await response.json();
+      return result.id || null;
     } catch (error) {
-      console.error('Error saving to localStorage:', error);
+      console.error('Error saving to server:', error);
+      return null;
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateAllFields()) {
       return;
     }
 
+    setIsSaving(true);
+
     // Analyze answers
-    const analysisResult = analyzeAnswers();
+    const analysisResultData = analyzeAnswers();
 
     // Prepare full result data
     const timestamp = new Date().toISOString();
@@ -317,23 +370,29 @@ export const GetLeadInfo: React.FC = () => {
       'N/A': 'Not qualified',
     };
 
-    const levelDesc = levelDescriptions[analysisResult.analysis.dominantLevel] || analysisResult.analysis.dominantLevel;
+    const levelDesc = levelDescriptions[analysisResultData.analysis.dominantLevel] || analysisResultData.analysis.dominantLevel;
 
     // Enhance analysis with level description
     const enhancedAnalysis = {
-      ...analysisResult.analysis,
+      ...analysisResultData.analysis,
       levelDescription: levelDesc,
     };
 
-    const resultData = {
+    const resultData: ResultData = {
       timestamp,
       basicDetails,
-      answers: analysisResult.detailedAnswers,
+      answers: analysisResultData.detailedAnswers,
       analysis: enhancedAnalysis,
     };
 
-    // Save to storage for later retrieval
-    saveToStorage(resultData);
+    // Save to server and get unique ID
+    const id = await saveToServer(resultData);
+    
+    setIsSaving(false);
+
+    if (id) {
+      setSubmissionId(id);
+    }
 
     // Set the result and show the result display
     setAnalysisResult(enhancedAnalysis);
@@ -341,6 +400,7 @@ export const GetLeadInfo: React.FC = () => {
     setShowBasicDetails(false);
 
     console.log('Full Result:', resultData);
+    console.log('Submission ID:', id);
   };
 
   const getProgress = () => {
@@ -355,11 +415,15 @@ export const GetLeadInfo: React.FC = () => {
   const partInfo = getCurrentPartInfo();
   const progress = getProgress();
   const isPart1 = currentQuestionIndex < questionsData.part1.questions.length;
+  
+  // Get current answer for the current question (if exists, for preview)
+  const currentAnswer = currentQuestion ? answers.find(a => a.questionId === currentQuestion.id) : null;
 
   if (showResult && analysisResult) {
     return (
       <ResultDisplay
         analysis={analysisResult}
+        submissionId={submissionId || undefined}
         onClose={() => {
           setShowResult(false);
           // Optionally reset the form or navigate away
@@ -451,9 +515,10 @@ export const GetLeadInfo: React.FC = () => {
             </button>
             <button
               onClick={handleSubmit}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex-1"
+              disabled={isSaving}
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit
+              {isSaving ? 'Saving...' : 'Submit'}
             </button>
           </div>
         </div>
@@ -512,20 +577,38 @@ export const GetLeadInfo: React.FC = () => {
 
         {/* Options */}
         <div className="space-y-4 mb-6">
-          {currentQuestion.options.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => handleAnswer(option.value)}
-              className="w-full text-left p-6 bg-black/30 border-2 border-white/10 rounded-xl hover:border-indigo-500 hover:bg-black/50 transition-all duration-200 group"
-            >
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600/20 border-2 border-indigo-500/50 flex items-center justify-center text-indigo-400 font-bold group-hover:bg-indigo-600/40 group-hover:border-indigo-400 transition-colors">
-                  {option.value}
+          {currentQuestion.options.map((option) => {
+            const isSelected = currentAnswer?.value === option.value;
+            return (
+              <button
+                key={option.value}
+                onClick={() => handleAnswer(option.value)}
+                className={`w-full text-left p-6 bg-black/30 border-2 rounded-xl transition-all duration-200 group ${
+                  isSelected
+                    ? 'border-indigo-500 bg-indigo-500/20'
+                    : 'border-white/10 hover:border-indigo-500 hover:bg-black/50'
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full border-2 flex items-center justify-center font-bold transition-colors ${
+                    isSelected
+                      ? 'bg-indigo-600 border-indigo-400 text-indigo-200'
+                      : 'bg-indigo-600/20 border-indigo-500/50 text-indigo-400 group-hover:bg-indigo-600/40 group-hover:border-indigo-400'
+                  }`}>
+                    {option.value}
+                  </div>
+                  <p className="text-white flex-1">{option.text}</p>
+                  {isSelected && (
+                    <div className="flex-shrink-0 text-indigo-400">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
-                <p className="text-white flex-1">{option.text}</p>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
 
         {/* Additional input for questions with text input */}
@@ -540,11 +623,22 @@ export const GetLeadInfo: React.FC = () => {
             />
           </div>
         )}
+
+        {/* Back button */}
+        <div className="mt-6 pt-6 border-t border-white/10">
+          <button
+            onClick={handleBack}
+            disabled={currentQuestionIndex === 0}
+            className="px-6 py-3 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+          >
+            Back
+          </button>
+        </div>
       </div>
 
       {/* Navigation hint */}
       <div className="text-center text-slate-500 text-sm">
-        Select an option to continue
+        {currentAnswer ? 'You can change your answer by selecting a different option' : 'Select an option to continue'}
       </div>
     </div>
   );
