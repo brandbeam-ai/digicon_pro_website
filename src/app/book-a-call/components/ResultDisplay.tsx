@@ -1,6 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { NotICPContent } from './NotICPContent';
+import { BeautyLevel1Content } from './BeautyLevel1Content';
+import { Level1Content } from './Level1Content';
+import { Level2Content } from './Level2Content';
 
 export interface AnalysisResult {
   dominantLevel: string;
@@ -10,7 +14,6 @@ export interface AnalysisResult {
     'Level 3': number;
     'N/A': number;
   };
-  levelDescription: string;
   dominantICP: string;
   icpDistribution: {
     ICP1: number;
@@ -29,22 +32,70 @@ export interface AnalysisResult {
   };
 }
 
+interface ActionRecommendations {
+  company_name?: string;
+  intelligence_strategy?: {
+    diagnosis?: string;
+    target_insight?: string;
+  };
+  recommended_actions?: Array<{
+    rank: number;
+    action_name: string;
+    mechanism_type: string;
+    implementation_guide: string;
+    expected_insight: string;
+  }>;
+}
+
+interface FormatRecommendations {
+  company_name?: string;
+  analysis_context?: {
+    category?: string;
+    objective?: string;
+    strategy_note?: string;
+  };
+  recommendations?: Array<{
+    rank: number;
+    format_name: string;
+    concept: string;
+    comment_trigger: string;
+    viability_matrix: {
+      operational_scalability: string;
+      strategic_positioning: string;
+      cultural_adaptability: string;
+    };
+  }>;
+  system_check?: {
+    all_formats_scalable?: boolean;
+    ai_leverage_possible?: boolean;
+  };
+}
+
 interface ResultDisplayProps {
   analysis?: AnalysisResult;
   submissionId?: string;
   onClose?: () => void;
+  productCategory?: string;
+  formatRecommendations?: FormatRecommendations | null;
+  actionRecommendations?: ActionRecommendations | null;
 }
 
-export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysisProp, submissionId, onClose }) => {
+export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysisProp, submissionId, onClose, productCategory: productCategoryProp, formatRecommendations: formatRecommendationsProp, actionRecommendations: actionRecommendationsProp }) => {
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(analysisProp || null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [productCategory, setProductCategory] = useState<string | null>(productCategoryProp || null);
+  const [formatRecommendations, setFormatRecommendations] = useState<FormatRecommendations | null>(formatRecommendationsProp || null);
+  const [actionRecommendations, setActionRecommendations] = useState<ActionRecommendations | null>(actionRecommendationsProp || null);
 
   useEffect(() => {
     // If submissionId is provided and no analysis data, load from API
     if (submissionId && !analysisProp) {
       loadSubmission(submissionId);
     }
+    // If analysisProp is provided directly, we still need to get productCategory
+    // This would need to be passed as a prop or loaded separately
+    // For now, we'll handle it in loadSubmission
   }, [submissionId, analysisProp]);
 
   const loadSubmission = async (id: string) => {
@@ -58,6 +109,18 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
       const result = await response.json();
       if (result.success && result.data && result.data.analysis) {
         setAnalysis(result.data.analysis);
+        // Also set productCategory if available
+        if (result.data.basicDetails && result.data.basicDetails.productCategory) {
+          setProductCategory(result.data.basicDetails.productCategory);
+        }
+        // Also set formatRecommendations if available
+        if (result.data.formatRecommendations) {
+          setFormatRecommendations(result.data.formatRecommendations);
+        }
+        // Also set actionRecommendations if available
+        if (result.data.actionRecommendations) {
+          setActionRecommendations(result.data.actionRecommendations);
+        }
       } else {
         throw new Error('Invalid submission data');
       }
@@ -100,133 +163,343 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
   if (!analysis) {
     return null;
   }
-  const levelColors: { [key: string]: string } = {
-    'Level 1': 'bg-teal-500/20 border-teal-500 text-teal-300',
-    'Level 2': 'bg-blue-500/20 border-blue-500 text-blue-300',
-    'Level 3': 'bg-purple-500/20 border-purple-500 text-purple-300',
-    'N/A': 'bg-gray-500/20 border-gray-500 text-gray-300',
+
+  // Check if we should show NOT_ICP content below the level/ladder
+  const showNotICPContent = analysis.dominantICP === 'NOT_ICP' || analysis.dominantLevel === 'N/A' || analysis.status === 'NOT_READY';
+  
+  // Check if we should show Beauty Level 1 content
+  const showBeautyLevel1Content = !showNotICPContent && analysis.dominantLevel === 'Level 1' && productCategory === 'Beauty';
+  
+  // Check if we should show generic Level 1 content (non-Beauty)
+  const showLevel1Content = !showNotICPContent && analysis.dominantLevel === 'Level 1' && productCategory !== 'Beauty';
+  
+  // Check if we should show Level 2 content
+  const showLevel2Content = !showNotICPContent && analysis.dominantLevel === 'Level 2';
+
+  const getLevelStyles = (level: string) => {
+    const styles: { [key: string]: string } = {
+      'Level 1': 'bg-teal-500/20 border-teal-500 text-teal-300',
+      'Level 2': 'bg-blue-500/20 border-blue-500 text-blue-300',
+      'Level 3': 'bg-purple-500/20 border-purple-500 text-purple-300',
+      'N/A': 'bg-gray-500/20 border-gray-500 text-gray-300',
+    };
+    return styles[level] || styles['N/A'];
   };
 
-  const getLevelColor = (level: string) => {
-    return levelColors[level] || levelColors['N/A'];
+  const getLevelDescription = (level: string): string => {
+    const descriptions: { [key: string]: string } = {
+      'Level 1': 'You are shouting into the void. You need to know if anyone cares about your product, and you need to find out fast. Your goal is to stop the scroll—you want proof that strangers are paying attention.',
+      'Level 2': 'You have some traffic, but it\'s chaotic. You\'re concerned about brand risk, but you need to scale. You need to stop relying on luck and start relying on a process. Your goal is qualified interest—you want clicks from the right people.',
+      'Level 3': 'You have a proven offer that works, but it needs more fuel. You need to increase volume without destroying your Customer Acquisition Cost. Your goal is profitability at scale—you judge success on verified purchase data.',
+      'N/A': 'Based on your answers, this solution may not be the right fit at this time.',
+    };
+    return descriptions[level] || '';
+  };
+
+  const getLevelBriefDescription = (level: string): string => {
+    const briefDescriptions: { [key: string]: string } = {
+      'Level 1': 'Goal: Stop the Scroll. You want proof that strangers are paying attention.',
+      'Level 2': 'Goal: Qualified Interest. You want clicks from the right people, not just views.',
+      'Level 3': 'Goal: Profitability at Scale. You judge success on verified purchase data.',
+      'N/A': 'Not qualified',
+    };
+    return briefDescriptions[level] || '';
+  };
+
+  const getLadderTerm = (level: string): string => {
+    const terms: { [key: string]: string } = {
+      'Level 1': 'The Signal Seeker',
+      'Level 2': 'The System Builder',
+      'Level 3': 'The Performance Scaler',
+      'N/A': 'Content Filler',
+    };
+    return terms[level] || level;
+  };
+
+  const getLadderStyles = (level: string, isActive: boolean) => {
+    if (!isActive) return {
+      circle: 'border-white/10 text-slate-600 bg-black',
+      card: 'bg-white/5 border-white/5',
+      text: 'text-slate-500',
+      desc: 'text-slate-600',
+      badge: ''
+    };
+
+    switch (level) {
+      case 'Level 1':
+        return {
+          circle: 'border-teal-500 text-teal-400 bg-black shadow-[0_0_20px_-5px_rgba(20,184,166,0.4)]',
+          card: 'bg-teal-500/10 border-teal-500/50 shadow-lg shadow-teal-900/20',
+          text: 'text-teal-400',
+          desc: 'text-slate-200',
+          badge: 'bg-teal-500/20 text-teal-300 border-teal-500/30'
+        };
+      case 'Level 2':
+        return {
+          circle: 'border-blue-500 text-blue-400 bg-black shadow-[0_0_20px_-5px_rgba(59,130,246,0.4)]',
+          card: 'bg-blue-500/10 border-blue-500/50 shadow-lg shadow-blue-900/20',
+          text: 'text-blue-400',
+          desc: 'text-slate-200',
+          badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+        };
+      case 'Level 3':
+        return {
+          circle: 'border-purple-500 text-purple-400 bg-black shadow-[0_0_20px_-5px_rgba(168,85,247,0.4)]',
+          card: 'bg-purple-500/10 border-purple-500/50 shadow-lg shadow-purple-900/20',
+          text: 'text-purple-400',
+          desc: 'text-slate-200',
+          badge: 'bg-purple-500/20 text-purple-300 border-purple-500/30'
+        };
+      default:
+        return {
+          circle: 'border-gray-500 text-gray-400',
+          card: 'border-gray-500/50',
+          text: 'text-gray-400',
+          desc: 'text-slate-200',
+          badge: 'bg-gray-500/20 text-gray-300'
+        };
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="glass-card rounded-2xl p-8 mb-6">
         <div className="text-center mb-8">
-          {submissionId && (
-            <div className="mb-4">
-              <p className="text-slate-400 text-sm">Submission ID: <span className="text-white font-mono">{submissionId}</span></p>
-            </div>
-          )}
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Your Customr Intelligence System Readiness Score
-          </h2>
-          <div
-            className={`inline-block px-6 py-3 rounded-lg border-2 ${getLevelColor(
-              analysis.dominantLevel
-            )} mb-4`}
-          >
-            <div className="text-2xl font-bold mb-1">{analysis.dominantLevel}</div>
-            <div className="text-sm opacity-90">{analysis.levelDescription}</div>
-          </div>
-        </div>
-
-        {/* Level Distribution */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-white mb-4">Level Breakdown</h3>
-          <div className="space-y-4">
-            {Object.entries(analysis.levelDistribution).map(([level, percentage]) => (
-              <div key={level} className="bg-black/30 rounded-lg p-4">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-white font-medium">
-                    {level}
-                    {level === 'Level 1' && ' (L1: attention wins)'}
-                    {level === 'Level 2' && ' (L2: intent wins)'}
-                    {level === 'Level 3' && ' (L3: purchase wins)'}
-                  </span>
-                  <span className="text-white font-bold">{percentage.toFixed(1)}%</span>
-                </div>
-                <div className="w-full bg-white/10 rounded-full h-3">
-                  <div
-                    className={`h-3 rounded-full transition-all duration-500 ${
-                      level === 'Level 1'
-                        ? 'bg-teal-500'
-                        : level === 'Level 2'
-                        ? 'bg-blue-500'
-                        : level === 'Level 3'
-                        ? 'bg-purple-500'
-                        : 'bg-gray-500'
-                    }`}
-                    style={{ width: `${percentage}%` }}
-                  />
+          
+          <div className="max-w-3xl mx-auto mb-12">
+            <div
+              className={`rounded-2xl border-2 overflow-hidden ${getLevelStyles(analysis.dominantLevel)}`}
+            >
+              <div className="p-6 md:p-8 bg-opacity-20 backdrop-blur-sm">
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  {analysis.dominantLevel}
+                </h2>
+                <div className="h-1 w-20 bg-white/30 rounded-full mb-4"></div>
+                <div className="text-slate-200 text-lg leading-relaxed">
+                  {getLevelDescription(analysis.dominantLevel)}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+              
+              {/* Integrated Capability Ladder */}
+              <div className="bg-black/40 p-6 md:p-8 border-t border-white/10">
+                <h3 className="text-sm font-semibold text-slate-400 mb-8 uppercase tracking-widest">Your Position on the Marketing Journey</h3>
+                <div className="max-w-3xl mx-auto relative">
+                  {/* Vertical Line */}
+                  <div className="absolute left-[2rem] top-4 bottom-4 w-px bg-gradient-to-b from-purple-500/20 via-blue-500/20 to-teal-500/20" />
 
-        {/* Breakdown Scores */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-white mb-4">Score Breakdown</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-black/30 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold text-teal-400 mb-1">{analysis.breakdown.nA}</div>
-              <div className="text-sm text-slate-400">Answer A (Level 1)</div>
-            </div>
-            <div className="bg-black/30 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold text-blue-400 mb-1">{analysis.breakdown.nB}</div>
-              <div className="text-sm text-slate-400">Answer B (Level 2)</div>
-            </div>
-            <div className="bg-black/30 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold text-purple-400 mb-1">{analysis.breakdown.nC}</div>
-              <div className="text-sm text-slate-400">Answer C (Level 3)</div>
-            </div>
-            <div className="bg-black/30 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold text-gray-400 mb-1">{analysis.breakdown.nD}</div>
-              <div className="text-sm text-slate-400">Answer D (N/A)</div>
-            </div>
-          </div>
-        </div>
+                  {(['Level 3', 'Level 2', 'Level 1'] as const).map((level) => {
+                    const isCurrentLevel = analysis.dominantLevel === level;
+                    const styles = getLadderStyles(level, isCurrentLevel);
+                    const term = getLadderTerm(level);
+                    
+                    return (
+                      <div key={level} className={`relative flex items-center gap-6 mb-6 last:mb-0 group ${isCurrentLevel ? '' : 'opacity-60 hover:opacity-100 transition-opacity duration-300'}`}>
+                        {/* Circle */}
+                        <div className={`relative z-10 flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center text-2xl font-bold bg-black transition-all duration-300 ${styles.circle}`}>
+                          {level.replace('Level ', '')}
+                        </div>
 
-        {/* Status */}
-        <div className="mb-6">
-          <h3 className="text-xl font-semibold text-white mb-4">Status</h3>
-          <div
-            className={`inline-block px-6 py-3 rounded-lg border-2 ${
-              analysis.status === 'READY'
-                ? 'bg-green-500/20 border-green-500 text-green-300'
-                : 'bg-yellow-500/20 border-yellow-500 text-yellow-300'
-            }`}
-          >
-            <div className="font-semibold">{analysis.status}</div>
-            {analysis.flags && analysis.flags.length > 0 && (
-              <div className="text-sm mt-1 opacity-90">
-                Flags: {analysis.flags.join(', ')}
+                        {/* Card */}
+                        <div className={`flex-1 p-5 rounded-xl border transition-all duration-300 ${styles.card}`}>
+                          <div className="flex justify-between items-center mb-1">
+                            <div className="flex flex-col">
+                              {/* <span className={`text-xs uppercase tracking-wider font-bold mb-1 opacity-60 ${styles.text}`}>
+                                {level}
+                              </span> */}
+                              <h4 className={`text-lg font-bold ${styles.text}`}>{term}</h4>
+                            </div>
+                            {isCurrentLevel && (
+                              <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full border text-center ${styles.badge}`}>
+                                You are here
+                              </span>
+                            )}
+                          </div>
+                          <p className={`text-sm leading-relaxed text-left ${styles.desc} mt-2`}>
+                            {getLevelBriefDescription(level)}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
 
-        {/* Level Descriptions */}
-        <div className="mb-6 p-6 bg-black/20 rounded-lg border border-white/10">
-          <h3 className="text-lg font-semibold text-white mb-3">Level Definitions</h3>
-          <div className="space-y-2 text-sm text-slate-300">
-            <div>
-              <strong className="text-teal-400">Level 1 (L1):</strong> Attention wins (distribution
-              + quality + trust proxies)
+
+
+
+        {/* Show NOT_ICP content if applicable */}
+        {showNotICPContent && (
+          <div className="mt-8 pt-8 border-t border-white/10">
+            {/* 1. Note about readiness */}
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6 mb-12 text-center">
+              <h3 className="text-xl font-bold text-yellow-400 mb-3">
+                Our Services Are Not Currently a Fit
+              </h3>
+              <p className="text-slate-300 leading-relaxed max-w-3xl mx-auto">
+                Based on your current stage and needs, our AI Agent systems and services are not fully optimized to support your specific use case at this moment. However, we believe in providing value regardless.
+              </p>
             </div>
-            <div>
-              <strong className="text-blue-400">Level 2 (L2):</strong> Intent wins (instrumented
-              click quality / ATC / leads)
+
+            <div className="text-center mb-8">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                Your Referenced Action Plan for AI Era Marketing
+              </h3>
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                Here is a framework to adapt AI in marketing at any maturity level, designed to help you build the systems needed for success.
+              </p>
             </div>
-            <div>
-              <strong className="text-purple-400">Level 3 (L3):</strong> Purchase wins (unit
-              economics movement under agreed measurement design)
+            {/* 2. Why Adaptation Matters Now - Data-Driven Section */}
+            <div className="mb-12">
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">Why Adaptation Matters Now: The Data Behind the Shift</h3>
+              
+              {/* Key Statistics */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div className="bg-black/40 rounded-xl p-6 border border-indigo-500/20">
+                  <div className="text-3xl md:text-4xl font-bold text-indigo-400 mb-2">72x</div>
+                  <div className="text-sm text-slate-400 mb-1">Growth in 2 years</div>
+                  <div className="text-xs text-slate-500">TikTok Shop: $15.1M → $1.1B monthly GMV</div>
+                </div>
+                <div className="bg-black/40 rounded-xl p-6 border border-green-500/20">
+                  <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">32%</div>
+                  <div className="text-sm text-slate-400 mb-1">Sales via Search/Shop Tab</div>
+                  <div className="text-xs text-slate-500">Users arrive with purchase intent</div>
+                </div>
+                <div className="bg-black/40 rounded-xl p-6 border border-blue-500/20">
+                  <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">58%</div>
+                  <div className="text-sm text-slate-400 mb-1">Use platform for product info</div>
+                  <div className="text-xs text-slate-500">Research before purchase</div>
+                </div>
+                <div className="bg-black/40 rounded-xl p-6 border border-purple-500/20">
+                  <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">25%</div>
+                  <div className="text-sm text-slate-400 mb-1">Beauty category conversion</div>
+                  <div className="text-xs text-slate-500">1 in 4 viewers become buyers</div>
+                </div>
+              </div>
+
+              {/* The Critical Shift: Views vs Intent */}
+              <div className="bg-black/30 rounded-2xl p-8 mb-8 border border-white/10">
+                <h4 className="text-xl font-bold text-white mb-6 text-center">The Critical Shift: From Views to Customer Intent</h4>
+                
+                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                  {/* Old Model: Views */}
+                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-6">
+                    <h5 className="text-lg font-bold text-red-400 mb-4 flex items-center gap-2">
+                      <span className="text-2xl">✕</span>
+                      <span>The Old Model (2022): Chasing Views</span>
+                    </h5>
+                    <ul className="space-y-3 text-slate-300">
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-400 mt-1">•</span>
+                        <span><strong className="text-white">Metric Focus:</strong> Views, impressions, viral hits</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-400 mt-1">•</span>
+                        <span><strong className="text-white">Strategy:</strong> &quot;Going viral&quot; with entertainment</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-400 mt-1">•</span>
+                        <span><strong className="text-white">Problem:</strong> High views, low conversion (wasted spend)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-red-400 mt-1">•</span>
+                        <span><strong className="text-white">Result:</strong> Unclear ROI, guessing what works</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* New Model: Intent */}
+                  <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+                    <h5 className="text-lg font-bold text-green-400 mb-4 flex items-center gap-2">
+                      <span className="text-2xl">✓</span>
+                      <span>The New Reality (2026): Understanding Intent</span>
+                    </h5>
+                    <ul className="space-y-3 text-slate-200">
+                      <li className="flex items-start gap-2">
+                        <span className="text-green-400 mt-1">•</span>
+                        <span><strong className="text-white">Metric Focus:</strong> Search behavior, qualified clicks, purchase data</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-green-400 mt-1">•</span>
+                        <span><strong className="text-white">Strategy:</strong> Search-optimized, intent-driven content</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-green-400 mt-1">•</span>
+                        <span><strong className="text-white">Advantage:</strong> 32% arrive with purchase intent (Shop Tab/search)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-green-400 mt-1">•</span>
+                        <span><strong className="text-white">Result:</strong> Clear ROI, data-driven decisions</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Visual Comparison Bar */}
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-sm font-semibold text-slate-400">2022: View-Driven Marketing</span>
+                    <span className="text-sm font-semibold text-slate-400">2026: Intent-Driven Marketing</span>
+                  </div>
+                  <div className="flex gap-2 h-8 rounded-lg overflow-hidden">
+                    <div className="flex-1 bg-gradient-to-r from-red-500/30 to-red-500/50 flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">High Views, Low Intent</span>
+                    </div>
+                    <div className="flex-1 bg-gradient-to-r from-green-500/30 to-green-500/50 flex items-center justify-center">
+                      <span className="text-xs font-bold text-white">High Intent, High Conversion</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Key Insight */}
+                <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-6">
+                  <p className="text-slate-200 leading-relaxed text-center">
+                    <strong className="text-indigo-400">The Urgency:</strong> 44.7% of users actively search for products—the behavior that used to happen on Google/Amazon now happens on social platforms. If you&apos;re still measuring success by views, you&apos;re missing the 58% who use platforms to research and the 32% who arrive ready to buy.
+                  </p>
+                </div>
+              </div>
+
+              {/* Why AI Adaptation is Critical */}
+              <div className="bg-gradient-to-r from-indigo-900/20 to-purple-900/20 rounded-xl p-6 border border-indigo-500/20">
+                <h4 className="text-lg font-bold text-white mb-4">Why AI Adaptation Is No Longer Optional</h4>
+                <div className="grid md:grid-cols-3 gap-4 text-sm">
+                  <div>
+                    <div className="font-semibold text-indigo-400 mb-2">Speed Matters</div>
+                    <div className="text-slate-300">72x growth in 2 years means competitors are moving fast. AI tools enable rapid content creation and optimization cycles.</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-purple-400 mb-2">Intent Requires Intelligence</div>
+                    <div className="text-slate-300">Understanding customer intent needs data analysis. AI processes signals faster than humans can manually track.</div>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-blue-400 mb-2">Scale Requires Systems</div>
+                    <div className="text-slate-300">25% conversion rates only matter if you can reach enough qualified buyers. AI helps scale what works while filtering out what doesn&apos;t.</div>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            
+            <NotICPContent />
           </div>
-        </div>
+        )}
+
+        {/* Show Beauty Level 1 content if applicable */}
+        {showBeautyLevel1Content && (
+          <BeautyLevel1Content formatRecommendations={formatRecommendations} />
+        )}
+
+        {/* Show generic Level 1 content if applicable (non-Beauty) */}
+        {showLevel1Content && (
+          <Level1Content formatRecommendations={formatRecommendations} />
+        )}
+
+        {/* Show Level 2 content if applicable */}
+        {showLevel2Content && (
+          <Level2Content actionRecommendations={actionRecommendations} />
+        )}
 
         {onClose && (
           <div className="text-center">

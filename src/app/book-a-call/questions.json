@@ -372,6 +372,17 @@
         "required": true
       },
       {
+        "id": "productCategory",
+        "label": "Product category",
+        "type": "select",
+        "required": true,
+        "options": [
+          "Packaged FMCG",
+          "Beauty",
+          "Other"
+        ]
+      },
+      {
         "id": "products",
         "label": "Top 1–3 products",
         "type": "textarea",

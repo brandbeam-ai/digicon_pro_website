@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import questionsData from '../questions.json';
 import { ResultDisplay, AnalysisResult } from './ResultDisplay';
 
@@ -40,14 +41,56 @@ interface DetailedAnswer {
   additionalText?: string;
 }
 
+interface ActionRecommendations {
+  company_name?: string;
+  intelligence_strategy?: {
+    diagnosis?: string;
+    target_insight?: string;
+  };
+  recommended_actions?: Array<{
+    rank: number;
+    action_name: string;
+    mechanism_type: string;
+    implementation_guide: string;
+    expected_insight: string;
+  }>;
+}
+
+interface FormatRecommendations {
+  company_name?: string;
+  analysis_context?: {
+    category?: string;
+    objective?: string;
+    strategy_note?: string;
+  };
+  recommendations?: Array<{
+    rank: number;
+    format_name: string;
+    concept: string;
+    comment_trigger: string;
+    viability_matrix: {
+      operational_scalability: string;
+      strategic_positioning: string;
+      cultural_adaptability: string;
+    };
+  }>;
+  system_check?: {
+    all_formats_scalable?: boolean;
+    ai_leverage_possible?: boolean;
+  };
+}
+
 interface ResultData {
   timestamp: string;
   basicDetails: BasicDetails;
   answers: DetailedAnswer[];
   analysis: AnalysisResult;
+  formatRecommendations?: FormatRecommendations;
+  actionRecommendations?: ActionRecommendations;
 }
 
 export const GetLeadInfo: React.FC = () => {
+  const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [currentPart, setCurrentPart] = useState<'part1' | 'part2' | 'basicDetails'>('part1');
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -59,6 +102,8 @@ export const GetLeadInfo: React.FC = () => {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [submissionId, setSubmissionId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [formatRecommendations, setFormatRecommendations] = useState<FormatRecommendations | null>(null);
+  const [actionRecommendations, setActionRecommendations] = useState<ActionRecommendations | null>(null);
 
   // Get all questions in order
   const allQuestions = [
@@ -230,6 +275,15 @@ export const GetLeadInfo: React.FC = () => {
         errors[field.id] = error;
         isValid = false;
       }
+      
+      // If productCategory is "Other", validate the productCategoryOther field
+      if (field.id === 'productCategory' && value === 'Other') {
+        const otherValue = basicDetails['productCategoryOther'] || '';
+        if (!otherValue.trim()) {
+          errors['productCategoryOther'] = 'Please specify the product category';
+          isValid = false;
+        }
+      }
     });
 
     setFieldErrors(errors);
@@ -283,12 +337,14 @@ export const GetLeadInfo: React.FC = () => {
     const e2 = answers.find((a) => a.questionId === 'Q2')?.value === 'D';
     const e3 = answers.find((a) => a.questionId === 'Q3')?.value === 'D';
     const e4 = answers.find((a) => a.questionId === 'Q6')?.value === 'D';
-    const status = e1 || e2 || e3 || e4 ? 'NOT_READY' : 'READY';
+    const e5 = basicDetails.productCategory === 'Other';
+    const status = e1 || e2 || e3 || e4 || e5 ? 'NOT_READY' : 'READY';
     const flags = [];
     if (e1) flags.push('E1');
     if (e2) flags.push('E2');
     if (e3) flags.push('E3');
     if (e4) flags.push('E4');
+    if (e5) flags.push('E5');
 
     // Build detailed answers with labels
     const allQuestions = [
@@ -327,6 +383,54 @@ export const GetLeadInfo: React.FC = () => {
     };
   };
 
+  const fetchActionRecommendations = async (submissionData: ResultData): Promise<ActionRecommendations | null> => {
+    try {
+      const response = await fetch('/api/recommend-actions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          submissionData: submissionData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch action recommendations');
+      }
+
+      const result = await response.json();
+      return result.success ? result.data : null;
+    } catch (error) {
+      console.error('Error fetching action recommendations:', error);
+      return null;
+    }
+  };
+
+  const fetchFormatRecommendations = async (submissionData: ResultData): Promise<FormatRecommendations | null> => {
+    try {
+      const response = await fetch('/api/recommend-formats', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          submissionData: submissionData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch format recommendations');
+      }
+
+      const result = await response.json();
+      return result.success ? result.data : null;
+    } catch (error) {
+      console.error('Error fetching format recommendations:', error);
+      return null;
+    }
+  };
+
   const saveToServer = async (data: ResultData): Promise<string | null> => {
     try {
       const response = await fetch('/api/submissions', {
@@ -361,22 +465,9 @@ export const GetLeadInfo: React.FC = () => {
 
     // Prepare full result data
     const timestamp = new Date().toISOString();
-    
-    // Add level descriptions to analysis
-    const levelDescriptions: { [key: string]: string } = {
-      'Level 1': 'L1: attention wins (distribution + quality + trust proxies)',
-      'Level 2': 'L2: intent wins (instrumented click quality / ATC / leads)',
-      'Level 3': 'L3: purchase wins (unit economics movement under agreed measurement design)',
-      'N/A': 'Not qualified',
-    };
 
-    const levelDesc = levelDescriptions[analysisResultData.analysis.dominantLevel] || analysisResultData.analysis.dominantLevel;
-
-    // Enhance analysis with level description
-    const enhancedAnalysis = {
-      ...analysisResultData.analysis,
-      levelDescription: levelDesc,
-    };
+    // Use analysis result directly without adding levelDescription (will be generated dynamically in ResultDisplay)
+    const enhancedAnalysis = analysisResultData.analysis;
 
     const resultData: ResultData = {
       timestamp,
@@ -385,6 +476,29 @@ export const GetLeadInfo: React.FC = () => {
       analysis: enhancedAnalysis,
     };
 
+    // Check if lead is Level 1 and ICP - fetch format recommendations (Level 2 does not get format recommendations)
+    let formatRecommendations = null;
+    let actionRecommendations = null;
+    const isLevel1 = enhancedAnalysis.dominantLevel === 'Level 1';
+    const isLevel2 = enhancedAnalysis.dominantLevel === 'Level 2';
+    const isICP = enhancedAnalysis.dominantICP !== 'NOT_ICP' && enhancedAnalysis.status === 'READY';
+    
+    if (isLevel1 && isICP) {
+      formatRecommendations = await fetchFormatRecommendations(resultData);
+      if (formatRecommendations) {
+        // Add format recommendations to result data
+        resultData.formatRecommendations = formatRecommendations;
+        setFormatRecommendations(formatRecommendations);
+      }
+    } else if (isLevel2 && isICP) {
+      actionRecommendations = await fetchActionRecommendations(resultData);
+      if (actionRecommendations) {
+        // Add action recommendations to result data
+        resultData.actionRecommendations = actionRecommendations;
+        setActionRecommendations(actionRecommendations);
+      }
+    }
+
     // Save to server and get unique ID
     const id = await saveToServer(resultData);
     
@@ -392,6 +506,8 @@ export const GetLeadInfo: React.FC = () => {
 
     if (id) {
       setSubmissionId(id);
+      // Update URL with submission parameter
+      router.push(`/book-a-call?submission=${id}`);
     }
 
     // Set the result and show the result display
@@ -401,6 +517,7 @@ export const GetLeadInfo: React.FC = () => {
 
     console.log('Full Result:', resultData);
     console.log('Submission ID:', id);
+    console.log('Format Recommendations:', formatRecommendations);
   };
 
   const getProgress = () => {
@@ -424,6 +541,9 @@ export const GetLeadInfo: React.FC = () => {
       <ResultDisplay
         analysis={analysisResult}
         submissionId={submissionId || undefined}
+        productCategory={basicDetails.productCategory}
+        formatRecommendations={formatRecommendations}
+        actionRecommendations={actionRecommendations}
         onClose={() => {
           setShowResult(false);
           // Optionally reset the form or navigate away
@@ -448,7 +568,62 @@ export const GetLeadInfo: React.FC = () => {
                   {field.label}
                   {field.required && <span className="text-red-400 ml-1">*</span>}
                 </label>
-                {field.type === 'textarea' ? (
+                {field.type === 'select' ? (
+                  <>
+                    <select
+                      value={basicDetails[field.id] || ''}
+                      onChange={(e) => handleBasicDetailsChange(field.id, e.target.value, field.type)}
+                      onBlur={(e) => {
+                        const error = validateField(field.id, e.target.value, field.type);
+                        setFieldErrors({
+                          ...fieldErrors,
+                          [field.id]: error,
+                        });
+                      }}
+                      className={`w-full px-4 py-3 bg-black/50 border rounded-lg text-white focus:outline-none focus:ring-1 ${
+                        fieldErrors[field.id]
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                          : 'border-white/20 focus:border-indigo-500 focus:ring-indigo-500'
+                      }`}
+                      required={field.required}
+                    >
+                      <option value="" disabled>
+                        Select {field.label.toLowerCase()}
+                      </option>
+                      {(field as { options?: string[] }).options?.map((option: string) => (
+                        <option key={option} value={option} className="bg-black">
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                    {basicDetails[field.id] === 'Other' && (
+                      <div className="mt-4">
+                        <input
+                          type="text"
+                          value={basicDetails[`${field.id}Other`] || ''}
+                          onChange={(e) => handleBasicDetailsChange(`${field.id}Other`, e.target.value, 'text')}
+                          onBlur={(e) => {
+                            const error = e.target.value.trim() ? '' : 'Please specify the product category';
+                            setFieldErrors({
+                              ...fieldErrors,
+                              [`${field.id}Other`]: error,
+                            });
+                          }}
+                          className={`w-full px-4 py-3 bg-black/50 border rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-1 ${
+                            fieldErrors[`${field.id}Other`]
+                              ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                              : 'border-white/20 focus:border-indigo-500 focus:ring-indigo-500'
+                          }`}
+                          placeholder="Please specify the product category"
+                          required
+                        />
+                        {fieldErrors[`${field.id}Other`] && (
+                          <p className="mt-1 text-sm text-red-400">{fieldErrors[`${field.id}Other`]}</p>
+                        )}
+                      </div>
+                    )}
+                  </>
+                ) : field.type === 'textarea' ? (
                   <textarea
                     value={basicDetails[field.id] || ''}
                     onChange={(e) => handleBasicDetailsChange(field.id, e.target.value, field.type)}

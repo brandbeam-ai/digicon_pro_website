@@ -1,17 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { GetLeadInfo } from './components/GetLeadInfo';
-import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
-import { LanguageSwitch } from '../components/LanguageSwitch';
-import { getTranslation } from '../utils/translations';
+import { ResultDisplay } from './components/ResultDisplay';
 
 function BookACallPageContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { language, setLanguage, translations } = useLanguage();
+  const searchParams = useSearchParams();
+  const submissionId = searchParams.get('submission');
 
   return (
     <div className="min-h-screen bg-black text-slate-200 selection:bg-indigo-500 selection:text-white font-sans">
@@ -27,7 +27,6 @@ function BookACallPageContent() {
               priority
             />
           </Link>
-          <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
           {/* Mobile Burger Menu - Only visible on mobile */}
           <button
             className="flex md:hidden text-white p-2"
@@ -60,16 +59,31 @@ function BookACallPageContent() {
 
       {/* Main Content */}
       <main className="py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Book a Call
-          </h1>
-          <p className="text-slate-400 text-lg max-w-2xl mx-auto px-4">
-            Help us understand your needs so we can provide the best solution for your business.
-          </p>
-        </div>
-
-        <GetLeadInfo />
+        {submissionId ? (
+          <>
+            <div className="text-center mb-12">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Your Marketing Playbook
+              </h1>
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto px-4">
+                Submission ID: <span className="text-white font-mono">{submissionId}</span>
+              </p>
+            </div>
+            <ResultDisplay submissionId={submissionId} />
+          </>
+        ) : (
+          <>
+            <div className="text-center mb-12">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Book a Call
+              </h1>
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto px-4">
+                Help us understand your needs so we can provide the best solution for your business.
+              </p>
+            </div>
+            <GetLeadInfo />
+          </>
+        )}
       </main>
 
       {/* Footer */}
@@ -82,9 +96,13 @@ function BookACallPageContent() {
 
 export default function BookACallPage() {
   return (
-    <LanguageProvider pageName="book-a-call">
+    <Suspense fallback={
+      <div className="min-h-screen bg-black text-slate-200 flex items-center justify-center">
+        <p className="text-white text-lg">Loading...</p>
+      </div>
+    }>
       <BookACallPageContent />
-    </LanguageProvider>
+    </Suspense>
   );
 }
 
