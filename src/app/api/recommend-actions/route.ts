@@ -56,9 +56,6 @@ export async function POST(request: Request) {
     ];
 
     const config = {
-      thinkingConfig: {
-        thinkingLevel: 'HIGH',
-      },
       tools,
       systemInstruction: [
         {
