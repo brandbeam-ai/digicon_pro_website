@@ -27,7 +27,8 @@ export default function TranslateToKoreanPage() {
 
   const pages = [
     { value: 'home', label: 'Home Page' },
-    { value: 'creative-intelligence-agent', label: 'Creative Intelligence Agent' },
+    { value: 'creative-intelligence-agent-beauty', label: 'Creative Intelligence Agent (Beauty)' },
+    { value: 'creative-intelligence-agent-other', label: 'Creative Intelligence Agent (Other)' },
     { value: 'book-a-call', label: 'Book a Call' },
   ];
 

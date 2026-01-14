@@ -33,7 +33,7 @@ export const HeroSection: React.FC = () => {
             {getTranslation(translations, 'hero.cta1', 'Apply for Access')} <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
           <Button variant="outline" className="w-full sm:w-auto text-lg px-8 group">
-            {getTranslation(translations, 'hero.cta2', 'See how it works')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
+            {getTranslation(translations, 'hero.cta2', 'See a Demo')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
           </Button>
         </div>
       </div>
