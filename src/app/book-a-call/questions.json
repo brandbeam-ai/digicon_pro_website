@@ -377,7 +377,7 @@
         "type": "select",
         "required": true,
         "options": [
-          "Packaged FMCG",
+          "Packaged F&B",
           "Beauty",
           "Other"
         ]
