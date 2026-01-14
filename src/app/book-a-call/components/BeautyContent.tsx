@@ -12,8 +12,25 @@ import {
   ArrowRight,
   Video,
   FileText,
-  AlertTriangle
+  AlertTriangle,
+  Lightbulb,
+  CheckCircle
 } from 'lucide-react';
+
+interface ActionRecommendations {
+  company_name?: string;
+  intelligence_strategy?: {
+    diagnosis?: string;
+    target_insight?: string;
+  };
+  recommended_actions?: Array<{
+    rank: number;
+    action_name: string;
+    mechanism_type: string;
+    implementation_guide: string;
+    expected_insight: string;
+  }>;
+}
 
 interface FormatRecommendations {
   company_name?: string;
