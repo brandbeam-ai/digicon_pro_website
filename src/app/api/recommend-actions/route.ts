@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       );
     }
 
-    let data: any;
+    let data: Record<string, any>;
 
     // Load submission data if ID is provided
     if (submissionId) {
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
       try {
         const fileContent = await fs.readFile(filePath, 'utf8');
         data = JSON.parse(fileContent);
-      } catch (error) {
+      } catch {
         return NextResponse.json(
           { error: 'Submission not found' },
           { status: 404 }
@@ -201,13 +201,13 @@ Generate a **single, valid JSON object**.
       config,
     });
 
-    // Extract text from response - the response object has a .text property
+    // Extract text from response
     let responseText = '';
     if (response.text) {
       responseText = response.text;
     } else {
       // Fallback: try to get text from candidates if .text is not available
-      const candidates = response.candidates || [];
+      const candidates = (response as any).candidates || [];
       if (candidates.length > 0 && candidates[0].content?.parts) {
         responseText = candidates[0].content.parts
           .map((part: any) => part.text || '')
@@ -242,10 +242,31 @@ Generate a **single, valid JSON object**.
       );
     }
 
-    return NextResponse.json({
+    const result = NextResponse.json({
       success: true,
       data: parsedResponse,
     });
+
+    // If we have a submissionId, update the file
+    if (submissionId) {
+      const submissionsDir = path.join(process.cwd(), 'data', 'submissions');
+      const filePath = path.join(submissionsDir, `${submissionId}.json`);
+      
+      try {
+        // Read current content first to avoid losing other data
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const currentData = JSON.parse(fileContent);
+        
+        currentData.actionRecommendations = parsedResponse;
+        
+        await fs.writeFile(filePath, JSON.stringify(currentData, null, 2), 'utf8');
+        console.log(`Updated submission ${submissionId} with action recommendations`);
+      } catch (saveError) {
+        console.error(`Failed to save action recommendations to ${submissionId}:`, saveError);
+      }
+    }
+
+    return result;
   } catch (error: any) {
     console.error('Error generating action recommendations:', error);
     return NextResponse.json(
@@ -257,4 +278,3 @@ Generate a **single, valid JSON object**.
     );
   }
 }
-

@@ -11,13 +11,13 @@ import { BeautyContent } from './components/BeautyContent';
 
 function CreativeIntelligenceAgentPageContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [businessType, setBusinessType] = useState<'Beauty' | 'Other' | null>(null);
+  const [businessType, setBusinessType] = useState<'Beauty' | 'Packaged F&B' | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
   // Use a dynamic page name based on business type
   const pageName = businessType === 'Beauty' 
     ? 'creative-intelligence-agent-beauty' 
-    : businessType === 'Other' 
+    : businessType === 'Packaged F&B' 
       ? 'creative-intelligence-agent-other' 
       : 'creative-intelligence-agent-other'; // Fallback for overlay
 
@@ -38,8 +38,8 @@ function CreativeIntelligenceAgentPageContent() {
 interface InternalProps {
   isMobileMenuOpen: boolean;
   setIsMobileMenuOpen: (val: boolean) => void;
-  businessType: 'Beauty' | 'Other' | null;
-  setBusinessType: (val: 'Beauty' | 'Other' | null) => void;
+  businessType: 'Beauty' | 'Packaged F&B' | null;
+  setBusinessType: (val: 'Beauty' | 'Packaged F&B' | null) => void;
   isDropdownOpen: boolean;
   setIsDropdownOpen: (val: boolean) => void;
 }
@@ -54,7 +54,7 @@ function CreativeIntelligenceAgentPageInternal({
 }: InternalProps) {
   const { language, setLanguage, translations } = useLanguage();
 
-  const handleBusinessTypeSelect = (type: 'Beauty' | 'Other') => {
+  const handleBusinessTypeSelect = (type: 'Beauty' | 'Packaged F&B' ) => {
     setBusinessType(type);
     setIsDropdownOpen(false);
   };
@@ -93,7 +93,7 @@ function CreativeIntelligenceAgentPageInternal({
                     {getTranslation(translations, 'overlay.option.beauty', 'Beauty')}
                   </button>
                   <button
-                    onClick={() => handleBusinessTypeSelect('Other')}
+                    onClick={() => handleBusinessTypeSelect('Packaged F&B')}
                     className="w-full px-4 py-3 text-left text-white hover:bg-slate-700 transition-colors border-t border-white/10"
                   >
                     {getTranslation(translations, 'overlay.option.other', 'Other')}
@@ -152,7 +152,7 @@ function CreativeIntelligenceAgentPageInternal({
       
       {/* Conditionally render content based on business type */}
       {businessType === 'Beauty' && <BeautyContent />}
-      {businessType === 'Other' && <OtherContent />}
+      {businessType === 'Packaged F&B' && <OtherContent />}
     </div>
   );
 }

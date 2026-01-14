@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { NotICPContent } from './NotICPContent';
-import { BeautyLevel1Content } from './BeautyLevel1Content';
-import { Level1Content } from './Level1Content';
-import { Level2Content } from './Level2Content';
+import { BeautyContent } from './BeautyContent';
+import { OtherContent } from './OtherContent';
 
 export interface AnalysisResult {
   dominantLevel: string;
@@ -71,6 +70,51 @@ interface FormatRecommendations {
   };
 }
 
+interface GrowthReport {
+  report_title: string;
+  diagnostic_summary: {
+    your_current_strategy: string;
+    your_current_reality: string;
+    your_current_goal: string;
+    your_core_challenge: string;
+  };
+  problem_section: {
+    title: string;
+    urgency_statement: string;
+  };
+  growth_ladder_section: {
+    intro: string;
+    steps: Array<{
+      step_name: string;
+      goal: string;
+      success: string;
+      is_current_level: boolean;
+    }>;
+    current_status_explanation: string;
+  };
+  diy_solution_section: {
+    title: string;
+    description: string;
+    steps: Array<{
+      step_name: string;
+      actions_to_do: string[];
+    }>;
+    timeline: string;
+  };
+  digicon_solution_section: {
+    sku_info: {
+      internal_code: string;
+      technical_name: string;
+      ladder_target: string;
+    };
+    public_title: string;
+    pitch: string;
+    whats_included: string[];
+    why_better_than_diy: string;
+    closing_value: string;
+  };
+}
+
 interface ResultDisplayProps {
   analysis?: AnalysisResult;
   submissionId?: string;
@@ -78,15 +122,25 @@ interface ResultDisplayProps {
   productCategory?: string;
   formatRecommendations?: FormatRecommendations | null;
   actionRecommendations?: ActionRecommendations | null;
+  growthReport?: GrowthReport | null; // Added this
 }
 
-export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysisProp, submissionId, onClose, productCategory: productCategoryProp, formatRecommendations: formatRecommendationsProp, actionRecommendations: actionRecommendationsProp }) => {
+export const ResultDisplay: React.FC<ResultDisplayProps> = ({ 
+  analysis: analysisProp, 
+  submissionId, 
+  onClose, 
+  productCategory: productCategoryProp, 
+  formatRecommendations: formatRecommendationsProp, 
+  actionRecommendations: actionRecommendationsProp,
+  growthReport: growthReportProp // Added this
+}) => {
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(analysisProp || null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [productCategory, setProductCategory] = useState<string | null>(productCategoryProp || null);
   const [formatRecommendations, setFormatRecommendations] = useState<FormatRecommendations | null>(formatRecommendationsProp || null);
   const [actionRecommendations, setActionRecommendations] = useState<ActionRecommendations | null>(actionRecommendationsProp || null);
+  const [growthReport, setGrowthReport] = useState<GrowthReport | null>(growthReportProp || null); // Added this
 
   useEffect(() => {
     // If submissionId is provided and no analysis data, load from API
@@ -109,6 +163,10 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
       const result = await response.json();
       if (result.success && result.data && result.data.analysis) {
         setAnalysis(result.data.analysis);
+        
+        // Check if this is an ICP lead who SHOULD have a growth report
+        const isICP = result.data.analysis.dominantICP !== 'NOT_ICP' && result.data.analysis.status === 'READY';
+        
         // Also set productCategory if available
         if (result.data.basicDetails && result.data.basicDetails.productCategory) {
           setProductCategory(result.data.basicDetails.productCategory);
@@ -120,6 +178,35 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
         // Also set actionRecommendations if available
         if (result.data.actionRecommendations) {
           setActionRecommendations(result.data.actionRecommendations);
+        }
+
+        // Handle Growth Report
+        if (result.data.growthReport) {
+          setGrowthReport(result.data.growthReport);
+        } else {
+          const category = result.data.basicDetails?.productCategory;
+          const isPackagedFB = category !== 'Beauty' && category !== 'Other';
+          
+          if (isICP || isPackagedFB) {
+            // ICP lead or Packaged F&B but missing report - trigger analysis now
+            console.log('Lead missing growth report, triggering analysis...');
+            const analysisResponse = await fetch('/api/analyze-growth', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ submissionId: id })
+            });
+            
+            if (analysisResponse.ok) {
+              const analysisResult = await analysisResponse.json();
+              if (analysisResult.success && analysisResult.data) {
+                setGrowthReport(analysisResult.data);
+              } else {
+                throw new Error('Failed to generate growth report');
+              }
+            } else {
+              throw new Error('Failed to generate growth report');
+            }
+          }
         }
       } else {
         throw new Error('Invalid submission data');
@@ -167,15 +254,6 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
   // Check if we should show NOT_ICP content below the level/ladder
   const showNotICPContent = analysis.dominantICP === 'NOT_ICP' || analysis.dominantLevel === 'N/A' || analysis.status === 'NOT_READY';
   
-  // Check if we should show Beauty Level 1 content
-  const showBeautyLevel1Content = !showNotICPContent && analysis.dominantLevel === 'Level 1' && productCategory === 'Beauty';
-  
-  // Check if we should show generic Level 1 content (non-Beauty)
-  const showLevel1Content = !showNotICPContent && analysis.dominantLevel === 'Level 1' && productCategory !== 'Beauty';
-  
-  // Check if we should show Level 2 content
-  const showLevel2Content = !showNotICPContent && analysis.dominantLevel === 'Level 2';
-
   const getLevelStyles = (level: string) => {
     const styles: { [key: string]: string } = {
       'Level 1': 'bg-teal-500/20 border-teal-500 text-teal-300',
@@ -196,21 +274,31 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
     return descriptions[level] || '';
   };
 
-  const getLevelBriefDescription = (level: string): string => {
-    const briefDescriptions: { [key: string]: string } = {
-      'Level 1': 'Goal: Stop the Scroll. You want proof that strangers are paying attention.',
-      'Level 2': 'Goal: Qualified Interest. You want clicks from the right people, not just views.',
-      'Level 3': 'Goal: Profitability at Scale. You judge success on verified purchase data.',
-      'N/A': 'Not qualified',
+  const getLevelGoal = (level: string): string => {
+    const goals: { [key: string]: string } = {
+      'Level 1': 'Get people to stop scrolling and watch.',
+      'Level 2': 'Get people to click a link or ask a question.',
+      'Level 3': 'Profitable sales that happen automatically.',
+      'N/A': '',
     };
-    return briefDescriptions[level] || '';
+    return goals[level] || '';
+  };
+
+  const getLevelSuccess = (level: string): string => {
+    const successes: { [key: string]: string } = {
+      'Level 1': 'You know exactly what visual trick makes people pause.',
+      'Level 2': 'You know exactly what promise makes people want to buy.',
+      'Level 3': 'You put $1 in and get $3 out reliably.',
+      'N/A': '',
+    };
+    return successes[level] || '';
   };
 
   const getLadderTerm = (level: string): string => {
     const terms: { [key: string]: string } = {
-      'Level 1': 'The Signal Seeker',
-      'Level 2': 'The System Builder',
-      'Level 3': 'The Performance Scaler',
+      'Level 1': 'The "Look at Me" Step (Attention)',
+      'Level 2': 'The "I Want That" Step (Intent)',
+      'Level 3': 'The "Shut Up and Take My Money" Step (Purchase)',
       'N/A': 'Content Filler',
     };
     return terms[level] || level;
@@ -272,63 +360,116 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
             >
               <div className="p-6 md:p-8 bg-opacity-20 backdrop-blur-sm">
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  {analysis.dominantLevel}
+                  {growthReport?.problem_section?.title || analysis.dominantLevel}
                 </h2>
                 <div className="h-1 w-20 bg-white/30 rounded-full mb-4"></div>
                 <div className="text-slate-200 text-lg leading-relaxed">
-                  {getLevelDescription(analysis.dominantLevel)}
+                  {growthReport?.problem_section?.urgency_statement || getLevelDescription(analysis.dominantLevel)}
                 </div>
               </div>
               
               {/* Integrated Capability Ladder */}
               <div className="bg-black/40 p-6 md:p-8 border-t border-white/10">
-                <h3 className="text-sm font-semibold text-slate-400 mb-8 uppercase tracking-widest">Your Position on the Marketing Journey</h3>
+                <div className="text-left mb-8">
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Where You Are: The Growth Ladder
+                  </h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    {growthReport?.growth_ladder_section.intro || "To fix this, we need to look at the Growth Ladder. This ladder shows the steps every brand must climb to succeed. You cannot jump to the top without climbing the bottom steps first."}
+                  </p>
+                </div>
+                
                 <div className="max-w-3xl mx-auto relative">
                   {/* Vertical Line */}
                   <div className="absolute left-[2rem] top-4 bottom-4 w-px bg-gradient-to-b from-purple-500/20 via-blue-500/20 to-teal-500/20" />
 
-                  {(['Level 3', 'Level 2', 'Level 1'] as const).map((level) => {
-                    const isCurrentLevel = analysis.dominantLevel === level;
-                    const styles = getLadderStyles(level, isCurrentLevel);
-                    const term = getLadderTerm(level);
-                    
-                    return (
-                      <div key={level} className={`relative flex items-center gap-6 mb-6 last:mb-0 group ${isCurrentLevel ? '' : 'opacity-60 hover:opacity-100 transition-opacity duration-300'}`}>
-                        {/* Circle */}
-                        <div className={`relative z-10 flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center text-2xl font-bold bg-black transition-all duration-300 ${styles.circle}`}>
-                          {level.replace('Level ', '')}
-                        </div>
-
-                        {/* Card */}
-                        <div className={`flex-1 p-5 rounded-xl border transition-all duration-300 ${styles.card}`}>
-                          <div className="flex justify-between items-center mb-1">
-                            <div className="flex flex-col">
-                              {/* <span className={`text-xs uppercase tracking-wider font-bold mb-1 opacity-60 ${styles.text}`}>
-                                {level}
-                              </span> */}
-                              <h4 className={`text-lg font-bold ${styles.text}`}>{term}</h4>
-                            </div>
-                            {isCurrentLevel && (
-                              <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full border text-center ${styles.badge}`}>
-                                You are here
-                              </span>
-                            )}
+                  {growthReport ? (
+                    // Use ladder from AI report
+                    [...growthReport.growth_ladder_section.steps].reverse().map((step, idx) => {
+                      const levelNum = 3 - idx;
+                      const levelKey = `Level ${levelNum}`;
+                      const isCurrentLevel = step.is_current_level;
+                      const styles = getLadderStyles(levelKey, isCurrentLevel);
+                      
+                      return (
+                        <div key={idx} className={`relative flex items-center gap-6 mb-6 last:mb-0 group ${isCurrentLevel ? '' : 'opacity-60 hover:opacity-100 transition-opacity duration-300'}`}>
+                          {/* Circle */}
+                          <div className={`relative z-10 flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center text-2xl font-bold bg-black transition-all duration-300 ${styles.circle}`}>
+                            {levelNum}
                           </div>
-                          <p className={`text-sm leading-relaxed text-left ${styles.desc} mt-2`}>
-                            {getLevelBriefDescription(level)}
-                          </p>
+
+                          {/* Card */}
+                          <div className={`flex-1 p-5 rounded-xl border transition-all duration-300 ${styles.card}`}>
+                            <div className="flex justify-between items-center mb-1">
+                              <div className="flex flex-col">
+                                <h4 className={`text-lg font-bold ${styles.text}`}>
+                                  {step.step_name} {isCurrentLevel && ' — You are here'}
+                                </h4>
+                              </div>
+                              {isCurrentLevel && (
+                                <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full border text-center ${styles.badge}`}>
+                                  You are here
+                                </span>
+                              )}
+                            </div>
+                            <p className={`text-sm leading-relaxed text-left ${styles.desc} mt-2`}>
+                              <strong>Goal:</strong> {step.goal}<br />
+                              <strong>Success:</strong> {step.success}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })
+                  ) : (
+                    // Use local hardcoded ladder (fallback)
+                    (['Level 3', 'Level 2', 'Level 1'] as const).map((level) => {
+                      const isCurrentLevel = analysis.dominantLevel === level;
+                      const styles = getLadderStyles(level, isCurrentLevel);
+                      const term = getLadderTerm(level);
+                      const stepNum = level.replace('Level ', '');
+                      
+                      return (
+                        <div key={level} className={`relative flex items-center gap-6 mb-6 last:mb-0 group ${isCurrentLevel ? '' : 'opacity-60 hover:opacity-100 transition-opacity duration-300'}`}>
+                          {/* Circle */}
+                          <div className={`relative z-10 flex-shrink-0 w-16 h-16 rounded-full border-2 flex items-center justify-center text-2xl font-bold bg-black transition-all duration-300 ${styles.circle}`}>
+                            {stepNum}
+                          </div>
+
+                          {/* Card */}
+                          <div className={`flex-1 p-5 rounded-xl border transition-all duration-300 ${styles.card}`}>
+                            <div className="flex justify-between items-center mb-1">
+                              <div className="flex flex-col">
+                                <h4 className={`text-lg font-bold ${styles.text}`}>
+                                  Step {stepNum}: {term} {isCurrentLevel && ' — You are here'}
+                                </h4>
+                              </div>
+                              {isCurrentLevel && (
+                                <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-full border text-center ${styles.badge}`}>
+                                  You are here
+                                </span>
+                              )}
+                            </div>
+                            <p className={`text-sm leading-relaxed text-left ${styles.desc} mt-2`}>
+                              <strong>Goal:</strong> {getLevelGoal(level)}<br />
+                              <strong>Success:</strong> {getLevelSuccess(level)}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
+                {growthReport && (
+                  <div className="mt-8 p-6 bg-indigo-500/10 border border-indigo-500/20 rounded-xl">
+                    <p className="text-white text-sm leading-relaxed">
+                      <strong>Current Status:</strong> {growthReport.growth_ladder_section.current_status_explanation}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
-
-
-
 
         {/* Show NOT_ICP content if applicable */}
         {showNotICPContent && (
@@ -486,19 +627,34 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ analysis: analysis
           </div>
         )}
 
-        {/* Show Beauty Level 1 content if applicable */}
-        {showBeautyLevel1Content && (
-          <BeautyLevel1Content formatRecommendations={formatRecommendations} />
+        {/* Story Intro Header */}
+        {!showNotICPContent && (
+          <div className="mt-16 text-center">
+            <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
+              Your Customized Growth Roadmap
+            </h3>
+            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              Based on your current status, here is the exact plan to move from guessing to growing.
+            </p>
+          </div>
         )}
 
-        {/* Show generic Level 1 content if applicable (non-Beauty) */}
-        {showLevel1Content && (
-          <Level1Content formatRecommendations={formatRecommendations} />
+        {/* Show Beauty content if applicable */}
+        {!showNotICPContent && productCategory === 'Beauty' && (
+          <BeautyContent 
+            formatRecommendations={formatRecommendations} 
+            actionRecommendations={actionRecommendations}
+            growthReport={growthReport}
+          />
         )}
 
-        {/* Show Level 2 content if applicable */}
-        {showLevel2Content && (
-          <Level2Content actionRecommendations={actionRecommendations} />
+        {/* Show Other content if applicable (non-Beauty) */}
+        {!showNotICPContent && productCategory !== 'Beauty' && (
+          <OtherContent 
+            formatRecommendations={formatRecommendations} 
+            actionRecommendations={actionRecommendations}
+            growthReport={growthReport}
+          />
         )}
 
         {onClose && (

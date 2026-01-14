@@ -80,6 +80,51 @@ interface FormatRecommendations {
   };
 }
 
+interface GrowthReport {
+  report_title: string;
+  diagnostic_summary: {
+    your_current_strategy: string;
+    your_current_reality: string;
+    your_current_goal: string;
+    your_core_challenge: string;
+  };
+  problem_section: {
+    title: string;
+    urgency_statement: string;
+  };
+  growth_ladder_section: {
+    intro: string;
+    steps: Array<{
+      step_name: string;
+      goal: string;
+      success: string;
+      is_current_level: boolean;
+    }>;
+    current_status_explanation: string;
+  };
+  diy_solution_section: {
+    title: string;
+    description: string;
+    steps: Array<{
+      step_name: string;
+      actions_to_do: string[];
+    }>;
+    timeline: string;
+  };
+  digicon_solution_section: {
+    sku_info: {
+      internal_code: string;
+      technical_name: string;
+      ladder_target: string;
+    };
+    public_title: string;
+    pitch: string;
+    whats_included: string[];
+    why_better_than_diy: string;
+    closing_value: string;
+  };
+}
+
 interface ResultData {
   timestamp: string;
   basicDetails: BasicDetails;
@@ -87,12 +132,12 @@ interface ResultData {
   analysis: AnalysisResult;
   formatRecommendations?: FormatRecommendations;
   actionRecommendations?: ActionRecommendations;
+  growthReport?: GrowthReport;
 }
 
 export const GetLeadInfo: React.FC = () => {
   const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [currentPart, setCurrentPart] = useState<'part1' | 'part2' | 'basicDetails'>('part1');
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [basicDetails, setBasicDetails] = useState<BasicDetails>({});
   const [additionalText, setAdditionalText] = useState('');
@@ -155,14 +200,9 @@ export const GetLeadInfo: React.FC = () => {
     if (currentQuestionIndex < allQuestions.length - 1) {
       const nextIndex = currentQuestionIndex + 1;
       setCurrentQuestionIndex(nextIndex);
-      // Update current part based on question index
-      if (nextIndex === questionsData.part1.questions.length) {
-        setCurrentPart('part2');
-      }
     } else {
       // Move to basic details
       setShowBasicDetails(true);
-      setCurrentPart('basicDetails');
     }
   };
 
@@ -172,13 +212,6 @@ export const GetLeadInfo: React.FC = () => {
       const currentQuestionId = allQuestions[currentQuestionIndex]?.id;
       
       const prevIndex = currentQuestionIndex - 1;
-      
-      // Update current part based on previous question index
-      if (prevIndex < questionsData.part1.questions.length) {
-        setCurrentPart('part1');
-      } else {
-        setCurrentPart('part2');
-      }
       
       // Remove the answer for the current question (before going back)
       if (currentQuestionId) {
@@ -383,7 +416,7 @@ export const GetLeadInfo: React.FC = () => {
     };
   };
 
-  const fetchActionRecommendations = async (submissionData: ResultData): Promise<ActionRecommendations | null> => {
+  const fetchActionRecommendations = async (submissionData: ResultData, submissionId?: string): Promise<ActionRecommendations | null> => {
     try {
       const response = await fetch('/api/recommend-actions', {
         method: 'POST',
@@ -392,6 +425,7 @@ export const GetLeadInfo: React.FC = () => {
         },
         body: JSON.stringify({
           submissionData: submissionData,
+          submissionId: submissionId,
         }),
       });
 
@@ -407,7 +441,7 @@ export const GetLeadInfo: React.FC = () => {
     }
   };
 
-  const fetchFormatRecommendations = async (submissionData: ResultData): Promise<FormatRecommendations | null> => {
+  const fetchFormatRecommendations = async (submissionData: ResultData, submissionId?: string): Promise<FormatRecommendations | null> => {
     try {
       const response = await fetch('/api/recommend-formats', {
         method: 'POST',
@@ -416,6 +450,7 @@ export const GetLeadInfo: React.FC = () => {
         },
         body: JSON.stringify({
           submissionData: submissionData,
+          submissionId: submissionId,
         }),
       });
 
@@ -430,6 +465,8 @@ export const GetLeadInfo: React.FC = () => {
       return null;
     }
   };
+
+  const [growthReport, setGrowthReport] = useState<GrowthReport | null>(null);
 
   const saveToServer = async (data: ResultData): Promise<string | null> => {
     try {
@@ -479,36 +516,64 @@ export const GetLeadInfo: React.FC = () => {
     // Check if lead is Level 1 and ICP - fetch format recommendations (Level 2 does not get format recommendations)
     let formatRecommendations = null;
     let actionRecommendations = null;
+    let growthReportData = null;
     const isLevel1 = enhancedAnalysis.dominantLevel === 'Level 1';
     const isLevel2 = enhancedAnalysis.dominantLevel === 'Level 2';
     const isICP = enhancedAnalysis.dominantICP !== 'NOT_ICP' && enhancedAnalysis.status === 'READY';
     
-    if (isLevel1 && isICP) {
-      formatRecommendations = await fetchFormatRecommendations(resultData);
-      if (formatRecommendations) {
-        // Add format recommendations to result data
-        resultData.formatRecommendations = formatRecommendations;
-        setFormatRecommendations(formatRecommendations);
-      }
-    } else if (isLevel2 && isICP) {
-      actionRecommendations = await fetchActionRecommendations(resultData);
-      if (actionRecommendations) {
-        // Add action recommendations to result data
-        resultData.actionRecommendations = actionRecommendations;
-        setActionRecommendations(actionRecommendations);
-      }
-    }
-
-    // Save to server and get unique ID
+    // Save initial data to server first to get a unique ID
     const id = await saveToServer(resultData);
     
-    setIsSaving(false);
-
     if (id) {
       setSubmissionId(id);
+      
+      // Now that we have an ID, fetch analysis results which will also save back to the JSON file
+      // We do this SEQUENTIALLY to avoid race conditions on the JSON file
+      const isPackagedFB = basicDetails.productCategory !== 'Beauty' && basicDetails.productCategory !== 'Other';
+      if (isICP || isPackagedFB) {
+        console.log('Fetching growth report for ID:', id);
+        try {
+          const response = await fetch('/api/analyze-growth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submissionId: id })
+          });
+          
+          if (response.ok) {
+            const result = await response.json();
+            if (result.success && result.data) {
+              growthReportData = result.data;
+              setGrowthReport(growthReportData);
+              console.log('Growth report saved successfully');
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching growth report:', error);
+        }
+      }
+
+      // Fetch format recommendations ONLY AFTER growth report is done (to avoid file locking/race conditions)
+      if (isLevel1 && isICP) {
+        console.log('Fetching format recommendations for ID:', id);
+        formatRecommendations = await fetchFormatRecommendations(resultData, id);
+        if (formatRecommendations) {
+          setFormatRecommendations(formatRecommendations);
+          console.log('Format recommendations saved successfully');
+        }
+      } else if (isLevel2 && isICP) {
+        console.log('Fetching action recommendations for ID:', id);
+        actionRecommendations = await fetchActionRecommendations(resultData, id);
+        if (actionRecommendations) {
+          setActionRecommendations(actionRecommendations);
+          console.log('Action recommendations saved successfully');
+        }
+      }
+
       // Update URL with submission parameter
       router.push(`/book-a-call?submission=${id}`);
     }
+    
+    setIsSaving(false);
 
     // Set the result and show the result display
     setAnalysisResult(enhancedAnalysis);
@@ -544,6 +609,7 @@ export const GetLeadInfo: React.FC = () => {
         productCategory={basicDetails.productCategory}
         formatRecommendations={formatRecommendations}
         actionRecommendations={actionRecommendations}
+        growthReport={growthReport} // Added this
         onClose={() => {
           setShowResult(false);
           // Optionally reset the form or navigate away
@@ -682,7 +748,6 @@ export const GetLeadInfo: React.FC = () => {
               onClick={() => {
                 setShowBasicDetails(false);
                 setCurrentQuestionIndex(allQuestions.length - 1);
-                setCurrentPart('part2');
               }}
               className="px-6 py-3 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors"
             >
