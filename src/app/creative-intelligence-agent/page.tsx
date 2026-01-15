@@ -96,7 +96,7 @@ function CreativeIntelligenceAgentPageInternal({
                     onClick={() => handleBusinessTypeSelect('Packaged F&B')}
                     className="w-full px-4 py-3 text-left text-white hover:bg-slate-700 transition-colors border-t border-white/10"
                   >
-                    {getTranslation(translations, 'overlay.option.other', 'Other')}
+                    {getTranslation(translations, 'overlay.option.packaged_fnb', 'Packaged F&B')}
                   </button>
                 </div>
               )}

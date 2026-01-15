@@ -1,10 +1,84 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Check, X, ArrowRight, ShieldCheck, Users, Activity, TrendingUp, DollarSign, Play, ShieldAlert, Brain, Zap, Scale } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
-import { Button, Heading, Paragraph, SectionTag, Card } from './UI';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+
+// --- UI Components ---
+const VideoOverlay: React.FC<{ isOpen: boolean; onClose: () => void; videoId: string }> = ({ isOpen, onClose, videoId }) => {
+  if (!isOpen) return null;
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 md:p-8" onClick={onClose}>
+      <div className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/80 transition-colors"
+        >
+          <X size={24} />
+        </button>
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+          title="Digicon Pro Demo Video"
+          className="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    </div>
+  );
+};
+
+const Button: React.FC<{
+  children: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'outline';
+  className?: string;
+  fullWidth?: boolean;
+}> = ({ children, variant = 'primary', className = '', fullWidth = false }) => {
+  const baseStyles = "inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black";
+  
+  const variants = {
+    primary: "primary-button",
+    secondary: "bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500 shadow-[0_0_20px_rgba(79,70,229,0.3)]",
+    outline: "border border-white/20 text-white hover:bg-white/10 focus:ring-white/50"
+  };
+
+  if (variant === 'primary') {
+    return (
+      <button className={`primary-button ${fullWidth ? 'w-full' : ''} ${className}`}>
+        {children}
+      </button>
+    );
+  }
+
+  return (
+    <button className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}>
+      {children}
+    </button>
+  );
+};
+
+const SectionTag: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-indigo-500/10 rounded-full border border-indigo-500/20">
+    {children}
+  </span>
+);
+
+const Heading: React.FC<{ children: React.ReactNode; level?: 1 | 2 | 3; className?: string }> = ({ children, level = 2, className = '' }) => {
+  if (level === 1) return <h1 className={`text-5xl md:text-7xl font-bold tracking-tight mb-6 ${className}`}>{children}</h1>;
+  if (level === 3) return <h3 className={`text-xl font-bold mb-3 ${className}`}>{children}</h3>;
+  return <h2 className={`text-3xl md:text-4xl font-bold mb-6 tracking-tight ${className}`}>{children}</h2>;
+};
+
+const Paragraph: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+  <p className={`text-slate-400 leading-relaxed text-lg ${className}`}>{children}</p>
+);
+
+const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+  <div className={`glass-card p-6 md:p-8 rounded-2xl ${className}`}>
+    {children}
+  </div>
+);
 
 const data = [
   { value: 20 }, { value: 35 }, { value: 30 }, { value: 55 }, { value: 45 }, { value: 70 }, { value: 85 }
@@ -21,10 +95,12 @@ const BeautyFooter: React.FC = () => {
 
 export const BeautyContent: React.FC = () => {
   const { translations } = useLanguage();
+  const [showVideo, setShowVideo] = useState(false);
 
   return (
     <>
       <main className="bg-black text-slate-200">
+        <VideoOverlay isOpen={showVideo} onClose={() => setShowVideo(false)} videoId="pxkOrancVsQ" />
         {/* Hero Section */}
         <section className="relative pt-10 md:pb-5 overflow-hidden">
           {/* Background Gradient Blob */}
@@ -42,9 +118,11 @@ export const BeautyContent: React.FC = () => {
               <Button variant="primary" className="w-full sm:w-auto text-lg px-8">
                 {getTranslation(translations, 'hero.cta1', 'Apply for Access')} <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-              <Button variant="outline" className="w-full sm:w-auto text-lg px-8 group">
-                {getTranslation(translations, 'hero.cta2', 'See a Demo')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
-              </Button>
+              <div onClick={() => setShowVideo(true)} className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto text-lg px-8 group">
+                  {getTranslation(translations, 'hero.cta2', 'See a Demo')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
+                </Button>
+              </div>
             </div>
           </div>
         </section>
