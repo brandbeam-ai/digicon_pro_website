@@ -1,0 +1,387 @@
+{
+  "part1": {
+    "title": "Part A: The Basics (Who & When)",
+    "description": "This part helps us understand your role and timeline for Vietnam market entry or improvement.",
+    "instructions": "Please choose the one answer that best matches your current situation.",
+    "questions": [
+      {
+        "id": "Q1",
+        "text": "What is your role regarding the brand's Vietnam strategy?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Decision Maker: Owner / Founder / Director."
+          },
+          {
+            "value": "B",
+            "text": "Execution Lead: Marketing Manager / Brand Manager."
+          },
+          {
+            "value": "C",
+            "text": "Researcher: Assistant / Analyst / Intern."
+          },
+          {
+            "value": "D",
+            "text": "Partner: Distributor / Agency looking for collaboration."
+          }
+        ]
+      },
+      {
+        "id": "Q2",
+        "text": "What is your timeline for executing a Vietnam entry or fix?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Urgent: Immediately (Next 30 days)."
+          },
+          {
+            "value": "B",
+            "text": "Planned: Next quarter (Q2/Q3)."
+          },
+          {
+            "value": "C",
+            "text": "Active Repair: We are already active but need to fix performance now."
+          },
+          {
+            "value": "D",
+            "text": "Browsing: Just researching; no specific date."
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "title": "Part B: Market Readiness (The \"Truth\" Check)",
+    "description": "This part helps us understand your current market presence and readiness in Vietnam.",
+    "questions": [
+      {
+        "id": "Q3",
+        "text": "Which statement best describes your brand's current footprint in Vietnam?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Invisible: No official shops, no distributor, no social media."
+          },
+          {
+            "value": "B",
+            "text": "Visible but Silent: We have social media pages, but they are inactive or just reposting global content."
+          },
+          {
+            "value": "C",
+            "text": "Stuck: We are trying to enter, but cannot get a distributor to sign."
+          },
+          {
+            "value": "D",
+            "text": "Active & Selling: We have a distributor and active sales channels."
+          }
+        ]
+      },
+      {
+        "id": "Q4",
+        "text": "What is the legal/compliance status of your products in Vietnam?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Not Started: No registration or paperwork begun."
+          },
+          {
+            "value": "B",
+            "text": "In Progress: Paperwork submitted but no final numbers yet."
+          },
+          {
+            "value": "C",
+            "text": "Gray Zone: Selling via hand-carry/cross-border (unregistered)."
+          },
+          {
+            "value": "D",
+            "text": "Fully Compliant: Products are registered with notification numbers ready."
+          }
+        ]
+      },
+      {
+        "id": "Q5",
+        "text": "Where is your physical inventory located right now?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Origin Country: We have not shipped any product to the region."
+          },
+          {
+            "value": "B",
+            "text": "Regional Hub: Stock is in Singapore/Thailand/HK (Cross-border shipping)."
+          },
+          {
+            "value": "C",
+            "text": "In Vietnam (Blocked): Stock is here but held by customs/partners."
+          },
+          {
+            "value": "D",
+            "text": "In Vietnam (Ready): Stock is in a local warehouse, ready to ship today."
+          }
+        ]
+      },
+      {
+        "id": "Q6",
+        "text": "If a customer wants to buy your product right now, what is their experience?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Dead End: There is no link; they cannot buy it."
+          },
+          {
+            "value": "B",
+            "text": "Friction: They must DM us or find a gray-market reseller."
+          },
+          {
+            "value": "C",
+            "text": "Seamless: We have an active official store (Shopee/TikTok/Lazada)."
+          },
+          {
+            "value": "D",
+            "text": "Cross-Border: They buy from our HQ website or Global Platform (Shopee Int/Olive Young) that ships to Vietnam."
+          },
+          {
+            "value": "E",
+            "text": "Local Online: We have an official Vietnam online store (Shopee Mall/TikTok Shop/Lazada)."
+          },
+          {
+            "value": "F",
+            "text": "Local Offline: We are listed in retail stores (Guardian, Hasaki, Department Stores) but have no online shop."
+          },
+          {
+            "value": "G",
+            "text": "Omnichannel: We have both official online stores and offline retail partners."
+          }
+        ]
+      }
+    ]
+  },
+  "part3": {
+    "title": "Part C: The \"Pain\" Probe (The Diagnosis)",
+    "description": "This part helps us understand your specific challenges and pain points in the Vietnam market.",
+    "questions": [
+      {
+        "id": "Q7",
+        "text": "How confident are you that you know *exactly* why a Vietnamese customer buys (or ignores) your product?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Guessing (Zero Data): We have no local data. We are assuming they act like our global customers."
+          },
+          {
+            "value": "B",
+            "text": "Vanity Data: We see views and likes, but we don't know if they are real buyers."
+          },
+          {
+            "value": "C",
+            "text": "Partial Truth: We get questions, but we don't know which \"trust details\" close the sale."
+          },
+          {
+            "value": "D",
+            "text": "High Confidence: We have clear funnel data (Click → Add to Cart → Buy) and know where they drop off."
+          }
+        ]
+      },
+      {
+        "id": "Q8",
+        "text": "[Budget] What is your biggest financial fear regarding the Vietnam market right now?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "The \"Black Hole\": Pouring marketing budget into ads/KOLs with zero measurable return."
+          },
+          {
+            "value": "B",
+            "text": "Inventory Trap: Shipping product there and having it sit in a warehouse expiring."
+          },
+          {
+            "value": "C",
+            "text": "Distributor Fees: Being forced to pay huge listing fees/support fees without guaranteed sales."
+          },
+          {
+            "value": "D",
+            "text": "Low Margins: We are selling, but the cost to acquire each customer (CAC) is too high."
+          }
+        ]
+      },
+      {
+        "id": "Q9",
+        "text": "[Distributor Friction] If you are talking to partners/distributors, what is the #1 reason they haven't signed yet?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "\"Too Small\": They say we lack brand awareness or volume."
+          },
+          {
+            "value": "B",
+            "text": "\"Show Me Proof\": They want to see local sales data or traction before they commit."
+          },
+          {
+            "value": "C",
+            "text": "\"Pay to Play\": They are asking for a huge upfront investment that we can't risk."
+          },
+          {
+            "value": "D",
+            "text": "N/A: We aren't talking to distributors yet."
+          }
+        ]
+      },
+      {
+        "id": "Q10",
+        "text": "[Internal Pressure] What is the expectation from your HQ or Investors?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Speed: \"Get market share now, worry about profit later.\""
+          },
+          {
+            "value": "B",
+            "text": "Safety: \"Don't lose money. Test it, but do not burn cash.\""
+          },
+          {
+            "value": "C",
+            "text": "Proof: \"Show us it works on a small scale, then we unlock the big budget.\""
+          },
+          {
+            "value": "D",
+            "text": "Ultimatum: \"Fix it or kill it. If performance doesn't improve, we exit.\""
+          }
+        ]
+      },
+      {
+        "id": "Q11",
+        "text": "[Market Fit] Which specific customer doubt do you think is killing your sales the most?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Price: \"Is it too expensive?\""
+          },
+          {
+            "value": "B",
+            "text": "Efficacy: \"Does it actually work for Vietnamese skin?\""
+          },
+          {
+            "value": "C",
+            "text": "Trust: \"Is this a fake product? Is the brand real?\""
+          },
+          {
+            "value": "D",
+            "text": "I have no idea: We honestly don't know why people stop at the \"Buy\" button."
+          }
+        ]
+      }
+    ]
+  },
+  "part4": {
+    "title": "Part D: The Solution (Desired Outcome)",
+    "description": "This part helps us understand what outcome you value most from DIGICON.",
+    "questions": [
+      {
+        "id": "Q12",
+        "text": "What is the single most valuable result DIGICON could give you in the next 60 days?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Decision: A safe \"Go/No-Go\" test to see if we should enter."
+          },
+          {
+            "value": "B",
+            "text": "Learning: Knowing exactly what message/hook makes Vietnamese customers buy."
+          },
+          {
+            "value": "C",
+            "text": "Leverage: A data pack to prove demand and sign a distributor."
+          },
+          {
+            "value": "D",
+            "text": "Fixing: Finding the leak in our funnel to increase ROI."
+          }
+        ]
+      }
+    ]
+  },
+  "basicDetails": {
+    "title": "Basic Details",
+    "description": "Please provide your contact information",
+    "fields": [
+      {
+        "id": "company",
+        "label": "Company / Brand",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "website",
+        "label": "Company website",
+        "type": "url",
+        "required": true
+      },
+      {
+        "id": "contactName",
+        "label": "Contact person name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "contactRole",
+        "label": "Contact person role",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "email",
+        "label": "Contact person business email",
+        "type": "email",
+        "required": true
+      },
+      {
+        "id": "productCategory",
+        "label": "Product category",
+        "type": "select",
+        "required": true,
+        "options": [
+          "Beauty",
+          "Packaged F&B",
+          "Other"
+        ]
+      },
+      {
+        "id": "products",
+        "label": "Top 1–3 products",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "id": "buyLinks",
+        "label": "Official online buy links (TikTok Shop / Shopee / Lazada / Shopify / Amazon / app store / booking page)",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "id": "markets",
+        "label": "Markets you sell in (countries you are in)",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "tracking",
+        "label": "Optional: what tracking data (platform purchase tracking, website analytics, order reports, CRM)",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  }
+}
+

@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import questionsData from '../questions.json';
+import Link from 'next/link';
+import questionsDataFB from '../questions.json';
+import questionsDataBeauty from '../beauty-questions.json';
 import { ResultDisplay, AnalysisResult } from './ResultDisplay';
 
 interface Answer {
@@ -133,9 +135,14 @@ interface ResultData {
   formatRecommendations?: FormatRecommendations;
   actionRecommendations?: ActionRecommendations;
   growthReport?: GrowthReport;
+  solutionFor?: string;
 }
 
-export const GetLeadInfo: React.FC = () => {
+interface GetLeadInfoProps {
+  solutionFor?: string;
+}
+
+export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' }) => {
   const router = useRouter();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -149,12 +156,61 @@ export const GetLeadInfo: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [formatRecommendations, setFormatRecommendations] = useState<FormatRecommendations | null>(null);
   const [actionRecommendations, setActionRecommendations] = useState<ActionRecommendations | null>(null);
+  const [isDisqualified, setIsDisqualified] = useState(false);
+  const [beautyAnalysis, setBeautyAnalysis] = useState<{
+    executive_diagnosis?: {
+      current_status?: string;
+      primary_bottleneck?: string;
+      root_cause?: string;
+    };
+    solution_comparison?: {
+      option_a_diy?: {
+        approach_name?: string;
+        timeline?: string;
+        risk_level?: string;
+        execution_steps?: Array<{
+          step_name?: string;
+          actions_to_do?: string[];
+        }>;
+      };
+      option_b_digicon?: {
+        approach_name?: string;
+        timeline?: string;
+        risk_level?: string;
+        execution_steps?: Array<{
+          step_name?: string;
+          actions_to_do?: string[];
+        }>;
+        primary_outcome?: string;
+      };
+    };
+    recommended_next_action?: string;
+  } | null>(null);
 
-  // Get all questions in order
-  const allQuestions = [
-    ...questionsData.part1.questions,
-    ...questionsData.part2.questions,
-  ];
+  // Select the appropriate questions data based on solutionFor
+  const questionsData = useMemo(() => {
+    return solutionFor === 'beauty' ? questionsDataBeauty : questionsDataFB;
+  }, [solutionFor]);
+
+  // Get all questions in order - handle different part structures
+  const allQuestions = useMemo(() => {
+    if (solutionFor === 'beauty') {
+      // Beauty has 4 parts
+      const beautyData = questionsData as typeof questionsDataBeauty;
+      return [
+        ...beautyData.part1.questions,
+        ...beautyData.part2.questions,
+        ...beautyData.part3.questions,
+        ...beautyData.part4.questions,
+      ];
+    } else {
+      // F&B has 2 parts
+      return [
+        ...questionsData.part1.questions,
+        ...questionsData.part2.questions,
+      ];
+    }
+  }, [questionsData, solutionFor]);
 
   const getCurrentQuestion = (): Question | null => {
     if (showBasicDetails || currentQuestionIndex >= allQuestions.length) {
@@ -164,16 +220,64 @@ export const GetLeadInfo: React.FC = () => {
   };
 
   const getCurrentPartInfo = () => {
-    if (currentQuestionIndex < questionsData.part1.questions.length) {
-      return questionsData.part1;
+    if (solutionFor === 'beauty') {
+      // Beauty has 4 parts
+      const beautyData = questionsData as typeof questionsDataBeauty;
+      const part1Len = beautyData.part1.questions.length;
+      const part2Len = beautyData.part2.questions.length;
+      const part3Len = beautyData.part3.questions.length;
+      
+      if (currentQuestionIndex < part1Len) {
+        return beautyData.part1;
+      } else if (currentQuestionIndex < part1Len + part2Len) {
+        return beautyData.part2;
+      } else if (currentQuestionIndex < part1Len + part2Len + part3Len) {
+        return beautyData.part3;
+      } else {
+        return beautyData.part4;
+      }
     } else {
-      return questionsData.part2;
+      // F&B has 2 parts
+      if (currentQuestionIndex < questionsData.part1.questions.length) {
+        return questionsData.part1;
+      } else {
+        return questionsData.part2;
+      }
     }
   };
 
   const handleAnswer = (value: string) => {
     const currentQuestion = getCurrentQuestion();
     if (!currentQuestion) return;
+
+    // Check for Beauty Q1 disqualification (option D = Partner)
+    if (solutionFor === 'beauty' && currentQuestion.id === 'Q1') {
+      if (value === 'D') {
+        // Disqualify: Partner selected
+        setIsDisqualified(true);
+        // Still save the answer
+        const newAnswer: Answer = {
+          questionId: currentQuestion.id,
+          value,
+          ...(additionalText && { additionalText }),
+        };
+        const existingAnswerIndex = answers.findIndex(a => a.questionId === currentQuestion.id);
+        if (existingAnswerIndex >= 0) {
+          const updatedAnswers = [...answers];
+          updatedAnswers[existingAnswerIndex] = newAnswer;
+          setAnswers(updatedAnswers);
+        } else {
+          setAnswers([...answers, newAnswer]);
+        }
+        setAdditionalText('');
+        return; // Stop here, don't proceed
+      } else {
+        // If user changes from D to another option, clear disqualification
+        if (isDisqualified) {
+          setIsDisqualified(false);
+        }
+      }
+    }
 
     const newAnswer: Answer = {
       questionId: currentQuestion.id,
@@ -216,6 +320,11 @@ export const GetLeadInfo: React.FC = () => {
       // Remove the answer for the current question (before going back)
       if (currentQuestionId) {
         setAnswers(prevAnswers => prevAnswers.filter(a => a.questionId !== currentQuestionId));
+      }
+      
+      // Clear disqualification state if going back (user might change their answer)
+      if (isDisqualified) {
+        setIsDisqualified(false);
       }
       
       // Set the index to previous question
@@ -323,13 +432,66 @@ export const GetLeadInfo: React.FC = () => {
     return isValid;
   };
 
-  const analyzeAnswers = () => {
+  const analyzeBeautyAnswers = () => {
+    // Beauty questions don't use the same level/ICP analysis as F&B
+    // Just collect answers and return a basic structure
+    const totalQuestions = allQuestions.length;
+
+    // Build detailed answers with labels
+    const detailedAnswers = answers.map((answer) => {
+      const question = allQuestions.find((q) => q.id === answer.questionId);
+      const option = question?.options.find((opt: QuestionOption) => opt.value === answer.value);
+      return {
+        questionId: answer.questionId,
+        questionText: question?.text || '',
+        answerValue: answer.value,
+        answerLabel: option?.text || '',
+        additionalText: answer.additionalText || undefined,
+      };
+    });
+
+    // Return a basic analysis structure for Beauty (no level/ICP determination)
+    return {
+      analysis: {
+        dominantLevel: 'N/A',
+        levelDistribution: {
+          'Level 1': 0,
+          'Level 2': 0,
+          'Level 3': 0,
+          'N/A': 100,
+        },
+        dominantICP: 'NOT_ICP',
+        icpDistribution: {
+          ICP1: 0,
+          ICP2: 0,
+          ICP3: 0,
+          NOT_ICP: 100,
+        },
+        status: 'READY', // Beauty questions are always considered ready (no filtering)
+        flags: undefined,
+        breakdown: {
+          nA: 0,
+          nB: 0,
+          nC: 0,
+          nD: 0,
+          nE: 0,
+          nF: 0,
+          nG: 0,
+          totalQuestions,
+        },
+      },
+      detailedAnswers,
+    };
+  };
+
+  const analyzeFBAnswers = () => {
+    // F&B analysis logic (original logic)
     // Count answers by type
     const nA = answers.filter((a) => a.value === 'A').length;
     const nB = answers.filter((a) => a.value === 'B').length;
     const nC = answers.filter((a) => a.value === 'C').length;
     const nD = answers.filter((a) => a.value === 'D').length;
-    const totalQuestions = 14;
+    const totalQuestions = allQuestions.length;
 
     // Calculate percentages
     const icp1Percent = (nA / totalQuestions) * 100;
@@ -365,7 +527,7 @@ export const GetLeadInfo: React.FC = () => {
         : b
     )[0];
 
-    // Check eligibility flags
+    // Check eligibility flags for F&B
     const e1 = answers.find((a) => a.questionId === 'Q1')?.value === 'D';
     const e2 = answers.find((a) => a.questionId === 'Q2')?.value === 'D';
     const e3 = answers.find((a) => a.questionId === 'Q3')?.value === 'D';
@@ -380,13 +542,9 @@ export const GetLeadInfo: React.FC = () => {
     if (e5) flags.push('E5');
 
     // Build detailed answers with labels
-    const allQuestions = [
-      ...questionsData.part1.questions,
-      ...questionsData.part2.questions,
-    ];
     const detailedAnswers = answers.map((answer) => {
       const question = allQuestions.find((q) => q.id === answer.questionId);
-      const option = question?.options.find((opt) => opt.value === answer.value);
+      const option = question?.options.find((opt: QuestionOption) => opt.value === answer.value);
       return {
         questionId: answer.questionId,
         questionText: question?.text || '',
@@ -409,11 +567,23 @@ export const GetLeadInfo: React.FC = () => {
           nB,
           nC,
           nD,
+          nE: 0,
+          nF: 0,
+          nG: 0,
           totalQuestions,
         },
       },
       detailedAnswers,
     };
+  };
+
+  const analyzeAnswers = () => {
+    // Route to appropriate analysis function based on solutionFor
+    if (solutionFor === 'beauty') {
+      return analyzeBeautyAnswers();
+    } else {
+      return analyzeFBAnswers();
+    }
   };
 
   const fetchActionRecommendations = async (submissionData: ResultData, submissionId?: string): Promise<ActionRecommendations | null> => {
@@ -511,6 +681,7 @@ export const GetLeadInfo: React.FC = () => {
       basicDetails,
       answers: analysisResultData.detailedAnswers,
       analysis: enhancedAnalysis,
+      solutionFor: solutionFor,
     };
 
     // Check if lead is Level 1 and ICP - fetch format recommendations (Level 2 does not get format recommendations)
@@ -529,11 +700,12 @@ export const GetLeadInfo: React.FC = () => {
       
       // Now that we have an ID, fetch analysis results which will also save back to the JSON file
       // We do this SEQUENTIALLY to avoid race conditions on the JSON file
-      const isPackagedFB = basicDetails.productCategory !== 'Beauty' && basicDetails.productCategory !== 'Other';
-      if (isICP || isPackagedFB) {
-        console.log('Fetching growth report for ID:', id);
+      
+      // For Beauty submissions, fetch beauty analysis
+      if (solutionFor === 'beauty') {
+        console.log('Fetching beauty analysis for ID:', id);
         try {
-          const response = await fetch('/api/analyze-growth', {
+          const response = await fetch('/api/analyze-beauty', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ submissionId: id })
@@ -542,13 +714,37 @@ export const GetLeadInfo: React.FC = () => {
           if (response.ok) {
             const result = await response.json();
             if (result.success && result.data) {
-              growthReportData = result.data;
-              setGrowthReport(growthReportData);
-              console.log('Growth report saved successfully');
+              const beautyAnalysisData = result.data;
+              setBeautyAnalysis(beautyAnalysisData);
+              console.log('Beauty analysis saved successfully');
             }
           }
         } catch (error) {
-          console.error('Error fetching growth report:', error);
+          console.error('Error fetching beauty analysis:', error);
+        }
+      } else {
+        // For F&B submissions, fetch growth report
+        const isPackagedFB = basicDetails.productCategory !== 'Beauty' && basicDetails.productCategory !== 'Other';
+        if (isICP || isPackagedFB) {
+          console.log('Fetching growth report for ID:', id);
+          try {
+            const response = await fetch('/api/analyze-growth', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ submissionId: id })
+            });
+            
+            if (response.ok) {
+              const result = await response.json();
+              if (result.success && result.data) {
+                growthReportData = result.data;
+                setGrowthReport(growthReportData);
+                console.log('Growth report saved successfully');
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching growth report:', error);
+          }
         }
       }
 
@@ -596,10 +792,43 @@ export const GetLeadInfo: React.FC = () => {
   const currentQuestion = getCurrentQuestion();
   const partInfo = getCurrentPartInfo();
   const progress = getProgress();
-  const isPart1 = currentQuestionIndex < questionsData.part1.questions.length;
+  const isPart1 = solutionFor === 'beauty' 
+    ? currentQuestionIndex < questionsData.part1.questions.length
+    : currentQuestionIndex < questionsData.part1.questions.length;
   
   // Get current answer for the current question (if exists, for preview)
   const currentAnswer = currentQuestion ? answers.find(a => a.questionId === currentQuestion.id) : null;
+
+  // Show disqualification message if user selected option D for Beauty Q1
+  if (isDisqualified) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="glass-card rounded-2xl p-8 mb-6 text-center">
+          <div className="mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-500/20 border-2 border-red-500/50 mb-4">
+              <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+              Evaluation Not Available
+            </h2>
+            <p className="text-slate-300 text-lg leading-relaxed max-w-2xl mx-auto">
+              This evaluation is designed for Brand Owners/Managers. Please contact the DIGICON team directly for partnership discussions.
+            </p>
+          </div>
+          <div className="mt-8">
+            <Link
+              href="/"
+              className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              Return to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (showResult && analysisResult) {
     return (
@@ -609,7 +838,9 @@ export const GetLeadInfo: React.FC = () => {
         productCategory={basicDetails.productCategory}
         formatRecommendations={formatRecommendations}
         actionRecommendations={actionRecommendations}
-        growthReport={growthReport} // Added this
+        growthReport={growthReport}
+        beautyAnalysis={beautyAnalysis}
+        solutionFor={solutionFor as 'f&b' | 'beauty' | undefined}
         onClose={() => {
           setShowResult(false);
           // Optionally reset the form or navigate away
@@ -656,11 +887,26 @@ export const GetLeadInfo: React.FC = () => {
                       <option value="" disabled>
                         Select {field.label.toLowerCase()}
                       </option>
-                      {(field as { options?: string[] }).options?.map((option: string) => (
-                        <option key={option} value={option} className="bg-black">
-                          {option}
-                        </option>
-                      ))}
+                      {(field as { options?: string[] }).options
+                        ?.filter((option: string) => {
+                          // Filter productCategory options based on solutionFor
+                          if (field.id === 'productCategory') {
+                            if (solutionFor === 'beauty') {
+                              // For beauty, exclude "Packaged F&B"
+                              return option !== 'Packaged F&B';
+                            } else if (solutionFor === 'f&b') {
+                              // For F&B, exclude "Beauty"
+                              return option !== 'Beauty';
+                            }
+                          }
+                          // For other fields, show all options
+                          return true;
+                        })
+                        .map((option: string) => (
+                          <option key={option} value={option} className="bg-black">
+                            {option}
+                          </option>
+                        ))}
                     </select>
                     {basicDetails[field.id] === 'Other' && (
                       <div className="mt-4">
@@ -776,7 +1022,7 @@ export const GetLeadInfo: React.FC = () => {
       <div className="mb-8">
         <div className="flex justify-between text-sm text-slate-400 mb-2">
           <span>
-            {isPart1 ? 'Part 1: Quick Fit' : 'Part 2: Self-Diagnosis'}
+            {partInfo?.title || (isPart1 ? 'Part 1' : 'Part 2')}
           </span>
           <span>
             Question {currentQuestionIndex + 1} of {allQuestions.length}
@@ -791,20 +1037,56 @@ export const GetLeadInfo: React.FC = () => {
       </div>
 
       {/* Part description */}
-      {currentQuestionIndex === 0 && isPart1 && partInfo && (
-        <div className="mb-6 text-center">
-          <p className="text-slate-400">{partInfo.description}</p>
-          {questionsData.part1.instructions && (
-            <p className="text-slate-500 text-sm mt-2">{questionsData.part1.instructions}</p>
-          )}
-        </div>
-      )}
-
-      {currentQuestionIndex === questionsData.part1.questions.length && !isPart1 && partInfo && (
-        <div className="mb-6 text-center">
-          <p className="text-slate-400">{partInfo.description}</p>
-        </div>
-      )}
+      {/* Show part description when starting a new part */}
+      {(() => {
+        if (solutionFor === 'beauty') {
+          const beautyData = questionsData as typeof questionsDataBeauty;
+          const part1Len = beautyData.part1.questions.length;
+          const part2Len = beautyData.part2.questions.length;
+          const part3Len = beautyData.part3.questions.length;
+          
+          if (currentQuestionIndex === 0 && partInfo) {
+            return (
+              <div className="mb-6 text-center">
+                <p className="text-slate-400">{partInfo.description}</p>
+                {questionsData.part1.instructions && (
+                  <p className="text-slate-500 text-sm mt-2">{questionsData.part1.instructions}</p>
+                )}
+              </div>
+            );
+          } else if (
+            (currentQuestionIndex === part1Len || 
+             currentQuestionIndex === part1Len + part2Len ||
+             currentQuestionIndex === part1Len + part2Len + part3Len) && 
+            partInfo
+          ) {
+            return (
+              <div className="mb-6 text-center">
+                <p className="text-slate-400">{partInfo.description}</p>
+              </div>
+            );
+          }
+        } else {
+          // F&B logic
+          if (currentQuestionIndex === 0 && isPart1 && partInfo) {
+            return (
+              <div className="mb-6 text-center">
+                <p className="text-slate-400">{partInfo.description}</p>
+                {questionsData.part1.instructions && (
+                  <p className="text-slate-500 text-sm mt-2">{questionsData.part1.instructions}</p>
+                )}
+              </div>
+            );
+          } else if (currentQuestionIndex === questionsData.part1.questions.length && !isPart1 && partInfo) {
+            return (
+              <div className="mb-6 text-center">
+                <p className="text-slate-400">{partInfo.description}</p>
+              </div>
+            );
+          }
+        }
+        return null;
+      })()}
 
       {/* Question card */}
       <div className="glass-card rounded-2xl p-8 mb-6">

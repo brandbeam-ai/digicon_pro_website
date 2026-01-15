@@ -115,6 +115,36 @@ interface GrowthReport {
   };
 }
 
+interface BeautyAnalysis {
+  executive_diagnosis?: {
+    current_status?: string;
+    primary_bottleneck?: string;
+    root_cause?: string;
+  };
+  solution_comparison?: {
+    option_a_diy?: {
+      approach_name?: string;
+      timeline?: string;
+      risk_level?: string;
+      execution_steps?: Array<{
+        step_name?: string;
+        actions_to_do?: string[];
+      }>;
+    };
+    option_b_digicon?: {
+      approach_name?: string;
+      timeline?: string;
+      risk_level?: string;
+      execution_steps?: Array<{
+        step_name?: string;
+        actions_to_do?: string[];
+      }>;
+      primary_outcome?: string;
+    };
+  };
+  recommended_next_action?: string;
+}
+
 interface ResultDisplayProps {
   analysis?: AnalysisResult;
   submissionId?: string;
@@ -122,7 +152,9 @@ interface ResultDisplayProps {
   productCategory?: string;
   formatRecommendations?: FormatRecommendations | null;
   actionRecommendations?: ActionRecommendations | null;
-  growthReport?: GrowthReport | null; // Added this
+  growthReport?: GrowthReport | null;
+  beautyAnalysis?: BeautyAnalysis | null;
+  solutionFor?: 'f&b' | 'beauty';
 }
 
 export const ResultDisplay: React.FC<ResultDisplayProps> = ({ 
@@ -132,7 +164,9 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
   productCategory: productCategoryProp, 
   formatRecommendations: formatRecommendationsProp, 
   actionRecommendations: actionRecommendationsProp,
-  growthReport: growthReportProp // Added this
+  growthReport: growthReportProp,
+  beautyAnalysis: beautyAnalysisProp,
+  solutionFor: solutionForProp
 }) => {
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(analysisProp || null);
   const [loading, setLoading] = useState(false);
@@ -140,17 +174,34 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
   const [productCategory, setProductCategory] = useState<string | null>(productCategoryProp || null);
   const [formatRecommendations, setFormatRecommendations] = useState<FormatRecommendations | null>(formatRecommendationsProp || null);
   const [actionRecommendations, setActionRecommendations] = useState<ActionRecommendations | null>(actionRecommendationsProp || null);
-  const [growthReport, setGrowthReport] = useState<GrowthReport | null>(growthReportProp || null); // Added this
+  const [growthReport, setGrowthReport] = useState<GrowthReport | null>(growthReportProp || null);
+  const [beautyAnalysis, setBeautyAnalysis] = useState<BeautyAnalysis | null>(beautyAnalysisProp || null);
+  const [solutionFor, setSolutionFor] = useState<'f&b' | 'beauty' | undefined>(solutionForProp);
+  
+  // Initialize from props if available and submissionId is not provided
+  useEffect(() => {
+    if (!submissionId) {
+      // If no submissionId, use props directly
+      if (beautyAnalysisProp) {
+        setBeautyAnalysis(beautyAnalysisProp);
+      }
+      if (solutionForProp) {
+        setSolutionFor(solutionForProp);
+      }
+      if (productCategoryProp) {
+        setProductCategory(productCategoryProp);
+      }
+    }
+  }, [submissionId, beautyAnalysisProp, solutionForProp, productCategoryProp]);
 
   useEffect(() => {
-    // If submissionId is provided and no analysis data, load from API
-    if (submissionId && !analysisProp) {
+    // Always load submission data if submissionId is provided
+    // This ensures we get beautyAnalysis, productCategory, solutionFor, etc.
+    if (submissionId) {
       loadSubmission(submissionId);
     }
-    // If analysisProp is provided directly, we still need to get productCategory
-    // This would need to be passed as a prop or loaded separately
-    // For now, we'll handle it in loadSubmission
-  }, [submissionId, analysisProp]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [submissionId]);
 
   const loadSubmission = async (id: string) => {
     setLoading(true);
@@ -161,33 +212,47 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
         throw new Error('Failed to load submission');
       }
       const result = await response.json();
-      if (result.success && result.data && result.data.analysis) {
-        setAnalysis(result.data.analysis);
+      if (result.success && result.data) {
+        // Set analysis if available (use prop if not in data, or use data)
+        if (result.data.analysis) {
+          setAnalysis(result.data.analysis);
+        } else if (analysisProp) {
+          setAnalysis(analysisProp);
+        }
         
         // Check if this is an ICP lead who SHOULD have a growth report
-        const isICP = result.data.analysis.dominantICP !== 'NOT_ICP' && result.data.analysis.status === 'READY';
+        const isICP = result.data.analysis?.dominantICP !== 'NOT_ICP' && result.data.analysis?.status === 'READY';
         
-        // Also set productCategory if available
+        // Set productCategory if available
         if (result.data.basicDetails && result.data.basicDetails.productCategory) {
           setProductCategory(result.data.basicDetails.productCategory);
+        } else if (productCategoryProp) {
+          setProductCategory(productCategoryProp);
         }
-        // Also set formatRecommendations if available
+        
+        // Set formatRecommendations if available
         if (result.data.formatRecommendations) {
           setFormatRecommendations(result.data.formatRecommendations);
+        } else if (formatRecommendationsProp) {
+          setFormatRecommendations(formatRecommendationsProp);
         }
-        // Also set actionRecommendations if available
+        
+        // Set actionRecommendations if available
         if (result.data.actionRecommendations) {
           setActionRecommendations(result.data.actionRecommendations);
+        } else if (actionRecommendationsProp) {
+          setActionRecommendations(actionRecommendationsProp);
         }
 
-        // Handle Growth Report
+        // Handle Growth Report (for F&B)
         if (result.data.growthReport) {
           setGrowthReport(result.data.growthReport);
         } else {
           const category = result.data.basicDetails?.productCategory;
           const isPackagedFB = category !== 'Beauty' && category !== 'Other';
+          const submissionSolutionFor = result.data.solutionFor || 'f&b';
           
-          if (isICP || isPackagedFB) {
+          if ((isICP || isPackagedFB) && submissionSolutionFor === 'f&b') {
             // ICP lead or Packaged F&B but missing report - trigger analysis now
             console.log('Lead missing growth report, triggering analysis...');
             const analysisResponse = await fetch('/api/analyze-growth', {
@@ -207,6 +272,53 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
               throw new Error('Failed to generate growth report');
             }
           }
+        }
+
+        // Handle Beauty Analysis (for Beauty submissions)
+        const category = result.data.basicDetails?.productCategory;
+        const submissionSolutionFor = result.data.solutionFor;
+        
+        // Set solutionFor if available
+        if (submissionSolutionFor === 'beauty' || submissionSolutionFor === 'f&b') {
+          setSolutionFor(submissionSolutionFor);
+        } else if (solutionForProp) {
+          setSolutionFor(solutionForProp);
+        }
+        
+        // Load beautyAnalysis - prioritize submission data, then props, then generate
+        if (result.data.beautyAnalysis) {
+          console.log('Loading beautyAnalysis from submission data', result.data.beautyAnalysis);
+          setBeautyAnalysis(result.data.beautyAnalysis);
+        } else if (beautyAnalysisProp) {
+          console.log('Using beautyAnalysis from props', beautyAnalysisProp);
+          setBeautyAnalysis(beautyAnalysisProp);
+        } else if (submissionSolutionFor === 'beauty' || category === 'Beauty') {
+          // Beauty submission but missing analysis - trigger analysis now
+          console.log('Beauty submission missing analysis, triggering analysis...', { submissionSolutionFor, category, id });
+          try {
+            const beautyResponse = await fetch('/api/analyze-beauty', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ submissionId: id })
+            });
+            
+            if (beautyResponse.ok) {
+              const beautyResult = await beautyResponse.json();
+              if (beautyResult.success && beautyResult.data) {
+                console.log('Beauty analysis generated successfully', beautyResult.data);
+                setBeautyAnalysis(beautyResult.data);
+              } else {
+                console.error('Failed to generate beauty analysis - no data:', beautyResult);
+              }
+            } else {
+              const errorText = await beautyResponse.text();
+              console.error('Failed to generate beauty analysis - HTTP error:', beautyResponse.status, errorText);
+            }
+          } catch (error) {
+            console.error('Error calling analyze-beauty API:', error);
+          }
+        } else {
+          console.log('Not a beauty submission, skipping beauty analysis', { submissionSolutionFor, category });
         }
       } else {
         throw new Error('Invalid submission data');
@@ -252,7 +364,9 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
   }
 
   // Check if we should show NOT_ICP content below the level/ladder
-  const showNotICPContent = analysis.dominantICP === 'NOT_ICP' || analysis.dominantLevel === 'N/A' || analysis.status === 'NOT_READY';
+  // For Beauty submissions, don't check NOT_ICP status (they use beautyAnalysis instead)
+  const isBeautySubmission = productCategory === 'Beauty' || solutionFor === 'beauty';
+  const showNotICPContent = !isBeautySubmission && (analysis.dominantICP === 'NOT_ICP' || analysis.dominantLevel === 'N/A' || analysis.status === 'NOT_READY');
   
   const getLevelStyles = (level: string) => {
     const styles: { [key: string]: string } = {
@@ -352,24 +466,27 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="glass-card rounded-2xl p-8 mb-6">
-        <div className="text-center mb-8">
-          
-          <div className="max-w-3xl mx-auto mb-12">
-            <div
-              className={`rounded-2xl border-2 overflow-hidden ${getLevelStyles(analysis.dominantLevel)}`}
-            >
-              <div className="p-6 md:p-8 bg-opacity-20 backdrop-blur-sm">
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  {growthReport?.problem_section?.title || analysis.dominantLevel}
-                </h2>
-                <div className="h-1 w-20 bg-white/30 rounded-full mb-4"></div>
-                <div className="text-slate-200 text-lg leading-relaxed">
-                  {growthReport?.problem_section?.urgency_statement || getLevelDescription(analysis.dominantLevel)}
-                </div>
-              </div>
+        {/* Only show level/ladder section for non-Beauty submissions */}
+        {!isBeautySubmission && (
+          <>
+            <div className="text-center mb-8">
               
-              {/* Integrated Capability Ladder */}
-              <div className="bg-black/40 p-6 md:p-8 border-t border-white/10">
+              <div className="max-w-3xl mx-auto mb-12">
+                <div
+                  className={`rounded-2xl border-2 overflow-hidden ${getLevelStyles(analysis.dominantLevel)}`}
+                >
+                  <div className="p-6 md:p-8 bg-opacity-20 backdrop-blur-sm">
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                      {growthReport?.problem_section?.title || analysis.dominantLevel}
+                    </h2>
+                    <div className="h-1 w-20 bg-white/30 rounded-full mb-4"></div>
+                    <div className="text-slate-200 text-lg leading-relaxed">
+                      {growthReport?.problem_section?.urgency_statement || getLevelDescription(analysis.dominantLevel)}
+                    </div>
+                  </div>
+                  
+                  {/* Integrated Capability Ladder */}
+                  <div className="bg-black/40 p-6 md:p-8 border-t border-white/10">
                 <div className="text-left mb-8">
                   <h3 className="text-xl font-bold text-white mb-2">
                     Where You Are: The Growth Ladder
@@ -466,10 +583,12 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
                     </p>
                   </div>
                 )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
 
         {/* Show NOT_ICP content if applicable */}
         {showNotICPContent && (
@@ -640,11 +759,24 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
         )}
 
         {/* Show Beauty content if applicable */}
-        {!showNotICPContent && productCategory === 'Beauty' && (
+        {/* Always show BeautyContent for Beauty product category */}
+        {(() => {
+          const shouldShowBeauty = productCategory === 'Beauty' || solutionFor === 'beauty';
+          if (shouldShowBeauty) {
+            console.log('Rendering BeautyContent', { 
+              productCategory, 
+              solutionFor, 
+              hasBeautyAnalysis: !!beautyAnalysis,
+              beautyAnalysisKeys: beautyAnalysis ? Object.keys(beautyAnalysis) : []
+            });
+          }
+          return shouldShowBeauty;
+        })() && (
           <BeautyContent 
             formatRecommendations={formatRecommendations} 
             actionRecommendations={actionRecommendations}
             growthReport={growthReport}
+            beautyAnalysis={beautyAnalysis}
           />
         )}
 

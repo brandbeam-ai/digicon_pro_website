@@ -12,6 +12,7 @@ function BookACallPageContent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const searchParams = useSearchParams();
   const submissionId = searchParams.get('submission');
+  const solutionFor = searchParams.get('solution_for') || 'beauty'; // Default to 'beauty'
 
   return (
     <div className="min-h-screen bg-black text-slate-200 selection:bg-indigo-500 selection:text-white font-sans">
@@ -81,7 +82,7 @@ function BookACallPageContent() {
                 Help us understand your needs so we can provide the best solution for your business.
               </p>
             </div>
-            <GetLeadInfo />
+            <GetLeadInfo solutionFor={solutionFor} />
           </>
         )}
       </main>

@@ -117,7 +117,7 @@ const HeroSection: React.FC = () => {
           {getTranslation(translations, 'hero.title', 'Stop Paying Influencers to Improvise. Build Agents You Own.')}
         </Heading>
         <Paragraph className="max-w-2xl mx-auto mb-10 text-xl">
-          {getTranslation(translations, 'hero.subtitle', 'We deploy Creative Intelligence AI Agents that mine your first‑party data, ship controlled creative variants fast, and convert winners into Validated Creative Plays you can scale.')}
+          {getTranslation(translations, 'hero.subtitle', 'We deploy an AI-driven creative operating system that mines first-party data from controlled creative experiments, and converts winning patterns into reusable playbooks you can scale.')}
         </Paragraph>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
           <Button variant="primary" className="w-full sm:w-auto text-lg px-8">
@@ -192,13 +192,14 @@ const FitFilter: React.FC = () => {
             <div className="p-2 bg-emerald-500/10 rounded-full text-indigo-500">
               <Check size={24} />
             </div>
-            <h3 className="text-xl font-bold">{getTranslation(translations, 'fit.for.title', 'For Leaders Who Want:')}</h3>
+            <h3 className="text-xl font-bold">{getTranslation(translations, 'fit.for.title', 'This Is For You If:')}</h3>
           </div>
           <ul className="space-y-4">
             {[
-              getTranslation(translations, 'fit.for.item1', "Brands investing consistently in paid + creators who want repeatable wins"),
-              getTranslation(translations, 'fit.for.item2', "Teams that care about speed, but refuse to sacrifice trust"),
-              getTranslation(translations, 'fit.for.item3', "Leaders who want learning that compounds")
+              getTranslation(translations, 'fit.for.item1', "You’ve spent tens of thousands on influencers and social media, but cannot point to single repeatable pattern that drive results"),
+              getTranslation(translations, 'fit.for.item2', "You sense that Vietnamese consumers are changing fast but you do not know how to respond"),
+              getTranslation(translations, 'fit.for.item3', "You’ve had viral moments that felt like luck but you can’t replicate them sustainably"),
+              getTranslation(translations, 'fit.for.item4', "You’re entering or expanding in Vietnam/SEA with a real product, real e-commerce site, and need to learn what works fast")
             ].map((item, i) => (
               <li key={i} className="flex gap-3 text-slate-300">
                 <Check size={18} className="text-indigo-500 mt-1 shrink-0" />
@@ -216,9 +217,11 @@ const FitFilter: React.FC = () => {
           </div>
           <ul className="space-y-4">
             {[
-              getTranslation(translations, 'fit.not.item1', '"Content calendars" with no testing discipline'),
-              getTranslation(translations, 'fit.not.item2', 'Anyone looking for "AI volume" without measurement rules'),
-              getTranslation(translations, 'fit.not.item3', 'Trust‑sensitive categories that want deceptive synthetic endorsements')
+              getTranslation(translations, 'fit.not.item1', 'You want a few videos with no testing, no irritation, no learning loop'),
+              getTranslation(translations, 'fit.not.item2', 'You’re happy with one-time campaigns and do not need a sustainable playbook'),
+              getTranslation(translations, 'fit.not.item3', 'You expect guaranteed revenue from day one without needing a scaling system'),
+              getTranslation(translations, 'fit.not.item4', 'You’re domestic-only and offline-first with no interest in international expansion'),
+              getTranslation(translations, 'fit.not.item5', 'You want to hide the fact that AI was used (we believe transparency is the key to trust)')
             ].map((item, i) => (
               <li key={i} className="flex gap-3 text-slate-300">
                 <X size={18} className="text-rose-500 mt-1 shrink-0" />

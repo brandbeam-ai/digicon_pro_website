@@ -1,0 +1,412 @@
+{
+  "part1": {
+    "title": "Quick Fit + Starting Package",
+    "description": "This part helps us decide whether we can work together now, and what the safest starting package is. Answer honestly — there is no \"good\" answer, only what is true today.",
+    "instructions": "Pick the option that is most true today. If unsure, pick the closest reality.",
+    "questions": [
+      {
+        "id": "Q1",
+        "text": "Which best describes your situation right now?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We are new to this market or still early. We are trying to get more people to notice us and learn what kind of videos work."
+          },
+          {
+            "value": "B",
+            "text": "We are already active in this market. We must be careful about brand rules, and we need a steady way to produce good videos."
+          },
+          {
+            "value": "C",
+            "text": "We care about results. We have clear targets (sales, sign-ups, leads) and expect videos to help move those numbers."
+          },
+          {
+            "value": "D",
+            "text": "We only sell locally and are not planning to expand to another market."
+          }
+        ]
+      },
+      {
+        "id": "Q2",
+        "text": "Where do customers buy your product online?",
+        "subtext": "(You can share a link if available)",
+        "type": "multiple-choice-with-input",
+        "options": [
+          {
+            "value": "A",
+            "text": "We sell online, but it's still early or small. We have an official selling link (website or marketplace like Shopee / TikTok Shop / Amazon), or it will be ready very soon."
+          },
+          {
+            "value": "B",
+            "text": "Online sales are meaningful. We have website and some marketplace. We can track actions like link clicks, add-to-cart, or inquiries from our selling links."
+          },
+          {
+            "value": "C",
+            "text": "Online sales are strong. We can reliably track completed purchases, subscriptions, or bookings from our selling links."
+          },
+          {
+            "value": "D",
+            "text": "Customers mainly buy offline (supermarkets, distributors, retail stores). We don't have an official online selling link that we can track."
+          }
+        ],
+        "inputPlaceholder": "Share a link if available (optional)"
+      },
+      {
+        "id": "Q3",
+        "text": "After a social media post, what numbers can you actually see?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Mostly attention only: views, watch time, comments, shares/saves."
+          },
+          {
+            "value": "B",
+            "text": "We can see actions: link clicks, add-to-cart, form fills, demo requests, inquiries."
+          },
+          {
+            "value": "C",
+            "text": "We can see sales results: completed purchases/subscriptions/bookings (or qualified pipeline) and share them reliably."
+          },
+          {
+            "value": "D",
+            "text": "We cannot access or share useful numbers right now."
+          }
+        ]
+      },
+      {
+        "id": "Q4",
+        "text": "What would help you most in the next 4–8 weeks?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "More people noticing us + fast learning on what messages and video styles work."
+          },
+          {
+            "value": "B",
+            "text": "A safe, repeatable way to produce 'winning' creatives faster (without brand risk)."
+          },
+          {
+            "value": "C",
+            "text": "Measurable improvement in business results (leads/bookings/purchases) under clear rules."
+          },
+          {
+            "value": "D",
+            "text": "Only a small set of finished videos (no testing, no review)."
+          }
+        ]
+      },
+      {
+        "id": "Q5",
+        "text": "Do you have a clear picture of your best customer (who you are really trying to win)?",
+        "type": "multiple-choice-with-input",
+        "options": [
+          {
+            "value": "A",
+            "text": "We have a rough idea, but it changes and isn't written down."
+          },
+          {
+            "value": "B",
+            "text": "We know who we want, but we must be very careful with tone/claims and approvals."
+          },
+          {
+            "value": "C",
+            "text": "We can describe our best customer clearly, and we use numbers to judge whether we are reaching them."
+          },
+          {
+            "value": "D",
+            "text": "We don't have a clear best customer; we sell to everyone."
+          }
+        ],
+        "inputPlaceholder": "Describe your best customer (optional)"
+      },
+      {
+        "id": "Q6",
+        "text": "Where is your customer data today (orders/leads/inquiries)?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Mostly in comments/DMs; no clean list we can use."
+          },
+          {
+            "value": "B",
+            "text": "We have platform/shop reports, but they're not consistent or easy to connect to content."
+          },
+          {
+            "value": "C",
+            "text": "In a system like Shopify / TikTok Shop / Amazon / CRM, we can export/track/share regularly."
+          },
+          {
+            "value": "D",
+            "text": "We can't access or share customer/order/lead data."
+          }
+        ]
+      }
+    ]
+  },
+  "part2": {
+    "title": "Self‑Diagnosis",
+    "description": "This part is designed to help you spot where the system breaks today: getting attention, turning attention into actions, or turning actions into sales. Again: pick the option you could prove quickly.",
+    "questions": [
+      {
+        "id": "Q7",
+        "text": "When a social post or campaign performs better than usual, what usually happens next?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We notice it did well, but we don't systematically build on it."
+          },
+          {
+            "value": "B",
+            "text": "We try to apply the same idea again, but results are mixed."
+          },
+          {
+            "value": "C",
+            "text": "We deliberately turn the learnings into a repeatable approach and test variations."
+          },
+          {
+            "value": "D",
+            "text": "We usually move on and focus on new posts or campaigns."
+          }
+        ]
+      },
+      {
+        "id": "Q8",
+        "text": "How do you usually decide what to post next?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We mostly go with gut feeling or what seems right at the moment."
+          },
+          {
+            "value": "B",
+            "text": "We combine gut feeling with a quick look at past results."
+          },
+          {
+            "value": "C",
+            "text": "We use clear signals and test results to decide what to publish next."
+          },
+          {
+            "value": "D",
+            "text": "We don't really have a clear way of deciding."
+          }
+        ]
+      },
+      {
+        "id": "Q9",
+        "text": "How much of your past learning is still usable today?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Very little — we often relearn the same lessons."
+          },
+          {
+            "value": "B",
+            "text": "Some — we remember what worked, but it's not systemized."
+          },
+          {
+            "value": "C",
+            "text": "A lot — we have clear references we actively reuse."
+          },
+          {
+            "value": "D",
+            "text": "We don't really think in terms of learning over time."
+          }
+        ]
+      },
+      {
+        "id": "Q10",
+        "text": "Where do experiments usually break down?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We don't test enough variations to learn quickly."
+          },
+          {
+            "value": "B",
+            "text": "Brand rules or approvals slow down iteration."
+          },
+          {
+            "value": "C",
+            "text": "Results fluctuate even when we follow the same approach."
+          },
+          {
+            "value": "D",
+            "text": "The issue isn't content — it's something else."
+          }
+        ]
+      },
+      {
+        "id": "Q11",
+        "text": "When results change week to week, what best explains it?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We don't know — performance feels random."
+          },
+          {
+            "value": "B",
+            "text": "Platform or audience behavior changes unpredictably."
+          },
+          {
+            "value": "C",
+            "text": "Small creative or offer differences create big swings."
+          },
+          {
+            "value": "D",
+            "text": "External factors (stock, price, operations) dominate results."
+          }
+        ]
+      },
+      {
+        "id": "Q12",
+        "text": "How confident are you when scaling something that works?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "Not confident — we worry it won't work again."
+          },
+          {
+            "value": "B",
+            "text": "Somewhat confident, but we scale cautiously."
+          },
+          {
+            "value": "C",
+            "text": "Confident — we know why it works and how to extend it."
+          },
+          {
+            "value": "D",
+            "text": "Scaling isn't our focus right now."
+          }
+        ]
+      },
+      {
+        "id": "Q13",
+        "text": "What happens when performance drops unexpectedly?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We change many things quickly to recover."
+          },
+          {
+            "value": "B",
+            "text": "We pause and try small adjustments."
+          },
+          {
+            "value": "C",
+            "text": "We diagnose against past tests and adjust one variable."
+          },
+          {
+            "value": "D",
+            "text": "We usually accept it and move on."
+          }
+        ]
+      },
+      {
+        "id": "Q14",
+        "text": "Which statement best describes how your growth system feels today?",
+        "type": "multiple-choice",
+        "options": [
+          {
+            "value": "A",
+            "text": "We get attention, but we are still figuring out what really works and how to repeat it."
+          },
+          {
+            "value": "B",
+            "text": "We have a working process, but improving results feels slow and heavy."
+          },
+          {
+            "value": "C",
+            "text": "We have clear numbers, but making results more stable and predictable is hard."
+          },
+          {
+            "value": "D",
+            "text": "Our biggest problems are not related to marketing or content."
+          }
+        ]
+      }
+    ]
+  },
+  "basicDetails": {
+    "title": "Basic Details",
+    "description": "Please provide your contact information",
+    "fields": [
+      {
+        "id": "company",
+        "label": "Company / Brand",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "website",
+        "label": "Company website",
+        "type": "url",
+        "required": true
+      },
+      {
+        "id": "contactName",
+        "label": "Contact person name",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "contactRole",
+        "label": "Contact person role",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "email",
+        "label": "Contact person business email",
+        "type": "email",
+        "required": true
+      },
+      {
+        "id": "productCategory",
+        "label": "Product category",
+        "type": "select",
+        "required": true,
+        "options": [
+          "Packaged F&B",
+          "Beauty",
+          "Other"
+        ]
+      },
+      {
+        "id": "products",
+        "label": "Top 1–3 products",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "id": "buyLinks",
+        "label": "Official online buy links (TikTok Shop / Shopee / Lazada / Shopify / Amazon / app store / booking page)",
+        "type": "textarea",
+        "required": false
+      },
+      {
+        "id": "markets",
+        "label": "Markets you sell in (countries you are in)",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "tracking",
+        "label": "Optional: what tracking data (platform purchase tracking, website analytics, order reports, CRM)",
+        "type": "textarea",
+        "required": false
+      }
+    ]
+  }
+}
+
