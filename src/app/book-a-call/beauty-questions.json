@@ -168,12 +168,12 @@
     "questions": [
       {
         "id": "Q7",
-        "text": "How confident are you that you know *exactly* why a Vietnamese customer buys (or ignores) your product?",
+        "text": "How confident are you that you know <strong>exactly</strong> why a Vietnamese consumer buys (or ignores) your product?",
         "type": "multiple-choice",
         "options": [
           {
             "value": "A",
-            "text": "Guessing (Zero Data): We have no local data. We are assuming they act like our global customers."
+            "text": "Guessing (Zero Data): We have no local data. We are assuming they act like our global consumers."
           },
           {
             "value": "B",

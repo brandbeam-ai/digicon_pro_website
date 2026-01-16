@@ -121,7 +121,7 @@ function CreativeIntelligenceAgentPageInternal({
             <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
             {/* Desktop Button - Hidden on mobile */}
             <Link href="/" className="primary-button-outline hidden md:flex">
-              {getTranslation(translations, 'header.button', 'Visibility Scaling AI Agents')}
+              {getTranslation(translations, 'header.button', 'AI Media Scaling')}
             </Link>
             {/* Mobile Burger Menu - Only visible on mobile */}
             <button

@@ -134,7 +134,7 @@ export const BeautyContent: React.FC = () => {
               {getTranslation(translations, 'hero.title', 'Stop Guessing What Vietnamese Consumers Want. Learn Fast, Decide Smart, Scale Right.')}
             </Heading>
             <Paragraph className="max-w-3xl mx-auto mb-10 text-xl">
-              {getTranslation(translations, 'hero.subtitle', "Whether you're considering Vietnam, already testing the market or ready to scale, we build and operate a proprietary testing and distribution system powered by AI mass video production to provide you market proof, intent signals and ultimately compound learning so you have the ability to move forward with confidence, not guesswork and a burned budget.")}
+              {getTranslation(translations, 'hero.subtitle', "Whether you're considering Vietnam, already testing the market or ready to scale, we build and operate a proprietary Go-To-Market system powered by AI Media Scaling production to provide you market proof, intent signals and ultimately compound learning so you have the ability to move forward with confidence, not guesswork and a burned budget.")}
             </Paragraph>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Link href="/book-a-call?solution_for=beauty" className="w-full sm:w-auto">
@@ -263,7 +263,7 @@ export const BeautyContent: React.FC = () => {
                <ShieldAlert size={20} className="mr-2" /> {getTranslation(translations, 'problem.tag', 'The Problem')}
             </div>
             <Heading className="text-white mb-8">
-              {getTranslation(translations, 'frame.title', "The $2.7B Vietnam Market You Can See But Can't Enter—Yet")}
+              {getTranslation(translations, 'frame.title', "The $2.7B Vietnam Market You Can See But Can't Navigate—Yet")}
             </Heading>
             <Paragraph className="mb-8 max-w-2xl mx-auto">
               {getTranslation(translations, 'frame.subtitle', "You know the opportunity in Vietnam's $2.74B beauty market is real. But between you and that market are walls you can't break through with traditional approaches.")}
@@ -297,7 +297,7 @@ export const BeautyContent: React.FC = () => {
               {getTranslation(translations, 'mechanism.title', 'How to Break the Entry Paradox in 4 Weeks?')}
             </Heading>
             <Paragraph className="mb-12 max-w-3xl mx-auto">
-              {getTranslation(translations, 'mechanism.subtitle', "You're stuck in a loop: can't prove demand without presence, can't build presence without proof. Instead of guessing or hoping, we build and operate a mass video production and distribution system powered by creative intelligence that mines the exact consumer signals you need, identifies repeat patterns, and turns results into decision-grade learning you own.")}
+              {getTranslation(translations, 'mechanism.subtitle', "You're stuck in a loop: can't prove demand without presence, can't build presence without proof. Instead of guessing or hoping, we build and operate AI Media Scaling system powered by creative intelligence that mines the exact consumer signals you need, identifies repeat patterns, and turns results into decision-grade learning you own.")}
             </Paragraph>
             
             <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm mb-12 shadow-2xl">
@@ -372,7 +372,7 @@ export const BeautyContent: React.FC = () => {
                     getTranslation(translations, 'packages.stage1.item5', 'Trust Details Summary (what proof Vietnamese consumers want)'),
                     getTranslation(translations, 'packages.stage1.item6', 'Go/No-Go Decision Note (clear recommendation with evidence)')
                   ],
-                  investment: '$10,000 USD',
+                  investment: '$9,995 USD',
                   icon: Search,
                   color: "text-blue-400",
                   bg: "bg-blue-500/10"
@@ -389,7 +389,7 @@ export const BeautyContent: React.FC = () => {
                     getTranslation(translations, 'packages.stage2.item5', 'Validated Plays Library (creative patterns that reliably generate buying questions)'),
                     getTranslation(translations, 'packages.stage2.item6', 'Signal Dashboard (live tracking showing signal quality over time)')
                   ],
-                  investment: '$15,000 USD',
+                  investment: '$14,495 USD',
                   icon: MessageSquare,
                   color: "text-purple-400",
                   bg: "bg-purple-500/10"
@@ -406,7 +406,7 @@ export const BeautyContent: React.FC = () => {
                     getTranslation(translations, 'packages.stage3.item5', 'KOC Selling Test Summary (real buying behavior data)'),
                     getTranslation(translations, 'packages.stage3.item6', 'Scale Recommendations (clear next steps based on test results)')
                   ],
-                  investment: '$30,000 USD',
+                  investment: '$29,995 USD',
                   icon: ShieldCheck,
                   color: "text-indigo-400",
                   bg: "bg-indigo-500/10"
@@ -520,7 +520,7 @@ export const BeautyContent: React.FC = () => {
               <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/5">
-                    <th className="p-6 text-xs font-black text-slate-500 uppercase tracking-widest">{getTranslation(translations, 'vs.header1', 'THE OLD WAY')}</th>
+                    <th className="p-6 text-xs font-black text-slate-400 uppercase tracking-widest">{getTranslation(translations, 'vs.header1', 'THE OLD WAY')}</th>
                     <th className="p-6 text-xs font-black text-indigo-400 uppercase bg-indigo-500/10 tracking-widest">{getTranslation(translations, 'vs.header2', 'SIGNAL-FIRST APPROACH')}</th>
                   </tr>
                 </thead>
@@ -534,12 +534,12 @@ export const BeautyContent: React.FC = () => {
                     { old: getTranslation(translations, 'vs.row6.old', 'Throw money at ads and quick fixes'), nw: getTranslation(translations, 'vs.row6.new', 'Diagnose the actual bottleneck, test fixes on real problems and scale only what\'s proven') },
                     { old: getTranslation(translations, 'vs.row7.old', 'Hire more KOCs and partner more until something clicks'), nw: getTranslation(translations, 'vs.row7.new', 'Approach proven KOCs and distributors with documented proof of demand, putting you in an advanced negotiation position') },
                     { old: getTranslation(translations, 'vs.row8.old', 'Repeat with no learning and leverage'), nw: getTranslation(translations, 'vs.row8.new', 'Stack validated learnings, sustainable wins, only invest further when proof says go') }
-                  ].map((row, i) => (
-                    <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors text-sm">
-                      <td className="p-6 text-slate-500 italic opacity-70">{i+1}. {row.old}</td>
-                      <td className="p-6 text-white font-semibold bg-indigo-500/[0.03] border-l border-indigo-500/10">{i+1}. {row.nw}</td>
-                    </tr>
-                  ))}
+                    ].map((row, i) => (
+                      <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors text-sm">
+                        <td className="p-6 text-slate-300 italic font-medium">{i+1}. {row.old}</td>
+                        <td className="p-6 text-white font-semibold bg-indigo-500/[0.03] border-l border-indigo-500/10">{i+1}. {row.nw}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

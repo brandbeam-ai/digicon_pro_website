@@ -483,8 +483,8 @@ const ComparisonTable: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-white/10 bg-white/5">
-                <th className="p-4 md:p-6 text-sm font-bold text-slate-400 uppercase">{getTranslation(translations, 'vs.header.feature', 'Feature')}</th>
-                <th className="p-4 md:p-6 text-sm font-bold text-slate-400 uppercase">{getTranslation(translations, 'vs.header.old', 'Traditional Agency')}</th>
+                <th className="p-4 md:p-6 text-sm font-bold text-slate-300 uppercase">{getTranslation(translations, 'vs.header.feature', 'Feature')}</th>
+                <th className="p-4 md:p-6 text-sm font-bold text-slate-300 uppercase">{getTranslation(translations, 'vs.header.old', 'Traditional Agency')}</th>
                 <th className="p-4 md:p-6 text-sm font-bold text-indigo-400 uppercase bg-indigo-500/10">{getTranslation(translations, 'vs.header.new', 'Creative Intelligence Agents')}</th>
               </tr>
             </thead>
@@ -492,7 +492,7 @@ const ComparisonTable: React.FC = () => {
               {rows.map((row, i) => (
                 <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
                   <td className="p-4 md:p-6 font-medium text-white">{row.feature}</td>
-                  <td className="p-4 md:p-6 text-slate-400">{row.old}</td>
+                  <td className="p-4 md:p-6 text-slate-300 italic">{row.old}</td>
                   <td className="p-4 md:p-6 text-white font-semibold bg-indigo-500/[0.03] border-l border-indigo-500/10">{row.new}</td>
                 </tr>
               ))}
