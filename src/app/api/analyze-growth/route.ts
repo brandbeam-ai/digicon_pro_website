@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import fs from 'fs/promises';
 import path from 'path';
+import { updateAirtable } from '@/app/utils/airtable';
 
 // VERIFIED VERSION 2026-01-14-V6 - Strict SKU Adherence
 export async function POST(request: Request) {
@@ -282,6 +283,9 @@ You must output a **single valid JSON object** with the following structure. Do 
       
       await fs.writeFile(filePath, JSON.stringify(currentData, null, 2), 'utf8');
       console.log(`Updated submission ${finalSubmissionId} with growth report`);
+
+      // Update Airtable
+      await updateAirtable(finalSubmissionId, currentData);
     }
 
     return NextResponse.json({ success: true, data: growthReport });

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Target, 
   Video,
@@ -15,9 +15,103 @@ import {
   Zap,
   Star,
   ArrowRight,
-  TrendingUp,
+  TrendingUp, 
   Award
 } from 'lucide-react';
+
+// --- Calendly Overlay Component ---
+const CalendlyOverlay: React.FC<{ 
+  isOpen: boolean; 
+  onClose: () => void; 
+  prefill?: { 
+    name?: string; 
+    email?: string;
+    company?: string;
+    website?: string;
+    role?: string;
+    submissionId?: string;
+  } 
+}> = ({ isOpen, onClose, prefill }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const calendlyUrl = 'https://calendly.com/jay-jdalchemy/discovery-call-w-founders-ams';
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const loadCalendly = async () => {
+      const existing = document.getElementById('calendly-script');
+      if (!existing) {
+        const script = document.createElement('script');
+        script.id = 'calendly-script';
+        script.src = 'https://assets.calendly.com/assets/external/widget.js';
+        script.async = true;
+        document.head.appendChild(script);
+        
+        await new Promise((resolve) => {
+          script.onload = resolve;
+        });
+      }
+
+      if (window.Calendly && containerRef.current) {
+        containerRef.current.innerHTML = '';
+        
+        window.Calendly.initInlineWidget({
+          url: calendlyUrl,
+          parentElement: containerRef.current,
+          prefill: {
+            name: prefill?.name,
+            email: prefill?.email,
+            customAnswers: {
+              a1: prefill?.company,
+              a2: prefill?.website,
+              a3: prefill?.role
+            }
+          },
+          utm: {
+            utmSource: 'lead_qualification',
+            utmMedium: 'beauty_analysis',
+            utmCampaign: prefill?.submissionId
+          }
+        });
+      }
+    };
+
+    loadCalendly();
+  }, [isOpen, prefill]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 md:p-8" onClick={onClose}>
+      <div className="relative w-full max-w-5xl h-[90vh] bg-white rounded-3xl overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 z-10 p-2 bg-slate-100 text-slate-800 rounded-full hover:bg-slate-200 transition-colors shadow-lg"
+        >
+          <X size={24} />
+        </button>
+        <div ref={containerRef} className="w-full h-full" />
+      </div>
+    </div>
+  );
+};
+
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget: (options: {
+        url: string;
+        parentElement: HTMLElement;
+        prefill?: { 
+          name?: string; 
+          email?: string; 
+          customAnswers?: Record<string, string | undefined>;
+        };
+        utm?: Record<string, string | undefined>;
+      }) => void;
+    };
+  }
+}
 
 interface ActionRecommendations {
   company_name?: string;
@@ -140,13 +234,41 @@ interface BeautyContentProps {
   actionRecommendations?: ActionRecommendations | null;
   growthReport?: GrowthReport | null;
   beautyAnalysis?: BeautyAnalysis | null;
+  submissionId?: string | null;
+  basicDetails?: {
+    contactName?: string;
+    email?: string;
+    company?: string;
+    website?: string;
+    contactRole?: string;
+    [key: string]: string | number | boolean | undefined | null;
+  } | null;
 }
 
-export const BeautyContent: React.FC<BeautyContentProps> = ({ formatRecommendations, actionRecommendations, beautyAnalysis }) => {
+export const BeautyContent: React.FC<BeautyContentProps> = ({ 
+  formatRecommendations, 
+  actionRecommendations, 
+  beautyAnalysis, 
+  basicDetails,
+  submissionId
+}) => {
+  const [showCalendly, setShowCalendly] = useState(false);
   const hasBeautyAnalysis = !!beautyAnalysis?.executive_diagnosis;
 
   return (
     <div className="mt-12 pt-8">
+      <CalendlyOverlay 
+        isOpen={showCalendly} 
+        onClose={() => setShowCalendly(false)} 
+        prefill={{
+          name: basicDetails?.contactName || '',
+          email: basicDetails?.email || '',
+          company: basicDetails?.company || '',
+          website: basicDetails?.website || '',
+          role: basicDetails?.contactRole || '',
+          submissionId: submissionId || ''
+        }}
+      />
       {/* Executive Diagnosis Section */}
       {hasBeautyAnalysis && beautyAnalysis.executive_diagnosis && (
         <div className="mb-24 max-w-6xl mx-auto px-4">
@@ -421,7 +543,10 @@ export const BeautyContent: React.FC<BeautyContentProps> = ({ formatRecommendati
                   {beautyAnalysis.recommended_next_action}
                 </h3>
                 
-                <button className="px-10 py-5 bg-white text-indigo-950 rounded-2xl font-black text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-95 transition-all duration-300 flex items-center gap-3 mx-auto">
+                <button 
+                  onClick={() => setShowCalendly(true)}
+                  className="px-10 py-5 bg-white text-indigo-950 rounded-2xl font-black text-lg hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-95 transition-all duration-300 flex items-center gap-3 mx-auto"
+                >
                   Execute This Strategy <ArrowRight size={20} />
                 </button>
                 

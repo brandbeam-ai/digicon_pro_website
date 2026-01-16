@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import { randomBytes } from 'crypto';
+import { updateAirtable } from '@/app/utils/airtable';
 
 export async function POST(request: Request) {
   try {
@@ -25,6 +26,9 @@ export async function POST(request: Request) {
     
     const filePath = path.join(submissionsDir, `${uniqueId}.json`);
     await fs.writeFile(filePath, JSON.stringify(submissionData, null, 2), 'utf8');
+    
+    // Update Airtable
+    await updateAirtable(uniqueId, submissionData);
     
     return NextResponse.json({ 
       success: true, 

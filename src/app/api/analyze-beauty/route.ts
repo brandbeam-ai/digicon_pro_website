@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
 import fs from 'fs/promises';
 import path from 'path';
+import { updateAirtable } from '@/app/utils/airtable';
 
 export async function POST(request: Request) {
   try {
@@ -309,6 +310,9 @@ ${a.additionalText ? `Additional Context: ${a.additionalText}` : ''}
       
       // Write back to file
       await fs.writeFile(filePath, JSON.stringify(existingData, null, 2), 'utf8');
+
+      // Update Airtable
+      await updateAirtable(finalSubmissionId, existingData);
     }
 
     return NextResponse.json({

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import { GoogleGenAI } from '@google/genai';
+import { updateAirtable } from '@/app/utils/airtable';
 
 export async function POST(request: Request) {
   try {
@@ -256,6 +257,9 @@ Generate a **single, valid JSON object** matching the schema below. Do not inclu
         
         await fs.writeFile(filePath, JSON.stringify(currentData, null, 2), 'utf8');
         console.log(`Updated submission ${submissionId} with format recommendations`);
+
+        // Update Airtable
+        await updateAirtable(submissionId, currentData);
       } catch (saveError) {
         console.error(`Failed to save format recommendations to ${submissionId}:`, saveError);
       }

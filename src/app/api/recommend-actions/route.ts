@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 import { GoogleGenAI } from '@google/genai';
+import { updateAirtable } from '@/app/utils/airtable';
 
 export async function POST(request: Request) {
   try {
@@ -261,6 +262,9 @@ Generate a **single, valid JSON object**.
         
         await fs.writeFile(filePath, JSON.stringify(currentData, null, 2), 'utf8');
         console.log(`Updated submission ${submissionId} with action recommendations`);
+
+        // Update Airtable
+        await updateAirtable(submissionId, currentData);
       } catch (saveError) {
         console.error(`Failed to save action recommendations to ${submissionId}:`, saveError);
       }

@@ -177,6 +177,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
   const [growthReport, setGrowthReport] = useState<GrowthReport | null>(growthReportProp || null);
   const [beautyAnalysis, setBeautyAnalysis] = useState<BeautyAnalysis | null>(beautyAnalysisProp || null);
   const [solutionFor, setSolutionFor] = useState<'f&b' | 'beauty' | undefined>(solutionForProp);
+  const [basicDetails, setBasicDetails] = useState<Record<string, string | number | boolean | undefined | null> | null>(null);
   
   // Initialize from props if available and submissionId is not provided
   useEffect(() => {
@@ -223,6 +224,11 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
         // Check if this is an ICP lead who SHOULD have a growth report
         const isICP = result.data.analysis?.dominantICP !== 'NOT_ICP' && result.data.analysis?.status === 'READY';
         
+        // Set basicDetails if available
+        if (result.data.basicDetails) {
+          setBasicDetails(result.data.basicDetails);
+        }
+
         // Set productCategory if available
         if (result.data.basicDetails && result.data.basicDetails.productCategory) {
           setProductCategory(result.data.basicDetails.productCategory);
@@ -778,6 +784,8 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
             actionRecommendations={actionRecommendations}
             growthReport={growthReport}
             beautyAnalysis={beautyAnalysis}
+            basicDetails={basicDetails}
+            submissionId={submissionId}
           />
         )}
 
