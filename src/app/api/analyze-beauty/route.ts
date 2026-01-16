@@ -45,9 +45,9 @@ Persuade the client that the "Traditional/DIY" path is slow, risky, and expensiv
 **Critical Constraints:**
 
 1. **Output Format:** The final response must be a single, valid JSON object. Do not include conversational filler.
-2. **NO Internal Jargon:** You are strictly forbidden from using internal terms like "SKU", "SKU-S1", "SKU-S2", "Product Masterfile", or "Signal Mining Sprint". Translate these into benefit-driven business terms.
+2. **NO Internal Jargon in Text:** You are strictly forbidden from using internal terms like "SKU-S1" or "Signal Mining Sprint" in the *human-readable text descriptions*. You must translate these into benefit-driven Package Names.
 3. **Specific DIY Analysis:** The "DIY Solution" steps must be dynamically generated based on **all** the user's specific answers.
-4. **Attractive Digicon Description:** The Digicon steps must be written in a compelling, narrative style that highlights *value* and *ease*, not just dry tasks.
+4. **Attractive Digicon Description:** The Digicon steps must be written in a compelling, narrative style.
 
 ---
 
@@ -58,25 +58,29 @@ Analyze the user's answers to categorize them into one of 4 Stages.
 * **Stage 1: Intent to Enter (The "Blind" Stage)**
 * *Triggers:* Q3 is "Invisible" OR Q5 is "Origin Country". Q6 is "Dead End" or "Cross-Border".
 * *Core Problem:* Blind Risk.
-* *DIGICON Solution:* AI Visualizer + Signal Mining.
+* *Internal SKU:* **SKU-S1**
+* *Public Package Name:* "Market Validation & Visualizer Program"
 
 
 * **Stage 2: Presence but Guessing (The "Foggy" Stage)**
 * *Triggers:* Q3 is "Visible but Silent". Q7 is "Guessing" or "Vanity Data". Q11 is "I have no idea".
 * *Core Problem:* The Trust Gap.
-* *DIGICON Solution:* Message Guide + Winning Plays + Signal Engine.
+* *Internal SKU:* **SKU-S2**
+* *Public Package Name:* "Intent Signal & Message Engine"
 
 
 * **Stage 3: Distributor Friction (The "Stuck" Stage)**
 * *Triggers:* Q3 is "Stuck". Q9 is "Show Me Proof" or "Too Small".
 * *Core Problem:* Lack of Leverage.
-* *DIGICON Solution:* Distributor Proof Pack + Controlled Test Sale.
+* *Internal SKU:* **SKU-S3**
+* *Public Package Name:* "Distributor Enablement & Proof Program"
 
 
 * **Stage 4: Sales Fix (The "Leaking" Stage)**
 * *Triggers:* Q3 is "Active & Selling". Q8 is "Low Margins" or "Black Hole".
 * *Core Problem:* Funnel Leakage.
-* *DIGICON Solution:* Sales Logic Diagnostics + Funnel Optimization.
+* *Internal SKU:* **SKU-S4**
+* *Public Package Name:* "Sales Logic & Funnel Diagnostic"
 
 
 
@@ -118,7 +122,7 @@ You must generate 3 specific steps for the \`option_a_diy\` section. Group the m
 
 ### **Step 3: Constructing the "DIGICON" Steps (The Attractive Path)**
 
-You must generate 3 specific steps for the \`option_b_digicon\` section. **Do not use short, punchy bullets.** Instead, write these as attractive, high-value descriptors that sound sophisticated and effortless.
+You must generate 3 specific steps for the \`option_b_digicon\` section. **Do not use short, punchy bullets.** Write these as attractive, high-value descriptors.
 
 * **For Stage 1 Client (Validation):**
 * *Step 1:* "Rapid Asset Generation: Deploy AI-driven visualizers to create market-ready product assets instantly, eliminating the need for expensive physical photoshoots."
@@ -189,6 +193,8 @@ Your response must follow this exact schema:
     },
     "option_b_digicon": {
       "approach_name": "The DIGICON System (Data-Led & Agile)",
+      "best_fit_sku": "String: [Insert Internal SKU Code here, e.g., SKU-S1]",
+      "recommended_package": "String: [Insert Public Package Name Here]",
       "timeline": "30 - 60 Days",
       "risk_level": "Low (Data-Backed)",
       "execution_steps": [
@@ -248,8 +254,9 @@ ${a.additionalText ? `Additional Context: ${a.additionalText}` : ''}
 1. Analyze all answers to determine which Stage (1-4) the client is in
 2. Generate specific DIY steps based on their actual answers (Q1, Q4, Q5, Q7, Q8, Q9, Q11)
 3. Generate attractive DIGICON steps based on their diagnosed Stage
-4. Provide a recommended next action based on Q12
-5. Output ONLY valid JSON, no markdown formatting outside the JSON object
+4. Include the correct "best_fit_sku" (SKU-S1, SKU-S2, SKU-S3, or SKU-S4) and "recommended_package" (Public Package Name) in the option_b_digicon object based on the diagnosed stage
+5. Provide a recommended next action based on Q12
+6. Output ONLY valid JSON, no markdown formatting outside the JSON object
 `;
 
     const config = {

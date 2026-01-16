@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Check, X, ArrowRight, ShieldCheck, Users, Activity, TrendingUp, DollarSign, Play, ShieldAlert, Brain, Zap, Scale } from 'lucide-react';
+import { Check, X, ArrowRight, Users, Activity, TrendingUp, DollarSign, Play, ShieldAlert, Brain, Zap, Target, BarChart3, HelpCircle } from 'lucide-react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getTranslation } from '../../utils/translations';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
@@ -34,7 +34,8 @@ const Button: React.FC<{
   variant?: 'primary' | 'secondary' | 'outline';
   className?: string;
   fullWidth?: boolean;
-}> = ({ children, variant = 'primary', className = '', fullWidth = false }) => {
+  onClick?: () => void;
+}> = ({ children, variant = 'primary', className = '', fullWidth = false, onClick }) => {
   const baseStyles = "inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black";
   
   const variants = {
@@ -45,14 +46,14 @@ const Button: React.FC<{
 
   if (variant === 'primary') {
     return (
-      <button className={`primary-button ${fullWidth ? 'w-full' : ''} ${className}`}>
+      <button onClick={onClick} className={`primary-button ${fullWidth ? 'w-full' : ''} ${className}`}>
         {children}
       </button>
     );
   }
 
   return (
-    <button className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}>
+    <button onClick={onClick} className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}>
       {children}
     </button>
   );
@@ -107,12 +108,12 @@ export const BeautyContent: React.FC = () => {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] -z-10" />
           
           <div className="container mx-auto px-4 text-center max-w-5xl">
-            <SectionTag>{getTranslation(translations, 'tagline', 'AI-powered Branding & Social Commerce for Beauty Brand entering New Market')}</SectionTag>
+            <SectionTag>{getTranslation(translations, 'tagline', 'AI-powered Market Intelligence for Beauty Brands entering Vietnam')}</SectionTag>
             <Heading level={1} className="text-white">
-              {getTranslation(translations, 'hero.title', 'Stop Paying Booking Fees To Skeptical Influencers. Build Trust Signals First.')}
+              {getTranslation(translations, 'hero.title', 'Stop Guessing What Vietnamese Consumers Want. Learn Fast, Decide Smart, Scale Right.')}
             </Heading>
             <Paragraph className="max-w-3xl mx-auto mb-10 text-xl">
-              {getTranslation(translations, 'hero.subtitle', 'We deploy our intelligence engines technology to create up to 50 high-quality videos per month that make you LOOK like a brand worth betting on, then mine proof of customer demand from real engagement, so you can approach KOCs with leverage and good commission deals instead of hope.')}
+              {getTranslation(translations, 'hero.subtitle', 'Whether you\'re considering Vietnam, already testing the market or ready to scale, we build and operate a proprietary testing system powered by mass AI video production to provide you market proof, intent signals and ultimately compound learning so you have the ability to move forward with confidence, not guesswork and a burned budget.')}
             </Paragraph>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Button variant="primary" className="w-full sm:w-auto text-lg px-8">
@@ -120,14 +121,14 @@ export const BeautyContent: React.FC = () => {
               </Button>
               <div onClick={() => setShowVideo(true)} className="w-full sm:w-auto">
                 <Button variant="outline" className="w-full sm:w-auto text-lg px-8 group">
-                  {getTranslation(translations, 'hero.cta2', 'See a Demo')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
+                  {getTranslation(translations, 'hero.cta2', 'See how it works')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
                 </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Metrics Section (Adapted from SocialProof) */}
+        {/* Metrics Section */}
         <section className="border-y border-white/5 bg-white/[0.02] py-16">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -167,14 +168,14 @@ export const BeautyContent: React.FC = () => {
           </div>
         </section>
 
-        {/* Fit Filter Section (Adapted from FitFilter) */}
+        {/* Fit Filter Section */}
         <section className="py-24 container mx-auto px-4">
           <div className="text-center mb-16">
             <SectionTag>{getTranslation(translations, 'fit.tag', 'Fit Filter')}</SectionTag>
             <Heading>{getTranslation(translations, 'fit.title', "Who This Is For (and Who It's Not)")}</Heading>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
             <Card className="border-t-4 border-t-indigo-500">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-emerald-500/10 rounded-full text-indigo-500">
@@ -182,17 +183,21 @@ export const BeautyContent: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold">{getTranslation(translations, 'fit.for.title', 'This Is For You If:')}</h3>
               </div>
-              <ul className="space-y-4">
+              <ul className="space-y-4 mb-6">
                 {[
-                  getTranslation(translations, 'fit.for.item1', 'Quality KOCs ignore your DMs or quote booking fees that would eat your entirely monthly budget'),
-                  getTranslation(translations, 'fit.for.item2', 'You’ve spent tens of thousands on influencers, but cannot point to single repeatable pattern that drive results'),
-                  getTranslation(translations, 'fit.for.item3', 'You sense that Vietnamese consumers are changing fast but you do not know how to respond to them'),
-                  getTranslation(translations, 'fit.for.item4', 'You’ve had viral moments that felt like luck but you can’t replicate them'),
-                  getTranslation(translations, 'fit.for.item5', 'You’re entering US and Vietnam/SEA with a real product, real e-commerce site, and need to learn what works fast')
+                  { text: getTranslation(translations, 'fit.for.stage1', 'You\'re considering Vietnam but have zero presence, zero proof that anyone there would actually buy your product, and you can\'t justify the investment without seeing real market signals first.'), stage: 'Stage 1' },
+                  { text: getTranslation(translations, 'fit.for.stage2', 'You\'ve posted content in Vietnam and had some viral moments, but everything feels like random luck and you can\'t replicate what works or tell whether you\'re building anything sustainable.'), stage: 'Stage 2' },
+                  { text: getTranslation(translations, 'fit.for.stage3', 'You know Vietnamese consumers want your product, but you\'re stuck because distributors and KOCs won\'t commit without proof, and you can\'t scale without them moving first.'), stage: 'Stage 3' },
+                  { text: getTranslation(translations, 'fit.for.stage4', 'You have distributors or retail presence in Vietnam, but sales are disappointing, and you have no idea if the problem is your messaging, trust, awareness, or something else entirely.'), stage: 'Stage 4' },
                 ].map((item, i) => (
-                  <li key={i} className="flex gap-3 text-slate-300">
-                    <Check size={18} className="text-indigo-500 mt-1 shrink-0" />
-                    <span>{item}</span>
+                  <li key={i} className="flex flex-col gap-3 text-slate-300">
+                    <div className="flex gap-3">
+                      <Check size={18} className="text-indigo-500 mt-1 shrink-0" />
+                      <span>{item.text}</span>
+                    </div>
+                    <Button variant="outline" className="ml-7 text-sm px-4 py-2 w-fit">
+                      {item.stage}
+                    </Button>
                   </li>
                 ))}
               </ul>
@@ -207,11 +212,11 @@ export const BeautyContent: React.FC = () => {
               </div>
               <ul className="space-y-4">
                 {[
-                  getTranslation(translations, 'fit.not.item1', 'You want a few videos with no testing, no irritation, no learning loop'),
-                  getTranslation(translations, 'fit.not.item2', 'You’re happy with one-time campaigns and do not need a sustainable playbook'),
-                  getTranslation(translations, 'fit.not.item3', 'You expect guaranteed revenue from day one without needing a scaling system'),
-                  getTranslation(translations, 'fit.not.item4', 'You’re domestic-only and offline-first with no interest in international expansion'),
-                  getTranslation(translations, 'fit.not.item5', 'You want to hide the fact that AI was used (we believe in transparent "Tech-Beauty" positioning)')
+                  getTranslation(translations, 'fit.not.item1', 'You want cheap content volume with no testing, learning, or iteration'),
+                  getTranslation(translations, 'fit.not.item2', 'You\'re happy with one-time campaigns and don\'t need a sustainable system'),
+                  getTranslation(translations, 'fit.not.item3', 'You expect guaranteed revenue from day one without building a learning system first'),
+                  getTranslation(translations, 'fit.not.item4', 'You\'re domestic-only and offline-first with no interest in Vietnam expansion'),
+                  getTranslation(translations, 'fit.not.item5', 'You want to hide that AI is used (we believe in transparent "Tech-Enabled Beauty" positioning)')
                 ].map((item, i) => (
                   <li key={i} className="flex gap-3 text-slate-300">
                     <X size={18} className="text-rose-500 mt-1 shrink-0" />
@@ -221,28 +226,39 @@ export const BeautyContent: React.FC = () => {
               </ul>
             </Card>
           </div>
+
+          {/* Stage Selection CTA */}
+          <div className="text-center max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-white mb-6">
+              {getTranslation(translations, 'fit.stage.question', 'WHICH STAGE ARE YOU IN?')}
+            </h3>
+            <Button variant="primary" className="text-lg px-8">
+              {getTranslation(translations, 'fit.stage.cta', 'Apply for Access — We\'ll Help You Identify Your Stage')} <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </div>
         </section>
 
-        {/* The Frame (Adapted from ProblemSection) */}
+        {/* The Frame (Problem Section) */}
         <section className="py-24 bg-slate-950">
           <div className="container mx-auto px-4 max-w-4xl text-center">
             <div className="inline-flex items-center justify-center p-3 bg-red-500/10 text-red-400 rounded-full mb-6">
                <ShieldAlert size={20} className="mr-2" /> {getTranslation(translations, 'problem.tag', 'The Problem')}
             </div>
             <Heading className="text-white mb-8">
-              {getTranslation(translations, 'frame.title', 'The $2.7B Vietnam Market You Can See But Can’t Enter')}
+              {getTranslation(translations, 'frame.title', 'The $2.7B Vietnam Market You Can See But Can\'t Enter—Yet')}
             </Heading>
             <Paragraph className="mb-8">
-              {getTranslation(translations, 'frame.subtitle', 'You know the opportunity in Vietnam’s $2.74B and growing beauty market is real, but between you and that market is a wall called trust.')}
+              {getTranslation(translations, 'frame.subtitle', 'You know the opportunity in Vietnam\'s $2.74B beauty market is real. But between you and that market are walls you can\'t break through with traditional approaches.')}
             </Paragraph>
             
             <div className="grid md:grid-cols-2 gap-6 text-left mt-12">
               {[
-                { title: getTranslation(translations, 'frame.item1.title', 'Influencer Inflation Trap'), desc: getTranslation(translations, 'frame.item1.desc', 'Mega-influencers now can cost $20k+ (20-40x increase since 2022) with untrackable ROI. Your budget buys less reach each quarter.') },
-                { title: getTranslation(translations, 'frame.item2.title', 'The Trust Collapse'), desc: getTranslation(translations, 'frame.item2.desc', 'Vietnamese consumers now assume “unproven = potential scam” due to the rise of counterfeit creams and deepfakes. Views no longer equal consideration.') },
-                { title: getTranslation(translations, 'frame.item3.title', 'KOCs Rejection Loop'), desc: getTranslation(translations, 'frame.item3.desc', 'Quality KOCs who actually drive sales will not risk their reputation on unknown brands. They either ghost you, demand prohibitive booking fees or give you their B-tier effort.') },
-                { title: getTranslation(translations, 'frame.item4.title', 'The 2026 Cliff'), desc: getTranslation(translations, 'frame.item4.desc', 'Vietnam’s new Advertising Law (Jan 2026) makes KOCs personally liable for product claims. KOCs who were already cautious will become extremely selective.') },
-                { title: getTranslation(translations, 'frame.item5.title', 'Zero Leverage'), desc: getTranslation(translations, 'frame.item5.desc', 'You’re renting attention instead of building. Each campaign starts from zero. No compounding learning, no leverage for the next negotiation.') }
+                { title: getTranslation(translations, 'frame.item1.title', 'The Blind Bet Problem'), desc: getTranslation(translations, 'frame.item1.desc', 'Brands entering Vietnam are flying blind: testing random content, copying what worked for others, renting attention to agencies. $50K later, they still don\'t know what actually drove results.') },
+                { title: getTranslation(translations, 'frame.item2.title', 'The Trust Fog'), desc: getTranslation(translations, 'frame.item2.desc', 'Vietnamese consumers assume "unproven = potential scam" due to counterfeit creams and deepfakes. But you don\'t know which trust signals matter for your specific product category.') },
+                { title: getTranslation(translations, 'frame.item3.title', 'The Signal Confusion'), desc: getTranslation(translations, 'frame.item3.desc', 'Views don\'t equal interest. Interest doesn\'t equal buying. Most brands can\'t tell the difference, so they optimize for the wrong metrics at the wrong stage.') },
+                { title: getTranslation(translations, 'frame.item4.title', 'Influencer Inflation Trap'), desc: getTranslation(translations, 'frame.item4.desc', 'Quality partners won\'t risk their reputation without evidence, and mega-influencers now can cost $20k+ (2-40x increase since 2022) with untrackable ROI. Booking fees eat budgets before you learn anything.') },
+                { title: getTranslation(translations, 'frame.item5.title', 'The Expensive Unknowns'), desc: getTranslation(translations, 'frame.item5.desc', 'It\'s not just the wasted months, aimless partnerships, and the first $20K-50K that hurt. It\'s the next $100K you spend and the opportunity cost of getting it wrong while competitors get it right.') },
+                { title: getTranslation(translations, 'frame.item6.title', 'The 2026 Compliance Reality'), desc: getTranslation(translations, 'frame.item6.desc', 'Vietnam\'s new Advertising Law (Jan 2026) makes KOCs and brands personally liable for product claims. Partners who were already cautious are now extremely selective.') }
               ].map((item, i) => (
                 <div key={i} className="p-6 rounded-xl bg-white/5 border border-white/5 hover:border-red-500/30 transition-colors">
                   <div className="text-red-400 font-bold mb-2 text-lg">{item.title}</div>
@@ -253,122 +269,193 @@ export const BeautyContent: React.FC = () => {
           </div>
         </section>
 
-        {/* The Mechanism (Adapted from ComparisonTable) */}
+        {/* The Mechanism */}
         <section className="py-24">
-          <div className="container mx-auto px-4 max-w-4xl text-center">
+          <div className="container mx-auto px-4 max-w-5xl text-center">
             <Heading level={2} className="text-white mb-6">
-              {getTranslation(translations, 'mechanism.title', 'How to Break the Rejection Cycle')}
+              {getTranslation(translations, 'mechanism.title', 'How to Break the Entry Paradox in 4 Weeks?')}
             </Heading>
             <Paragraph className="mb-12">
-              {getTranslation(translations, 'mechanism.subtitle', 'KOCs won’t work with you because you look unproven, and you can’t prove demand because KOCs won’t work with you.')}
+              {getTranslation(translations, 'mechanism.subtitle', 'You\'re stuck in a loop: can\'t prove demand without presence, can\'t build presence without proof. Instead of guessing or hoping, we deploy AI-powered Creative Intelligence to capture real consumer signals, identify repeat patterns, and turn results into decision-grade learning you own.')}
             </Paragraph>
             
             <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm mb-12">
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/5">
-                    <th className="p-4 md:p-6 text-sm font-bold text-slate-400 uppercase">{getTranslation(translations, 'mechanism.table.header1', 'What you need')}</th>
-                    <th className="p-4 md:p-6 text-sm font-bold text-indigo-400 uppercase bg-indigo-500/10">{getTranslation(translations, 'mechanism.table.header2', 'How we deliver it')}</th>
+                    <th className="p-4 md:p-6 text-sm font-bold text-slate-400 uppercase">{getTranslation(translations, 'mechanism.table.header1', 'If Your Problem Is…')}</th>
+                    <th className="p-4 md:p-6 text-sm font-bold text-indigo-400 uppercase bg-indigo-500/10">{getTranslation(translations, 'mechanism.table.header2', 'You Actually Need…')}</th>
+                    <th className="p-4 md:p-6 text-sm font-bold text-emerald-400 uppercase bg-emerald-500/10">{getTranslation(translations, 'mechanism.table.header3', 'How We Help You Get It')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    { c1: getTranslation(translations, 'mechanism.row1.col1', 'A “big brand energy” at 10% of the cost'), c2: getTranslation(translations, 'mechanism.row1.col2', 'High-quality AI product visualization makes you LOOK like a brand that has already invested millions') },
-                    { c1: getTranslation(translations, 'mechanism.row2.col1', 'Direct buying signals'), c2: getTranslation(translations, 'mechanism.row2.col2', '30-50 videos per month that harvest intent comments which show PROOF of demand that you take to KOCs') },
-                    { c1: getTranslation(translations, 'mechanism.row3.col1', 'The leverage to negotiate'), c2: getTranslation(translations, 'mechanism.row3.col2', 'The proof “500 people are already asking to buy” you receive from us changes the conversation from begging to offering') },
-                    { c1: getTranslation(translations, 'mechanism.row4.col1', '2026 compliance handled'), c2: getTranslation(translations, 'mechanism.row4.col2', 'Compliance documentation that satisfies KOC legal requirements') }
+                    { 
+                      problem: getTranslation(translations, 'mechanism.row1.problem', '"Should we even enter Vietnam?"'), 
+                      need: getTranslation(translations, 'mechanism.row1.need', 'Market proof that Vietnamese consumers care about your product at 10% of the cost, BEFORE you invest in full operations'), 
+                      help: getTranslation(translations, 'mechanism.row1.help', 'We create high-quality AI product visualizations to test market reactions and mine real signals, then give you a Go/No-Go decision backed by evidence, not guesses') 
+                    },
+                    { 
+                      problem: getTranslation(translations, 'mechanism.row2.problem', '"We\'re present but results feel random"'), 
+                      need: getTranslation(translations, 'mechanism.row2.need', 'A repeatable system with validated content patterns that work reliably, not viral luck'), 
+                      help: getTranslation(translations, 'mechanism.row2.help', 'We run systematic tests, track what generates buying questions vs. vanity metrics, and give you 2-3 proven plays you can repeat with confidence') 
+                    },
+                    { 
+                      problem: getTranslation(translations, 'mechanism.row3.problem', '"Partners won\'t talk to us without proof"'), 
+                      need: getTranslation(translations, 'mechanism.row3.need', 'Documented evidence of demand that changes the negotiation conversation from begging to offering'), 
+                      help: getTranslation(translations, 'mechanism.row3.help', 'We mine verified buying signals from real engagement, package them into partner-ready proof, and give you leverage to negotiate better terms') 
+                    },
+                    { 
+                      problem: getTranslation(translations, 'mechanism.row4.problem', '"We have distribution but sales are weak"'), 
+                      need: getTranslation(translations, 'mechanism.row4.need', 'Diagnosis of exactly where your funnel breaks so you stop wasting money on the wrong fixes'), 
+                      help: getTranslation(translations, 'mechanism.row4.help', 'We analyze where buyers actually drop off, test fixes on the real bottleneck, and show you what measurably improves conversion') 
+                    }
                   ].map((row, i) => (
                     <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                      <td className="p-4 md:p-6 font-medium text-white">{row.c1}</td>
-                      <td className="p-4 md:p-6 text-slate-300 bg-indigo-500/[0.03] border-l border-indigo-500/10 leading-relaxed">{row.c2}</td>
+                      <td className="p-4 md:p-6 font-medium text-white italic">{row.problem}</td>
+                      <td className="p-4 md:p-6 text-slate-300 bg-indigo-500/[0.03] border-l border-indigo-500/10 leading-relaxed">{row.need}</td>
+                      <td className="p-4 md:p-6 text-slate-200 bg-emerald-500/[0.03] border-l border-emerald-500/10 leading-relaxed">{row.help}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            
-            <p className="text-2xl font-bold text-indigo-400 italic">
-              {getTranslation(translations, 'mechanism.footer', 'AI opens the door. KOCs close the sale.')}
-            </p>
           </div>
         </section>
 
-        {/* The Protocol (Adapted from SolutionProtocol) */}
+        {/* The 4 Packages Section */}
         <section className="py-24 relative overflow-hidden bg-indigo-900/10">
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[100px] -z-10" />
           <div className="container mx-auto px-4">
             <div className="mb-16 text-center">
-              <SectionTag>{getTranslation(translations, 'solution.tag', 'The Protocol')}</SectionTag>
-              <Heading>{getTranslation(translations, 'protocol.title', '3 Months From Being Unknown to Trustworthy')}</Heading>
+              <SectionTag>{getTranslation(translations, 'packages.tag', 'The 4 Packages')}</SectionTag>
+              <Heading>{getTranslation(translations, 'packages.title', 'How It Works')}</Heading>
+              <Paragraph className="max-w-3xl mx-auto">
+                {getTranslation(translations, 'packages.subtitle', 'We don\'t sell you the same thing regardless of where you are. We help you solve the actual bottleneck you\'re facing right now.')}
+              </Paragraph>
             </div>
-            <div className="grid lg:grid-cols-4 gap-8">
+            <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
               {[
                 {
-                  id: getTranslation(translations, 'protocol.phase1.title', 'PHASE 1: THE TRUST BASE (Month 1)'),
-                  icon: ShieldCheck,
-                  subtitle: getTranslation(translations, 'protocol.phase1.subtitle', 'Look like a brand worth partnering with'),
-                  desc: getTranslation(translations, 'protocol.phase1.desc', 'We produce 10 high-end AI product-focused visualization videos that signal investment, quality control, and premium positioning. We also set up verified official accounts (Zalo OA, TikTok) for credibility.'),
-                  outcome: getTranslation(translations, 'protocol.phase1.outcome', 'Outcome: You pass the “first impression” test that currently fails.'),
+                  stage: getTranslation(translations, 'packages.stage1.title', 'STAGE 1: MARKET ENTRY DECISION SPRINT'),
+                  from: getTranslation(translations, 'packages.stage1.from', 'staring at Vietnam\'s $2.7B beauty market with no idea if anyone there would actually buy your product and not wanting to make a six figure cost mistake.'),
+                  to: getTranslation(translations, 'packages.stage1.to', 'having a clear, evidence-backed answer of whether to go with documented evidence of consumer interest patterns, market signals and a foundation for next-stage decisions.'),
+                  deliverables: [
+                    getTranslation(translations, 'packages.stage1.deliverable1', 'AI Visual Pack (TikTok/social-ready, yours to keep)'),
+                    getTranslation(translations, 'packages.stage1.deliverable2', 'Test Record (what we posted, what happened)'),
+                    getTranslation(translations, 'packages.stage1.deliverable3', 'Customer Intent Summary (who\'s interested + their questions)'),
+                    getTranslation(translations, 'packages.stage1.deliverable4', 'Customer Doubts Summary (top concerns and trust barriers)'),
+                    getTranslation(translations, 'packages.stage1.deliverable5', 'Trust Details Summary (what proof Vietnamese consumers want)'),
+                    getTranslation(translations, 'packages.stage1.deliverable6', 'Go/No-Go Decision Note (clear recommendation with evidence)'),
+                    getTranslation(translations, 'packages.stage1.deliverable7', 'Signal Dashboard (tracking system for patterns over time)')
+                  ],
+                  icon: Target,
                   color: "text-blue-400",
                   bg: "bg-blue-500/10"
                 },
                 {
-                  id: getTranslation(translations, 'protocol.phase2.title', 'PHASE 2: SIGNAL MINING (Months 1-2)'),
+                  stage: getTranslation(translations, 'packages.stage2.title', 'STAGE 2: INTENT SIGNAL MINING ENGINE'),
+                  from: getTranslation(translations, 'packages.stage2.from', 'having some Vietnam presence but unclear on what messaging or positioning works because only some content performs well, starting from zero every campaign.'),
+                  to: getTranslation(translations, 'packages.stage2.to', 'knowing super clear what makes Vietnamese consumers consider buying, owning repeatable validated plays that reliably generate buying questions and a system that works more than once.'),
+                  deliverables: [
+                    getTranslation(translations, 'packages.stage2.deliverable1', 'Customer Intent Summary (deeper patterns over time)'),
+                    getTranslation(translations, 'packages.stage2.deliverable2', 'Vietnam Message Guide (positioning clarity)'),
+                    getTranslation(translations, 'packages.stage2.deliverable3', 'Customer Doubts Guide (objection library + responses)'),
+                    getTranslation(translations, 'packages.stage2.deliverable4', 'Trust Details Guide (what proof works for each worry)'),
+                    getTranslation(translations, 'packages.stage2.deliverable5', 'Validated Plays Library (1-3 repeatable winner patterns)'),
+                    getTranslation(translations, 'packages.stage2.deliverable6', 'Signal Dashboard (intent quality tracking)'),
+                    getTranslation(translations, 'packages.stage2.deliverable7', 'Weekly Decision Memos (what worked, what didn\'t, what\'s next)')
+                  ],
                   icon: Zap,
-                  subtitle: getTranslation(translations, 'protocol.phase2.subtitle', 'Harvest proof of demand.'),
-                  desc: getTranslation(translations, 'protocol.phase2.desc', 'We deploy 30-50 AI-generated shorts per month using trending audio and localized hooks – not to have vanity views, but to mine and categorize buying-signal data from comments.'),
-                  outcome: getTranslation(translations, 'protocol.phase2.outcome', 'Outcome: You have documented evidence that real people want to buy.'),
                   color: "text-purple-400",
                   bg: "bg-purple-500/10"
                 },
                 {
-                  id: getTranslation(translations, 'protocol.phase3.title', 'PHASE 3: THE DATA-DRIVEN PITCH (Month 3)'),
+                  stage: getTranslation(translations, 'packages.stage3.title', 'STAGE 3: DISTRIBUTOR PROOF PACK + TEST SALE SETUP'),
+                  from: getTranslation(translations, 'packages.stage3.from', 'knowing your product could sell Vietnam but lack distributor leverage or sales validation because they demand proof first while your budget is burning and competitors are moving'),
+                  to: getTranslation(translations, 'packages.stage3.to', 'having the leverage to change the conversation from begging partners to take a risk on you to offering them a proven opportunity they\'d be stupid to pass up'),
+                  deliverables: [
+                    getTranslation(translations, 'packages.stage3.deliverable1', 'Distributor Proof Pack (intent patterns, doubts, trust details, content that works)'),
+                    getTranslation(translations, 'packages.stage3.deliverable2', 'Partner Pitch Kit (proof-backed positioning for distributor talks)'),
+                    getTranslation(translations, 'packages.stage3.deliverable3', 'Partner Shortlist + Risk Assessment (scored distributor options)'),
+                    getTranslation(translations, 'packages.stage3.deliverable4', 'Test Sale Framework (30-60 day pilot with pass/fail criteria)'),
+                    getTranslation(translations, 'packages.stage3.deliverable5', 'KOC Selling Test Summary (if run - real buying behavior data)'),
+                    getTranslation(translations, 'packages.stage3.deliverable6', 'Scale Recommendations (what to do next based on test results)')
+                  ],
                   icon: Brain,
-                  subtitle: getTranslation(translations, 'protocol.phase3.subtitle', 'Change the negotiation.'),
-                  desc: getTranslation(translations, 'protocol.phase3.desc', 'Now you approach KOCs with a different script: "We have 500 people asking where to buy. You take the commission." You\'re offering them a deal instead of begging them to take the risk.'),
-                  outcome: getTranslation(translations, 'protocol.phase3.outcome', 'Outcome: Commission-only partnerships. No booking fees. Aligned incentives.'),
                   color: "text-indigo-400",
                   bg: "bg-indigo-500/10"
                 },
                 {
-                  id: getTranslation(translations, 'protocol.phase4.title', 'PHASE 4: VERIFICATION & CONVERSION (Month 3)'),
-                  icon: Scale,
-                  subtitle: getTranslation(translations, 'protocol.phase4.subtitle', 'Make it real.'),
-                  desc: getTranslation(translations, 'protocol.phase4.desc', 'AI opened the door, KOCs closed the sale. They post "real skin" reviews that validate what the earlier high-quality videos promised, and content links directly to TikTok Shop or Zalo Mini App.'),
-                  outcome: getTranslation(translations, 'protocol.phase4.outcome', 'Outcome: Sustainable system where AI generates leads and KOCs convert them.'),
+                  stage: getTranslation(translations, 'packages.stage4.title', 'STAGE 4: CONVERSION FIX ENGINE'),
+                  from: getTranslation(translations, 'packages.stage4.from', 'having distribution and presence but weaker sales than expected and not knowing why people don\'t trust you and take actions despite burning budget on fixes'),
+                  to: getTranslation(translations, 'packages.stage4.to', 'knowing exactly the leak in your funnel with our clear diagnosis and achieving measured improvement sustainably with proven validated plays that you can scale'),
+                  deliverables: [
+                    getTranslation(translations, 'packages.stage4.deliverable1', 'Problem Note (the #1 bottleneck with evidence)'),
+                    getTranslation(translations, 'packages.stage4.deliverable2', 'Sales Funnel Dashboard (baseline + changes over time)'),
+                    getTranslation(translations, 'packages.stage4.deliverable3', 'Test Record + Decision Notes (what we tried, what worked)'),
+                    getTranslation(translations, 'packages.stage4.deliverable4', 'Updated Validated Plays (refined for conversion)'),
+                    getTranslation(translations, 'packages.stage4.deliverable5', 'Scale Rules (when to scale what, with clear criteria)')
+                  ],
+                  icon: BarChart3,
                   color: "text-emerald-400",
                   bg: "bg-emerald-500/10"
                 }
-              ].map((phase, i) => (
-                <div key={i} className="relative group flex">
-                  <Card className="h-full hover:border-indigo-500/30 transition-colors flex flex-col w-full">
-                    <div className={`w-12 h-12 ${phase.bg} ${phase.color} rounded-lg flex items-center justify-center mb-6`}>
-                      <phase.icon size={24} />
-                    </div>
-                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{phase.id}</div>
-                    <h3 className="text-xl font-bold text-white mb-4 leading-tight">{phase.subtitle}</h3>
-                    <p className="text-sm text-slate-400 mb-6 leading-relaxed">{phase.desc}</p>
-                    
-                    <div className={`mt-auto inline-block px-3 py-1.5 ${phase.bg} border ${phase.color.replace('text', 'border')}/30 rounded text-xs ${phase.color} font-bold`}>
-                      {phase.outcome}
-                    </div>
-                  </Card>
-                  {i < 3 && (
-                    <div className="hidden lg:block absolute top-1/2 -right-4 translate-x-1/2 z-20 text-slate-700">
-                      <ArrowRight className="w-6 h-6 opacity-20" />
-                    </div>
-                  )}
-                </div>
+              ].map((pkg, i) => (
+                <Card key={i} className="hover:border-indigo-500/30 transition-colors flex flex-col">
+                  <div className={`w-12 h-12 ${pkg.bg} ${pkg.color} rounded-lg flex items-center justify-center mb-6`}>
+                    <pkg.icon size={24} />
+                  </div>
+                  <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{pkg.stage}</div>
+                  <div className="mb-6">
+                    <div className="text-xs font-semibold text-slate-500 mb-2">From:</div>
+                    <p className="text-sm text-slate-400 italic mb-4">{pkg.from}</p>
+                    <div className="text-xs font-semibold text-indigo-400 mb-2">To:</div>
+                    <p className="text-sm text-white font-medium">{pkg.to}</p>
+                  </div>
+                  <div className="mt-auto">
+                    <div className="text-xs font-semibold text-slate-500 mb-3">You&apos;ll receive:</div>
+                    <ul className="space-y-2">
+                      {pkg.deliverables.map((item, idx) => (
+                        <li key={idx} className="flex gap-2 text-sm text-slate-300">
+                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Card>
               ))}
+            </div>
+            <div className="text-center mt-12">
+              <Button variant="primary" className="text-lg px-8">
+                {getTranslation(translations, 'packages.cta', 'Apply for further information')} <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
             </div>
           </div>
         </section>
 
-        {/* Us vs Them Section (Consistent with ComparisonTable in OtherContent) */}
+        {/* Why Digicon Section */}
         <section className="py-24 container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">
-            <SectionTag>{getTranslation(translations, 'vs.tag', 'Us vs. Them')}</SectionTag>
-            <Heading>{getTranslation(translations, 'vs.title', 'Why Digicon approach?')}</Heading>
+            <SectionTag>{getTranslation(translations, 'why.tag', 'Why Digicon?')}</SectionTag>
+            <Heading>{getTranslation(translations, 'why.title', 'Why Digicon?')}</Heading>
+            <Paragraph className="max-w-2xl mx-auto">
+              {getTranslation(translations, 'why.subtitle', 'Most agencies sell you content. We sell you learning. We use AI-generated content as a tool to:')}
+            </Paragraph>
+            <ul className="max-w-2xl mx-auto text-left mt-6 space-y-3">
+              {[
+                getTranslation(translations, 'why.item1', 'Test which messages resonate vs which fall flat'),
+                getTranslation(translations, 'why.item2', 'Mine real questions, doubts, and comparisons from your target audience'),
+                getTranslation(translations, 'why.item3', 'Separate curiosity from consideration from buying intent'),
+                getTranslation(translations, 'why.item4', 'Build proof that changes conversations with partners')
+              ].map((item, i) => (
+                <li key={i} className="flex gap-3 text-slate-300">
+                  <Check size={18} className="text-indigo-500 mt-1 shrink-0" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
             <table className="w-full text-left border-collapse">
@@ -380,12 +467,14 @@ export const BeautyContent: React.FC = () => {
               </thead>
               <tbody>
                 {[
-                  { old: getTranslation(translations, 'vs.row1.old', 'Contact KOCs, get ghosted or rejected'), nw: getTranslation(translations, 'vs.row1.new', 'Build visual authority first with AI') },
-                  { old: getTranslation(translations, 'vs.row2.old', 'Pay $20k+ booking fees upfront (fixed cost)'), nw: getTranslation(translations, 'vs.row2.new', 'Deploy 30-50 high-quality video variants/ month at 10% of the cost') },
-                  { old: getTranslation(translations, 'vs.row3.old', 'Post content, pray it converts'), nw: getTranslation(translations, 'vs.row3.new', 'Mine verified buying signals from real engagement') },
-                  { old: getTranslation(translations, 'vs.row4.old', 'Gain only vanity metrics and pure guesswork'), nw: getTranslation(translations, 'vs.row4.new', 'Approach KOC with proof of demand') },
-                  { old: getTranslation(translations, 'vs.row5.old', 'Hire more KOCs until something clicks'), nw: getTranslation(translations, 'vs.row5.new', 'Negotiate commission-only deals (aligned incentives)') },
-                  { old: getTranslation(translations, 'vs.row6.old', 'Repeat with no learning and leverage'), nw: getTranslation(translations, 'vs.row6.new', 'Stack validated learnings, KOCs verify, both win') }
+                  { old: getTranslation(translations, 'vs.row1.old', 'Enter Vietnam without a clear decision-making system'), nw: getTranslation(translations, 'vs.row1.new', 'Test core message and give Go/No-Go decision with market evidence') },
+                  { old: getTranslation(translations, 'vs.row2.old', 'Hire an agency to create presence and burn $50k+ upfront'), nw: getTranslation(translations, 'vs.row2.new', 'Deploy 30-50 high-quality video variants/ month at 10% of the cost') },
+                  { old: getTranslation(translations, 'vs.row3.old', 'Copy what worked for other brands, try new tactics constantly'), nw: getTranslation(translations, 'vs.row3.new', 'Test systematically (change one thing at a time) and track repeatable patterns') },
+                  { old: getTranslation(translations, 'vs.row4.old', 'Create generic content, post everywhere, pray it converts'), nw: getTranslation(translations, 'vs.row4.new', 'Build visual authority first with AI and let KOC, distributors close the deal') },
+                  { old: getTranslation(translations, 'vs.row5.old', 'Check analytics monthly but only gain vanity metrics'), nw: getTranslation(translations, 'vs.row5.new', 'Mine verified buying signals from real engagement') },
+                  { old: getTranslation(translations, 'vs.row6.old', 'Throw money at ads and quick fixes'), nw: getTranslation(translations, 'vs.row6.new', 'Diagnose the actual bottleneck, test fixes on real problem and scale only what\'s proven') },
+                  { old: getTranslation(translations, 'vs.row7.old', 'Hire more KOCs, partner more until something clicks'), nw: getTranslation(translations, 'vs.row7.new', 'Approach KOCs and distributors with proof of demand and negotiate commission-only deals') },
+                  { old: getTranslation(translations, 'vs.row8.old', 'Repeat with no learning and leverage'), nw: getTranslation(translations, 'vs.row8.new', 'Stack validated learnings, sustainable wins, only invest further when proof says go') }
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors text-sm">
                     <td className="p-4 md:p-6 text-slate-500 italic">{i+1}. {row.old}</td>
@@ -397,11 +486,11 @@ export const BeautyContent: React.FC = () => {
           </div>
         </section>
 
-        {/* Deliverables Block (Adapted from Deliverables) */}
+        {/* Honesty Box */}
         <section className="pb-24 relative container mx-auto px-4">
           <div className="text-center mb-16">
-            <SectionTag>{getTranslation(translations, 'asset.tag', 'The War Chest')}</SectionTag>
-            <Heading>{getTranslation(translations, 'honesty.promise.title', 'What We Promise')}</Heading>
+            <SectionTag>{getTranslation(translations, 'honesty.tag', 'Honesty Box')}</SectionTag>
+            <Heading>{getTranslation(translations, 'honesty.title', 'What\'s the catch? Can I actually trust them?')}</Heading>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -414,10 +503,13 @@ export const BeautyContent: React.FC = () => {
                   </div>
                   <ul className="space-y-4">
                       {[
-                        getTranslation(translations, 'honesty.promise.item1', 'Proven AI product visualization format that generates views and passes the legitimacy test'),
-                        getTranslation(translations, 'honesty.promise.item2', 'Captured buying signals from real audience engagement'),
-                        getTranslation(translations, 'honesty.promise.item3', 'Negotiation leverage to shift from booking fees to commission deals'),
-                        getTranslation(translations, 'honesty.promise.item4', '2026-compliant documentation KOCs legally require')
+                        getTranslation(translations, 'honesty.promise.item1', 'Proven AI product visualization videos that generates views and passes the legitimacy test'),
+                        getTranslation(translations, 'honesty.promise.item2', 'Real market signals - questions, doubts, comparisons from actual Vietnamese consumers'),
+                        getTranslation(translations, 'honesty.promise.item3', 'The fastest, lowest-cost way to test if Vietnamese consumers care about your product'),
+                        getTranslation(translations, 'honesty.promise.item4', 'Validated learning - content patterns that work more than once, backed by data'),
+                        getTranslation(translations, 'honesty.promise.item5', 'Proof you can use to make smarter decisions about distribution, positioning, and investment'),
+                        getTranslation(translations, 'honesty.promise.item6', 'Repeatable systems and learning artifacts you own that compounds as you grow'),
+                        getTranslation(translations, 'honesty.promise.item7', 'Diagnostic accuracy - clear identification of your actual bottleneck, not guesses')
                       ].map((item, idx) => (
                           <li key={idx} className="flex gap-3 text-sm text-slate-300">
                               <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0" />
@@ -431,13 +523,15 @@ export const BeautyContent: React.FC = () => {
                       <div className="p-3 bg-white/10 rounded-lg text-slate-500">
                           <X size={24} />
                       </div>
-                      <h3 className="text-xl font-bold text-slate-400">{getTranslation(translations, 'honesty.not.title', 'What We Don’t Promise')}</h3>
+                      <h3 className="text-xl font-bold text-slate-400">{getTranslation(translations, 'honesty.not.title', 'What We Don\'t Promise')}</h3>
                   </div>
                   <ul className="space-y-4">
                       {[
-                        getTranslation(translations, 'honesty.not.item1', 'Guaranteed revenue numbers (as we deliver visibility and leverage)'),
-                        getTranslation(translations, 'honesty.not.item2', 'KOCs will definitely say yes (we give you the best possible position, you still pitch)'),
-                        getTranslation(translations, 'honesty.not.item3', 'Overnight results (this is a system, not a hack)')
+                        getTranslation(translations, 'honesty.not.item1', 'Guaranteed revenue or sales (this is a learning sprint, not a sales program)'),
+                        getTranslation(translations, 'honesty.not.item2', 'Signed distributor and influencer contracts (we give you proof to use in those conversations)'),
+                        getTranslation(translations, 'honesty.not.item3', 'Instant results (good learning takes 2-4 weeks minimum)'),
+                        getTranslation(translations, 'honesty.not.item4', 'Guaranteed "Yes" answer on market entry (sometimes the honest answer is "No" or "Not yet")'),
+                        getTranslation(translations, 'honesty.not.item5', 'Legal/regulatory services (we coordinate with compliance partners; we\'re not a law firm)')
                       ].map((item, idx) => (
                           <li key={idx} className="flex gap-3 text-sm text-slate-500">
                               <div className="w-1.5 h-1.5 rounded-full bg-slate-700 mt-2 shrink-0" />
@@ -449,51 +543,74 @@ export const BeautyContent: React.FC = () => {
           </div>
         </section>
 
-        {/* Final CTA (Adapted from FinalCTA in OtherContent) */}
+        {/* Final CTA with FAQ */}
         <section className="py-32 relative overflow-hidden">
           <div className="absolute inset-0 bg-indigo-900/20 blur-3xl -z-10"></div>
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-20">
               <Heading level={2} className="text-5xl md:text-6xl text-white mb-8">
-                {getTranslation(translations, 'final.title', 'Stop Chasing KOCs. Start Attracting Them.')}
+                {getTranslation(translations, 'final.title', 'Stop Guessing. Start Learning. Scale What Works.')}
               </Heading>
               
-              <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm max-w-4xl mx-auto mb-16">
-                <div className="p-6 bg-white/5 border-b border-white/10 font-bold text-lg text-white">
-                  {getTranslation(translations, 'final.from_to.title', 'In 3 months, your brands go')}
+              <Paragraph className="text-xl text-slate-400 mb-12 max-w-3xl mx-auto">
+                {getTranslation(translations, 'final.description', 'If you want to copy others blindly and purely make media content, hire an agency. If you want a brand acceleration system that helps you make better decisions about Vietnam at every stage of your journey, let\'s talk.')}
+              </Paragraph>
+
+              {/* FAQ Section */}
+              <div className="text-left max-w-3xl mx-auto mb-12">
+                <div className="flex items-center gap-3 mb-8">
+                  <HelpCircle className="text-indigo-400" size={24} />
+                  <h3 className="text-2xl font-bold text-white">
+                    {getTranslation(translations, 'faq.title', 'FAQ: WHICH PACKAGE DO I NEED?')}
+                  </h3>
                 </div>
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-white/10 bg-white/5 text-xs font-bold uppercase tracking-widest">
-                      <th className="p-4 md:p-6 text-slate-500">{getTranslation(translations, 'final.from_to.header1', 'From')}</th>
-                      <th className="p-4 md:p-6 text-indigo-400 bg-indigo-500/10 border-l border-indigo-500/10">{getTranslation(translations, 'final.from_to.header2', 'To')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {[
-                      { f: getTranslation(translations, 'final.from_to.row1.from', '“We are guessing what works”'), t: getTranslation(translations, 'final.from_to.row1.to', '“We have intent data showing real buying signals, plus validated creative patterns that can be replicated”') },
-                      { f: getTranslation(translations, 'final.from_to.row2.from', '“Our customer data is stale”'), t: getTranslation(translations, 'final.from_to.row2.to', '“We know what they’re asking, objecting, wanting right now”') },
-                      { f: getTranslation(translations, 'final.from_to.row3.from', '“KOCs ghost us”'), t: getTranslation(translations, 'final.from_to.row3.to', '“KOCs see us as a good deal”') },
-                      { f: getTranslation(translations, 'final.from_to.row4.from', 'Gambling on attention each campaign'), t: getTranslation(translations, 'final.from_to.row4.to', 'Building a repeatable, proven growth system') },
-                      { f: getTranslation(translations, 'final.from_to.row5.from', 'Paying $20,000 booking fees'), t: getTranslation(translations, 'final.from_to.row5.to', 'Offering commission-only partnerships') }
-                    ].map((row, i) => (
-                      <tr key={i} className="border-b border-white/5 last:border-0 text-sm">
-                        <td className="p-4 md:p-6 text-slate-500 italic">{row.f}</td>
-                        <td className="p-4 md:p-6 text-slate-200 font-medium bg-indigo-500/[0.03] border-l border-indigo-500/10">{row.t}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="space-y-6">
+                  {[
+                    {
+                      q: getTranslation(translations, 'faq.q1', 'I\'m not sure which stage I\'m in. Can you help me figure it out?'),
+                      a: getTranslation(translations, 'faq.a1', 'Yes. That\'s part of our qualification call. We\'ll ask about your current Vietnam presence, what you\'ve tried, and what you need to know next.')
+                    },
+                    {
+                      q: getTranslation(translations, 'faq.q2', 'Can I skip Stage 1 and go straight to Stage 3?'),
+                      a: getTranslation(translations, 'faq.a2', 'Only if you already have a clear understanding of your Vietnamese customer (equivalent to Stage 2 complete). We\'ll assess this in qualification.')
+                    },
+                    {
+                      q: getTranslation(translations, 'faq.q3', 'What if I\'m between stages?'),
+                      a: getTranslation(translations, 'faq.a3', 'We\'ll recommend the package that addresses your biggest bottleneck first.')
+                    },
+                    {
+                      q: getTranslation(translations, 'faq.q4', 'Do I have to commit to multiple stages?'),
+                      a: getTranslation(translations, 'faq.a4', 'No. Each package is standalone. You decide after each stage whether to continue.')
+                    },
+                    {
+                      q: getTranslation(translations, 'faq.q5', 'How long does each stage take?'),
+                      a: getTranslation(translations, 'faq.a5', 'Stage 1: 2-4 weeks | Stage 2: Typically 2-3 months minimum (can be ongoing) | Stage 3: 2-3 months (depends on test sale scope) | Stage 4: Ongoing optimization (3+ months typical)')
+                    },
+                    {
+                      q: getTranslation(translations, 'faq.q6', 'What if the honest answer from Stage 1 is "Don\'t enter Vietnam"?'),
+                      a: getTranslation(translations, 'faq.a6', 'Then we\'ve saved you $50K-100K+ in wasted investment. That\'s valuable intelligence, and you also have the necessary insights to move forward.')
+                    }
+                  ].map((faq, i) => (
+                    <Card key={i} className="bg-white/5">
+                      <div className="flex items-start gap-4">
+                        <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400 flex-shrink-0">
+                          <HelpCircle size={20} />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-bold text-white mb-2">{faq.q}</h4>
+                          <p className="text-slate-300 leading-relaxed">{faq.a}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
               </div>
 
-              <Paragraph className="text-xl text-slate-400 mb-12 max-w-3xl mx-auto">
-                {getTranslation(translations, 'final.description', "If you want influencer posts, hire an agency. If you want an AI-enabled brand acceleration system that makes quality KOCs want to work with you on commission, let's talk.")}
-              </Paragraph>
               <Button variant="primary" className="text-xl px-12 py-5 shadow-[0_0_30px_rgba(99,102,241,0.3)]">
                 {getTranslation(translations, 'final.cta', 'Apply for Access')} <ArrowRight className="ml-2" />
               </Button>
               <p className="mt-8 text-sm text-slate-500 italic">
-                {getTranslation(translations, 'final.footer', "We'll tell you quickly if this is a fit. Either way, you leave with clarity.")}
+                {getTranslation(translations, 'final.footer', 'We\'ll tell you quickly if this is a fit. Either way, you leave with clarity.')}
               </p>
             </div>
           </div>
@@ -504,4 +621,3 @@ export const BeautyContent: React.FC = () => {
     </>
   );
 };
-

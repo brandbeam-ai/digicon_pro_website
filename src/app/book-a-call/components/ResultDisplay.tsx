@@ -359,14 +359,15 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
     );
   }
 
-  if (!analysis) {
+  const isBeautySubmission = productCategory === 'Beauty' || solutionFor === 'beauty';
+
+  if (!analysis && !isBeautySubmission) {
     return null;
   }
 
   // Check if we should show NOT_ICP content below the level/ladder
   // For Beauty submissions, don't check NOT_ICP status (they use beautyAnalysis instead)
-  const isBeautySubmission = productCategory === 'Beauty' || solutionFor === 'beauty';
-  const showNotICPContent = !isBeautySubmission && (analysis.dominantICP === 'NOT_ICP' || analysis.dominantLevel === 'N/A' || analysis.status === 'NOT_READY');
+  const showNotICPContent = !isBeautySubmission && analysis && (analysis.dominantICP === 'NOT_ICP' || analysis.dominantLevel === 'N/A' || analysis.status === 'NOT_READY');
   
   const getLevelStyles = (level: string) => {
     const styles: { [key: string]: string } = {
@@ -473,15 +474,15 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
               
               <div className="max-w-3xl mx-auto mb-12">
                 <div
-                  className={`rounded-2xl border-2 overflow-hidden ${getLevelStyles(analysis.dominantLevel)}`}
+                  className={`rounded-2xl border-2 overflow-hidden ${analysis ? getLevelStyles(analysis.dominantLevel) : ''}`}
                 >
                   <div className="p-6 md:p-8 bg-opacity-20 backdrop-blur-sm">
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                      {growthReport?.problem_section?.title || analysis.dominantLevel}
+                      {growthReport?.problem_section?.title || analysis?.dominantLevel}
                     </h2>
                     <div className="h-1 w-20 bg-white/30 rounded-full mb-4"></div>
                     <div className="text-slate-200 text-lg leading-relaxed">
-                      {growthReport?.problem_section?.urgency_statement || getLevelDescription(analysis.dominantLevel)}
+                      {growthReport?.problem_section?.urgency_statement || (analysis ? getLevelDescription(analysis.dominantLevel) : '')}
                     </div>
                   </div>
                   
@@ -540,7 +541,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({
                   ) : (
                     // Use local hardcoded ladder (fallback)
                     (['Level 3', 'Level 2', 'Level 1'] as const).map((level) => {
-                      const isCurrentLevel = analysis.dominantLevel === level;
+                      const isCurrentLevel = analysis?.dominantLevel === level;
                       const styles = getLadderStyles(level, isCurrentLevel);
                       const term = getLadderTerm(level);
                       const stepNum = level.replace('Level ', '');

@@ -131,7 +131,7 @@ interface ResultData {
   timestamp: string;
   basicDetails: BasicDetails;
   answers: DetailedAnswer[];
-  analysis: AnalysisResult;
+  analysis?: AnalysisResult;
   formatRecommendations?: FormatRecommendations;
   actionRecommendations?: ActionRecommendations;
   growthReport?: GrowthReport;
@@ -175,6 +175,8 @@ export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' })
       };
       option_b_digicon?: {
         approach_name?: string;
+        best_fit_sku?: string;
+        recommended_package?: string;
         timeline?: string;
         risk_level?: string;
         execution_steps?: Array<{
@@ -435,7 +437,6 @@ export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' })
   const analyzeBeautyAnswers = () => {
     // Beauty questions don't use the same level/ICP analysis as F&B
     // Just collect answers and return a basic structure
-    const totalQuestions = allQuestions.length;
 
     // Build detailed answers with labels
     const detailedAnswers = answers.map((answer) => {
@@ -450,36 +451,8 @@ export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' })
       };
     });
 
-    // Return a basic analysis structure for Beauty (no level/ICP determination)
+    // Return only detailed answers for Beauty (no analysis object)
     return {
-      analysis: {
-        dominantLevel: 'N/A',
-        levelDistribution: {
-          'Level 1': 0,
-          'Level 2': 0,
-          'Level 3': 0,
-          'N/A': 100,
-        },
-        dominantICP: 'NOT_ICP',
-        icpDistribution: {
-          ICP1: 0,
-          ICP2: 0,
-          ICP3: 0,
-          NOT_ICP: 100,
-        },
-        status: 'READY', // Beauty questions are always considered ready (no filtering)
-        flags: undefined,
-        breakdown: {
-          nA: 0,
-          nB: 0,
-          nC: 0,
-          nD: 0,
-          nE: 0,
-          nF: 0,
-          nG: 0,
-          totalQuestions,
-        },
-      },
       detailedAnswers,
     };
   };
@@ -668,19 +641,17 @@ export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' })
     setIsSaving(true);
 
     // Analyze answers
-    const analysisResultData = analyzeAnswers();
+    const analysisResultData = analyzeAnswers() as { analysis?: AnalysisResult; detailedAnswers: DetailedAnswer[] };
+    const analysis = analysisResultData.analysis;
 
     // Prepare full result data
     const timestamp = new Date().toISOString();
-
-    // Use analysis result directly without adding levelDescription (will be generated dynamically in ResultDisplay)
-    const enhancedAnalysis = analysisResultData.analysis;
 
     const resultData: ResultData = {
       timestamp,
       basicDetails,
       answers: analysisResultData.detailedAnswers,
-      analysis: enhancedAnalysis,
+      analysis: analysis,
       solutionFor: solutionFor,
     };
 
@@ -688,9 +659,9 @@ export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' })
     let formatRecommendations = null;
     let actionRecommendations = null;
     let growthReportData = null;
-    const isLevel1 = enhancedAnalysis.dominantLevel === 'Level 1';
-    const isLevel2 = enhancedAnalysis.dominantLevel === 'Level 2';
-    const isICP = enhancedAnalysis.dominantICP !== 'NOT_ICP' && enhancedAnalysis.status === 'READY';
+    const isLevel1 = analysis?.dominantLevel === 'Level 1';
+    const isLevel2 = analysis?.dominantLevel === 'Level 2';
+    const isICP = analysis?.dominantICP !== 'NOT_ICP' && analysis?.status === 'READY';
     
     // Save initial data to server first to get a unique ID
     const id = await saveToServer(resultData);
@@ -772,7 +743,9 @@ export const GetLeadInfo: React.FC<GetLeadInfoProps> = ({ solutionFor = 'f&b' })
     setIsSaving(false);
 
     // Set the result and show the result display
-    setAnalysisResult(enhancedAnalysis);
+    if (analysis) {
+      setAnalysisResult(analysis);
+    }
     setShowResult(true);
     setShowBasicDetails(false);
 
