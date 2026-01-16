@@ -75,14 +75,20 @@ export default function TranslateToKoreanPage() {
         const fileData = await response.json();
         console.log(`Successfully fetched ${fileData.translations?.length || 0} translations from JSON file`);
         
-        // Merge with original texts to ensure we have all keys from the extractor
-        mergedTranslations = originalTexts.map(original => {
-          const existing = fileData.translations?.find((t: any) => t.key === original.key);
-          return {
-            ...original,
-            korean: existing ? existing.korean : ''
-          };
-        });
+        // Use JSON file as the primary source of truth
+        const jsonTranslations = fileData.translations || [];
+        
+        // Create a map of keys already in the JSON to avoid duplicates
+        const jsonKeyMap = new Set(jsonTranslations.map((t: any) => t.key));
+        
+        // Find any keys in the extractor that are MISSING from the JSON file
+        const missingFromExtractor = originalTexts.filter(t => !jsonKeyMap.has(t.key));
+        
+        // Merge them: JSON keys first, then any new keys from extractor
+        mergedTranslations = [
+          ...jsonTranslations,
+          ...missingFromExtractor.map(t => ({ ...t, korean: '' }))
+        ];
       } else {
         console.warn(`Failed to fetch JSON file for ${pageName}, using source keys only.`);
         mergedTranslations = originalTexts;

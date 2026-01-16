@@ -1,5 +1,6 @@
 'use client';
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { 
   ArrowRight, 
   TrendingUp, 
@@ -120,9 +121,11 @@ const HeroSection: React.FC = () => {
           {getTranslation(translations, 'hero.subtitle', 'We deploy an AI-driven creative operating system that mines first-party data from controlled creative experiments, and converts winning patterns into reusable playbooks you can scale.')}
         </Paragraph>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-          <Button variant="primary" className="w-full sm:w-auto text-lg px-8">
-            {getTranslation(translations, 'hero.cta1', 'Apply for Access')} <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
+          <Link href="/book-a-call?solution_for=f&b" className="w-full sm:w-auto">
+            <Button variant="primary" className="w-full text-lg px-8">
+              {getTranslation(translations, 'hero.cta1', 'Apply for Access')} <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
           <div onClick={() => setShowVideo(true)} className="w-full sm:w-auto">
             <Button variant="outline" className="w-full sm:w-auto text-lg px-8 group">
               {getTranslation(translations, 'hero.cta2', 'See a Demo')} <Play className="ml-2 w-4 h-4 fill-current group-hover:scale-110 transition-transform" />
@@ -622,9 +625,11 @@ const FinalCTA: React.FC = () => {
                 <strong>{getTranslation(translations, 'final.description_highlight', 'Creative Intelligence AI Agents')}</strong>
                 {getTranslation(translations, 'final.description_suffix', ' that turn buyer truth into Validated Creative Plays—we should talk.')}
              </Paragraph>
-             <Button variant="primary" className="text-lg px-12 py-4">
-                {getTranslation(translations, 'final.cta', 'Apply for Access')} <ArrowRight className="ml-2" />
-             </Button>
+             <Link href="/book-a-call?solution_for=f&b">
+               <Button variant="primary" className="text-lg px-12 py-4">
+                  {getTranslation(translations, 'final.cta', 'Apply for Access')} <ArrowRight className="ml-2" />
+               </Button>
+             </Link>
              <p className="mt-6 text-sm text-slate-500">
                 {getTranslation(translations, 'final.footer', "We'll tell you quickly if this is a fit. If not, you leave with clarity.")}
              </p>
