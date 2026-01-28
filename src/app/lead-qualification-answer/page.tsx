@@ -10,13 +10,59 @@ import {
   Mail, 
   Tag, 
   Brain, 
-  TrendingUp, 
   CheckCircle2, 
   Clock, 
   AlertCircle,
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
+
+// --- Interfaces ---
+interface SubmissionAnswer {
+  questionId: string;
+  questionText: string;
+  answerLabel: string;
+  additionalText?: string;
+}
+
+interface SubmissionData {
+  basicDetails?: {
+    company?: string;
+    website?: string;
+    contactName?: string;
+    contactRole?: string;
+    email?: string;
+    productCategory?: string;
+    [key: string]: string | undefined;
+  };
+  answers?: SubmissionAnswer[];
+  beautyAnalysis?: {
+    executive_diagnosis?: {
+      current_status?: string;
+    };
+    solution_comparison?: {
+      option_b_digicon?: {
+        recommended_package?: string;
+        best_fit_sku?: string;
+      };
+    };
+  };
+  growthReport?: {
+    diagnostic_summary?: {
+      your_core_challenge?: string;
+    };
+    digicon_solution_section?: {
+      sku_info?: {
+        internal_code?: string;
+      };
+    };
+  };
+  createdAt: string;
+  solutionFor?: string;
+  analysis?: {
+    dominantLevel?: string;
+  };
+}
 
 // --- UI Components ---
 const Card: React.FC<{ children: React.ReactNode; className?: string; title?: string; icon?: React.ReactNode }> = ({ children, className = '', title, icon }) => (
@@ -50,10 +96,10 @@ const SectionTitle: React.FC<{ children: React.ReactNode; icon?: React.ReactNode
 
 function LeadAnswerContent() {
   const searchParams = useSearchParams();
-  const submissionId = searchParams.get('submission_id');
+  const submissionId = searchParams.get('submission_id') || searchParams.get('submission');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<SubmissionData | null>(null);
   const [expandedAnalysis, setExpandedAnalysis] = useState(true);
 
   useEffect(() => {
@@ -72,7 +118,7 @@ function LeadAnswerContent() {
         } else {
           setError(result.error || 'Failed to load submission');
         }
-      } catch (err) {
+      } catch {
         setError('Error fetching data');
       } finally {
         setLoading(false);
@@ -163,7 +209,7 @@ function LeadAnswerContent() {
             {/* 2. Questions & Answers */}
             <SectionTitle icon={<FileText size={20} />}>Questionnaire Answers</SectionTitle>
             <div className="space-y-4">
-              {answers?.map((item: any, idx: number) => (
+              {answers?.map((item: SubmissionAnswer, idx: number) => (
                 <Card key={idx} className="p-0 border-l-4 border-l-indigo-500">
                   <div className="p-5">
                     <div className="text-xs font-bold text-indigo-500 uppercase tracking-wider mb-2">Question {item.questionId}</div>
@@ -223,7 +269,7 @@ function LeadAnswerContent() {
                         <div className="pt-4 border-t border-white/10 space-y-3">
                           <div>
                             <div className="text-xs text-indigo-200 font-bold mb-1">CORE CHALLENGE</div>
-                            <div className="font-medium text-sm leading-relaxed">{growthReport.diagnostic_summary?.your_core_challenge}</div>
+                            <div className="font-medium text-sm leading-relaxed">{growthReport?.diagnostic_summary?.your_core_challenge}</div>
                           </div>
                         </div>
                       </>

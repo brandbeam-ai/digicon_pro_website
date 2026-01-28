@@ -351,8 +351,8 @@ export const BeautyContent: React.FC = () => {
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-900/20 rounded-full blur-[100px] -z-10" />
           <div className="container mx-auto px-4">
             <div className="mb-16 text-center">
-              <SectionTag>{getTranslation(translations, 'packages.tag', 'The 4 Packages')}</SectionTag>
-              <Heading>{getTranslation(translations, 'packages.title', 'How It Works')}</Heading>
+              <SectionTag>{getTranslation(translations, 'packages.tag', 'Packages')}</SectionTag>
+              <Heading>{getTranslation(translations, 'packages.title', 'THE 4 INTELLIGENCE PACKAGES')}</Heading>
               <Paragraph className="max-w-3xl mx-auto">
                 {getTranslation(translations, 'packages.subtitle', "We don't sell you the same thing regardless of where you are. We help you solve the actual bottleneck you're facing right now.")}
               </Paragraph>
@@ -361,16 +361,16 @@ export const BeautyContent: React.FC = () => {
             <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
               {[
                 {
-                  stage: getTranslation(translations, 'packages.stage1.title', 'STAGE 1: MARKET ENTRY DECISION SPRINT'),
-                  from: getTranslation(translations, 'packages.stage1.from', "Staring at Vietnam's $2.7B beauty market with no idea if anyone there would actually buy your product and not wanting to make a six figure cost mistake."),
-                  to: getTranslation(translations, 'packages.stage1.to', "Having a clear, evidence-backed answer of whether to go with documented evidence of consumer interest patterns, market signals and a foundation for next-stage decisions."),
+                  stage: getTranslation(translations, 'packages.stage1.title', 'STAGE 1: Intent to Enter (Zero Presence)'),
+                  subtitle: getTranslation(translations, 'packages.stage1.subtitle', 'Prove if Vietnam notices and cares — yes or no — before you build ops.'),
+                  from: getTranslation(translations, 'packages.stage1.from', "Staring at a spreadsheet of market data, fearing a six-figure mistake."),
+                  to: getTranslation(translations, 'packages.stage1.to', "A clear, evidence-backed \"Go/No-Go\" decision based on real consumer reaction to your product concept."),
                   deliverables: [
-                    getTranslation(translations, 'packages.stage1.item1', 'AI Visual Pack (TikTok/social-ready, yours to keep)'),
-                    getTranslation(translations, 'packages.stage1.item2', 'Test Record (your first real market data)'),
-                    getTranslation(translations, 'packages.stage1.item3', 'Customer Intent Summary (clear profile of who\'s interested)'),
-                    getTranslation(translations, 'packages.stage1.item4', 'Customer Doubts Summary (top concerns and trust barriers)'),
-                    getTranslation(translations, 'packages.stage1.item5', 'Trust Details Summary (what proof Vietnamese consumers want)'),
-                    getTranslation(translations, 'packages.stage1.item6', 'Go/No-Go Decision Note (clear recommendation with evidence)')
+                    getTranslation(translations, 'packages.stage1.item1', '1,000+ online-only Vietnam signals from test content (saves, shares, follows/profile visits, early comments).'),
+                    getTranslation(translations, 'packages.stage1.item2', 'A “Who Cares First” snapshot in real viewer words: who leans in first and what hooks them.'),
+                    getTranslation(translations, 'packages.stage1.item3', '10 AI product visual kits, TikTok-ready (hero, texture, demo, unboxing/authenticity cues, clean ingredient callouts) — no photoshoot needed.'),
+                    getTranslation(translations, 'packages.stage1.item4', 'Controlled content experiments (posted on your channel or ours): short AI videos where each one tests one idea, plus a clean experiment log.'),
+                    getTranslation(translations, 'packages.stage1.item5', 'A CMO-ready GTM decision report: enter or don’t—and if entering, who to target first and what to say to win (based on top-funnel proof, not sales).')
                   ],
                   investment: '$9,995 USD',
                   icon: Search,
@@ -378,33 +378,38 @@ export const BeautyContent: React.FC = () => {
                   bg: "bg-blue-500/10"
                 },
                 {
-                  stage: getTranslation(translations, 'packages.stage2.title', 'STAGE 2: INTENT SIGNAL MINING ENGINE'),
-                  from: getTranslation(translations, 'packages.stage2.from', "Having some Vietnam presence but unclear on what messaging or positioning works because only some content performs well, starting from zero every campaign."),
-                  to: getTranslation(translations, 'packages.stage2.to', "Knowing super clear what makes Vietnamese consumers consider buying, owning repeatable validated plays that reliably generate buying questions and a system that works more than once."),
+                  stage: getTranslation(translations, 'packages.stage2.title', 'STAGE 2: Presence Without Clarity'),
+                  subtitle: getTranslation(translations, 'packages.stage2.subtitle', 'Stop guessing what works in Vietnam and find what makes people ask real buying questions.'),
+                  from: getTranslation(translations, 'packages.stage2.from', "Throwing content at the wall and hoping for a viral hit."),
+                  to: getTranslation(translations, 'packages.stage2.to', "A validated \"Messaging Playbook\" that reliably generates purchase intent in the local market."),
                   deliverables: [
-                    getTranslation(translations, 'packages.stage2.item1', 'Customer Intent Summary (deeper evolving patterns over time)'),
-                    getTranslation(translations, 'packages.stage2.item2', 'Vietnam Message Guide (your positioning playbook)'),
-                    getTranslation(translations, 'packages.stage2.item3', 'Customer Doubts Guide (comprehensive objection library with proven responses)'),
-                    getTranslation(translations, 'packages.stage2.item4', 'Trust Details Guide (ranked list of what proof works for each type of doubt)'),
-                    getTranslation(translations, 'packages.stage2.item5', 'Validated Plays Library (creative patterns that reliably generate buying questions)'),
-                    getTranslation(translations, 'packages.stage2.item6', 'Signal Dashboard (live tracking showing signal quality over time)')
+                    getTranslation(translations, 'packages.stage2.item1', '200 AI-creative videos released through a structured testing program designed to surface demand signals fast'),
+                    getTranslation(translations, 'packages.stage2.item2', 'Creators “real-use” videos to pull deeper trust questions and more honest feedback from real usages.'),
+                    getTranslation(translations, 'packages.stage2.item3', 'Real Vietnam reactions collected and sorted from comments and behavior (questions, worries, comparisons, “show texture,” “is it safe,” “how to use,” “where to buy”).'),
+                    getTranslation(translations, 'packages.stage2.item4', 'A clear “Who is this for?” summary written in real customer words (who cares, why they care, what they want).'),
+                    getTranslation(translations, 'packages.stage2.item5', 'A Vietnam wording script: what to say to build trust, and what to avoid because it makes people doubt.'),
+                    getTranslation(translations, 'packages.stage2.item6', 'A “What to show” guide: for each common worry, what proof to show (texture, routine demo, packaging details, ingredient clarity, etc.).'),
+                    getTranslation(translations, 'packages.stage2.item7', 'Repeatable video recipes that worked more than once (so your team can run them again, not start over).'),
+                    getTranslation(translations, 'packages.stage2.item8', 'A decision report explaining what is working, what is not, and what to do next before scaling.')
                   ],
-                  investment: '$14,495 USD',
+                  investment: '$14,995 USD',
                   icon: MessageSquare,
                   color: "text-purple-400",
                   bg: "bg-purple-500/10"
                 },
                 {
-                  stage: getTranslation(translations, 'packages.stage3.title', 'STAGE 3: DISTRIBUTOR PROOF PACK + TEST SALE SETUP'),
-                  from: getTranslation(translations, 'packages.stage3.from', "Knowing your product could sell in Vietnam but lack distributor leverage or sales validation because they demand proof first while your budget is burning and competitors are moving."),
-                  to: getTranslation(translations, 'packages.stage3.to', "Having the leverage to change the conversation from begging partners to take a risk on you to offering them a proven opportunity they'd be stupid to pass up."),
+                  stage: getTranslation(translations, 'packages.stage3.title', 'STAGE 3: Market Is Clear, Distribution Still Won’t Move'),
+                  subtitle: getTranslation(translations, 'packages.stage3.subtitle', 'Make distributors feel safe saying yes, with proof—not promises.'),
+                  from: getTranslation(translations, 'packages.stage3.from', "Being ignored by top-tier distributors and retailers."),
+                  to: getTranslation(translations, 'packages.stage3.to', "No more polite delays—you force a clear Yes or No."),
                   deliverables: [
-                    getTranslation(translations, 'packages.stage3.item1', 'Distributor Proof Pack (partner-ready evidence bundle)'),
-                    getTranslation(translations, 'packages.stage3.item2', 'Partner Pitch Kit (proof-backed story and positioning materials for negotiation)'),
-                    getTranslation(translations, 'packages.stage3.item3', 'Partner Shortlist + Risk Assessment (scored evaluation of potential distributors)'),
-                    getTranslation(translations, 'packages.stage3.item4', 'Test Sale Framework (30-60 day pilot structure with pass/fail criteria)'),
-                    getTranslation(translations, 'packages.stage3.item5', 'KOC Selling Test Summary (real buying behavior data)'),
-                    getTranslation(translations, 'packages.stage3.item6', 'Scale Recommendations (clear next steps based on test results)')
+                    getTranslation(translations, 'packages.stage3.item1', '500 AI-made creatives videos posted on your brand account, built to pull strong reactions (watching, saving, sharing, and real questions).'),
+                    getTranslation(translations, 'packages.stage3.item2', 'A brand-channel demand report: what makes people stop, what they ask, what worries them, and what makes them trust.'),
+                    getTranslation(translations, 'packages.stage3.item3', 'KOCs/affiliate activations run as a 30–60 day selling pilot to convert interest into trackable buyer signals (click → add-to-cart → purchase, where measurable).'),
+                    getTranslation(translations, 'packages.stage3.item4', 'A distributor proof pack synthesized from the full loop: intent mining + trust triggers + winning creatives + test-sale evidence.'),
+                    getTranslation(translations, 'packages.stage3.item5', 'A buying-action report from the pilot: what content drove clicks/carts/purchases, and where people dropped off.'),
+                    getTranslation(translations, 'packages.stage3.item6', 'A distributor-ready package that puts everything in one place: demand proof, trust blockers, what content works, and pilot results—plus a simple first-60-day launch plan.'),
+                    getTranslation(translations, 'packages.stage3.item7', 'A clear readiness conclusion: ready to secure a distributor now, or the one missing proof piece—and who to approach first.')
                   ],
                   investment: '$29,995 USD',
                   icon: ShieldCheck,
@@ -412,18 +417,20 @@ export const BeautyContent: React.FC = () => {
                   bg: "bg-indigo-500/10"
                 },
                 {
-                  stage: getTranslation(translations, 'packages.stage4.title', 'STAGE 4: CONVERSION FIX ENGINE'),
-                  from: getTranslation(translations, 'packages.stage4.from', "Having distribution and presence but weaker sales than expected and not knowing why consumers don't trust you despite burning budget on fixes."),
-                  to: getTranslation(translations, 'packages.stage4.to', "Knowing exactly the leak in your funnel with our clear diagnosis and achieving measured improvement sustainably with proven validated plays that you can scale."),
+                  stage: getTranslation(translations, 'packages.stage4.title', 'STAGE 4: Has Distribution, Has Budget, Still Can’t Sell'),
+                  subtitle: getTranslation(translations, 'packages.stage4.subtitle', 'Find what is actually broken and stop bleeding money.'),
+                  from: getTranslation(translations, 'packages.stage4.from', "High spend, low conversion, and no clarity on the bottleneck."),
+                  to: getTranslation(translations, 'packages.stage4.to', "Prevent the most expensive mistake: doing more while the real problem stays hidden."),
                   deliverables: [
-                    getTranslation(translations, 'packages.stage4.item1', 'Problem Note (the #1 bottleneck with evidence)'),
-                    getTranslation(translations, 'packages.stage4.item2', 'Sales Funnel Dashboard (baseline + changes over time)'),
-                    getTranslation(translations, 'packages.stage4.item3', 'Test Record + Decision Notes (what we tried, what worked)'),
-                    getTranslation(translations, 'packages.stage4.item4', 'Updated Validated Plays (refined for conversion)'),
-                    getTranslation(translations, 'packages.stage4.item5', 'Scale Rules (when to scale what, with clear criteria)')
+                    getTranslation(translations, 'packages.stage4.item1', '40 different micro customer segments, 1 video daily = 1,200 videos per months'),
+                    getTranslation(translations, 'packages.stage4.item2', 'A root-cause conclusion identifying the true sales constraint (trust, offer, pricing, channel friction, retail execution, unit economics, or measurement integrity)'),
+                    getTranslation(translations, 'packages.stage4.item3', 'Derived from continuous AI-driven intent signal mining, not interviews or assumptions'),
+                    getTranslation(translations, 'packages.stage4.item4', 'A buyer drop-off diagnosis showing exactly where demand breaks across the path to purchase'),
+                    getTranslation(translations, 'packages.stage4.item5', 'Controlled test validation confirming what change increases sales, built on real behavior and intent data, not vanity metrics or opinion'),
+                    getTranslation(translations, 'packages.stage4.item6', 'Or a clear conclusion that the constraint sits outside marketing'),
+                    getTranslation(translations, 'packages.stage4.item7', 'A strategic stop / fix / scale mandate defining what to cut, what to correct, and what to invest in next')
                   ],
                   investment: 'Enterprise Pricing',
-                  isEnterprise: true,
                   icon: LineChart,
                   color: "text-emerald-400",
                   bg: "bg-emerald-500/10"
@@ -442,41 +449,34 @@ export const BeautyContent: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">{pkg.stage}</div>
+                  <div className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-1 min-h-[30px]">{pkg.stage}</div>
+                  <div className="text-xs font-bold text-slate-300 italic mb-3 leading-tight min-h-[48px]">{pkg.subtitle}</div>
                   
                   <div className="mb-8 space-y-4">
                     <div>
                       <div className="text-[10px] font-bold text-slate-500 uppercase mb-1.5 opacity-60">From:</div>
-                      <p className="text-sm text-slate-400 italic leading-relaxed">{pkg.from}</p>
+                      <p className="text-sm text-slate-400 italic leading-relaxed min-h-[72px]">{pkg.from}</p>
                     </div>
-                    <div className="relative p-4 bg-white/[0.03] rounded-xl border border-white/5">
+                    <div className="relative p-4 bg-white/[0.03] rounded-xl border border-white/5 flex flex-col justify-center min-h-[128px]">
                       <div className="text-[10px] font-bold text-indigo-400 uppercase mb-1.5 opacity-80">To:</div>
                       <p className="text-sm text-white font-medium leading-relaxed">{pkg.to}</p>
                     </div>
                   </div>
 
-                  <div className="mt-auto space-y-6">
-                    {!pkg.isEnterprise && (
-                      <div>
-                        <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
-                          <Layout size={12} /> Key Deliverables
-                        </div>
-                        <ul className="space-y-3">
-                          {pkg.deliverables.slice(0, 6).map((item, idx) => (
-                            <li key={idx} className="flex gap-3 text-sm text-slate-300 leading-snug">
-                              <div className={`w-1.5 h-1.5 rounded-full ${pkg.color.replace('text', 'bg')} mt-1.5 shrink-0 opacity-50`} />
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                  <div className="space-y-6 pt-8 border-t border-white/5">
+                    <div>
+                      <div className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                        <Layout size={12} /> Includes:
                       </div>
-                    )}
-
-                    {pkg.isEnterprise && (
-                      <div className="p-6 bg-indigo-500/10 rounded-2xl border border-indigo-500/30 text-sm text-slate-300 italic leading-relaxed shadow-inner">
-                        *This package is still under enterprise development and customized to each client&apos;s specific data access and sales infrastructure. Deliverables and timeline are scoped after an initial diagnostic consultation.
-                      </div>
-                    )}
+                      <ul className="space-y-3">
+                        {pkg.deliverables.map((item, idx) => (
+                          <li key={idx} className="flex gap-3 text-sm text-slate-300 leading-snug">
+                            <div className={`w-1.5 h-1.5 rounded-full ${pkg.color.replace('text', 'bg')} mt-1.5 shrink-0 opacity-50`} />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </Card>
               ))}
