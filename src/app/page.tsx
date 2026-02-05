@@ -6,10 +6,12 @@ import { Menu, X } from 'lucide-react';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { LanguageSwitch } from './components/LanguageSwitch';
 import { getTranslation } from './utils/translations';
+import { BookCalendlyMeeting } from '../components/BookCalendlyMeeting';
 
 function HomeContent() {
   const [showVideo, setShowVideo] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showCalendly, setShowCalendly] = useState(false);
   const { language, setLanguage, translations } = useLanguage();
 
   useEffect(() => {
@@ -64,6 +66,7 @@ function HomeContent() {
 
   return (
     <div className="bg-black text-slate-200 font-sans min-h-screen main-page">
+      <BookCalendlyMeeting isOpen={showCalendly} onClose={() => setShowCalendly(false)} />
       {/* Header with Logo and Button */}
       <header className="w-full px-4 py-8 relative">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -78,23 +81,23 @@ function HomeContent() {
             />
           </div>
           <div className="flex items-center gap-4">
-            <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
+            {/* <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} /> */}
             {/* Desktop Button - Hidden on mobile */}
-            <Link href="/creative-intelligence-agent" className="primary-button-outline hidden md:flex">
+            {/* <Link href="/creative-intelligence-agent" className="primary-button-outline hidden md:flex">
               {getTranslation(translations, 'header.button', 'Customer Intelligence AI Agents')}
-            </Link>
+            </Link> */}
             {/* Mobile Burger Menu - Only visible on mobile */}
-            <button
+            {/* <button
               className="flex md:hidden text-white p-2"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            </button> */}
           </div>
         </div>
         {/* Mobile Menu */}
-        {isMobileMenuOpen && (
+        {/* {isMobileMenuOpen && (
           <div className="mobile-menu-dropdown md:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10 px-4 py-4 z-50">
             <div className="mb-4">
               <LanguageSwitch currentLanguage={language} onLanguageChange={setLanguage} />
@@ -107,15 +110,17 @@ function HomeContent() {
               {getTranslation(translations, 'header.button', 'Customer Intelligence AI Agents')}
             </Link>
           </div>
-        )}
+        )} */}
       </header>
 
       {/* Section 1: Hero */}
       <section className="bg-black flex flex-col relative overflow-hidden">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-2xl md:text-3xl font-semibold mb-6 text-slate-300">
-            <span className="text-white">{getTranslation(translations, 'hero.subtitle1', 'Consumer Good')}</span>
-            <span className="gradient-brand"> {getTranslation(translations, 'hero.subtitle2', 'Brands')}</span>
+            <span className="text-white">{getTranslation(translations, 'hero.subtitle1', 'Personal ')}</span>
+            <span className="gradient-brand">{getTranslation(translations, 'hero.subtitle2', 'Brands')}</span>
+            <span className="text-white">{getTranslation(translations, 'hero.subtitle3', ' / Consumer Good ')}</span>
+            <span className="gradient-brand">{getTranslation(translations, 'hero.subtitle4', 'Brands')}</span>
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight text-white">
           {/* <p className="text-2xl md:text-3xl font-semibold mb-6 text-gray-700"> */}
@@ -130,9 +135,9 @@ function HomeContent() {
             {getTranslation(translations, 'hero.description_mid', ' and ')}
             <span className="font-bold text-accent"> {getTranslation(translations, 'hero.followers', '24 million followers')}</span>.
           </p>
-          <a href="mailto:jay@digicon.pro" className="primary-button">
+          <button onClick={() => setShowCalendly(true)} className="primary-button">
             {getTranslation(translations, 'hero.cta', 'Dominate Social Media')}
-          </a>
+          </button>
         </div>
       </section>
 
@@ -228,9 +233,9 @@ function HomeContent() {
           </div>
           
           <div className="text-center mt-12">
-            <a href="mailto:jay@digicon.pro" className="primary-button">
+            <button onClick={() => setShowCalendly(true)} className="primary-button">
               {getTranslation(translations, 'value.cta', 'Talk to us')}
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -247,7 +252,7 @@ function HomeContent() {
           <div className="overflow-hidden relative">
             <div className="flex animate-scroll space-x-6">
               {/* First set of images */}
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_1.png" 
                   alt="Created Content 1" 
@@ -256,7 +261,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_2.png" 
                   alt="Created Content 2" 
@@ -265,7 +270,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_3.png" 
                   alt="Created Content 3" 
@@ -274,7 +279,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_4.png" 
                   alt="Created Content 4" 
@@ -283,7 +288,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_5.png" 
                   alt="Created Content 5" 
@@ -292,7 +297,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_6.png" 
                   alt="Created Content 6" 
@@ -301,7 +306,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_7.png" 
                   alt="Created Content 7" 
@@ -310,7 +315,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_8.png" 
                   alt="Created Content 8" 
@@ -319,7 +324,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_9.png" 
                   alt="Created Content 9" 
@@ -328,7 +333,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_10.png" 
                   alt="Created Content 10" 
@@ -339,7 +344,7 @@ function HomeContent() {
               </div>
               
               {/* Duplicate first 5 images for seamless loop */}
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_1.png" 
                   alt="Created Content 1" 
@@ -348,7 +353,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_2.png" 
                   alt="Created Content 2" 
@@ -357,7 +362,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_3.png" 
                   alt="Created Content 3" 
@@ -366,7 +371,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image 
                   src="/created_content_4.png" 
                   alt="Created Content 4" 
@@ -375,7 +380,7 @@ function HomeContent() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
+              <div className="shrink-0 w-48 h-80 rounded-2xl shadow-lg hover-lift-pink overflow-hidden">
                 <Image
                   src="/created_content_5.png" 
                   alt="Created Content 5" 
@@ -406,9 +411,9 @@ function HomeContent() {
           <p className="text-2xl font-semibold mb-12 text-accent">
             {getTranslation(translations, 'problem.cta_text', 'You deserve more for your efforts.')}
           </p>
-          <a href="mailto:jay@digicon.pro" className="primary-button">
+          <button onClick={() => setShowCalendly(true)} className="primary-button">
             {getTranslation(translations, 'value.cta', 'Talk to us')}
-          </a>
+          </button>
         </div>
       </section>
 
@@ -685,9 +690,9 @@ function HomeContent() {
               <span className="font-bold text-accent">{getTranslation(translations, 'how.compliance_highlight', 'fully compliant ')}</span> 
               {getTranslation(translations, 'how.compliance_suffix', 'across each social media platform.')}
             </p>
-            <a href="mailto:jay@digicon.pro" className="primary-button">
+            <button onClick={() => setShowCalendly(true)} className="primary-button">
               {getTranslation(translations, 'value.cta', 'Talk to us')}
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -731,9 +736,9 @@ function HomeContent() {
             <p className="text-xl mb-8 text-slate-300">
               {getTranslation(translations, 'results.cta_text', 'Want to learn if we are a fit to scale your brand?')}
             </p>
-            <a href="mailto:jay@digicon.pro" className="primary-button">
+            <button onClick={() => setShowCalendly(true)} className="primary-button">
               {getTranslation(translations, 'value.cta', 'Talk to us')}
-            </a>
+            </button>
           </div>
         </div>
       </section>
@@ -796,9 +801,9 @@ function HomeContent() {
           </div>
 
           <p className="text-xl mb-8 text-slate-300">{getTranslation(translations, 'platforms.cta_text', 'Want to learn more?')}</p>
-          <a href="mailto:jay@digicon.pro" className="primary-button">
+          <button onClick={() => setShowCalendly(true)} className="primary-button">
             {getTranslation(translations, 'value.cta', 'Talk to us')}
-          </a>
+          </button>
         </div>
       </section>
 
