@@ -17,6 +17,7 @@ declare global {
         prefill?: {
           name?: string;
           email?: string;
+          customAnswers?: Record<string, string | undefined>;
         };
         utm?: Record<string, string | undefined>;
       }) => void;
