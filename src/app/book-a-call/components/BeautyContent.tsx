@@ -55,18 +55,27 @@ const CalendlyOverlay: React.FC<{
       if (window.Calendly && containerRef.current) {
         containerRef.current.innerHTML = '';
         
+        const prefillData: {
+          name?: string;
+          email?: string;
+          customAnswers?: Record<string, string | undefined>;
+        } = {
+          name: prefill?.name,
+          email: prefill?.email,
+        };
+
+        if (prefill?.company || prefill?.website || prefill?.role) {
+          prefillData.customAnswers = {
+            a1: prefill?.company,
+            a2: prefill?.website,
+            a3: prefill?.role
+          };
+        }
+
         window.Calendly.initInlineWidget({
           url: calendlyUrl,
           parentElement: containerRef.current,
-          prefill: {
-            name: prefill?.name,
-            email: prefill?.email,
-            customAnswers: {
-              a1: prefill?.company,
-              a2: prefill?.website,
-              a3: prefill?.role
-            }
-          },
+          prefill: prefillData,
           utm: {
             utmSource: 'lead_qualification',
             utmMedium: 'beauty_analysis',
